@@ -918,6 +918,12 @@ main {
 .film-rating__count {
   color: #382C2A; }
 
+.not-found-message {
+  margin-top: 250px;
+  text-align:center;
+  font-size: 3em;
+}
+
 .page-content {
   background-image: -webkit-gradient(linear, left top, left bottom, from(#180202), to(#000000));
   background-image: linear-gradient(-180deg, #180202 0%, #000000 100%);
