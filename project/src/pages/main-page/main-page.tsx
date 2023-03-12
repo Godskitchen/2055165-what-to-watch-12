@@ -1,4 +1,7 @@
+import { Helmet } from 'react-helmet-async';
 import FilmCard from '../../components/film-card/film-card';
+import Logo from '../../components/logo/logo';
+import {CLASSPATH_LOGO_FOOTER, CLASSPATH_LOGO_HEADER } from '../../const';
 
 type MainPageProps = {
   promoFilmTitle: string;
@@ -6,9 +9,21 @@ type MainPageProps = {
   promoFilmReleaseYear: string;
 }
 
+const INITIAL_FILMCARDS_COUNT = 20;
+
 export default function MainPage ({promoFilmTitle, promoFilmGenre, promoFilmReleaseYear} : MainPageProps) : JSX.Element {
+
+  const cardComponents = Array(INITIAL_FILMCARDS_COUNT);
+
+  for (let i = 0; i < cardComponents.length; i++) {
+    cardComponents[i] = i + 1;
+  }
+
   return (
     <>
+      <Helmet>
+        <title>What to Watch. Главная</title>
+      </Helmet>
       <section className="film-card">
         <div className="film-card__bg">
           <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel" />
@@ -17,13 +32,7 @@ export default function MainPage ({promoFilmTitle, promoFilmGenre, promoFilmRele
         <h1 className="visually-hidden">WTW</h1>
 
         <header className="page-header film-card__head">
-          <div className="logo">
-            <a className="logo__link">
-              <span className="logo__letter logo__letter--1">W</span>
-              <span className="logo__letter logo__letter--2">T</span>
-              <span className="logo__letter logo__letter--3">W</span>
-            </a>
-          </div>
+          <Logo classPath={CLASSPATH_LOGO_HEADER} />
 
           <ul className="user-block">
             <li className="user-block__item">
@@ -108,45 +117,7 @@ export default function MainPage ({promoFilmTitle, promoFilmGenre, promoFilmRele
           </ul>
 
           <div className="catalog__films-list">
-            <FilmCard />
-
-            <FilmCard />
-
-            <FilmCard />
-
-            <FilmCard />
-
-            <FilmCard />
-
-            <FilmCard />
-
-            <FilmCard />
-
-            <FilmCard />
-
-            <FilmCard />
-
-            <FilmCard />
-
-            <FilmCard />
-
-            <FilmCard />
-
-            <FilmCard />
-
-            <FilmCard />
-
-            <FilmCard />
-
-            <FilmCard />
-
-            <FilmCard />
-
-            <FilmCard />
-
-            <FilmCard />
-
-            <FilmCard />
+            {cardComponents.map((key : number) => <FilmCard key = {key} />)}
           </div>
 
           <div className="catalog__more">
@@ -155,13 +126,7 @@ export default function MainPage ({promoFilmTitle, promoFilmGenre, promoFilmRele
         </section>
 
         <footer className="page-footer">
-          <div className="logo">
-            <a className="logo__link logo__link--light">
-              <span className="logo__letter logo__letter--1">W</span>
-              <span className="logo__letter logo__letter--2">T</span>
-              <span className="logo__letter logo__letter--3">W</span>
-            </a>
-          </div>
+          <Logo classPath = {CLASSPATH_LOGO_FOOTER} />
 
           <div className="copyright">
             <p>© 2019 What to watch Ltd.</p>
