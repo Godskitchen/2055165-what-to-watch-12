@@ -1,29 +1,24 @@
+import { Helmet } from 'react-helmet-async';
+import Logo from '../../components/logo/logo';
+import { CLASSPATH_LOGO_FOOTER, CLASSPATH_LOGO_HEADER } from '../../const';
+
 export default function NotFoundPage() : JSX.Element {
   return (
     <div className="user-page">
+      <Helmet>
+        <title>What to Watch. Page not found</title>
+      </Helmet>
       <header className="page-header user-page__head">
-        <div className="logo">
-          <a href="main.html" className="logo__link">
-            <span className="logo__letter logo__letter--1">W</span>
-            <span className="logo__letter logo__letter--2">T</span>
-            <span className="logo__letter logo__letter--3">W</span>
-          </a>
-        </div>
+        <Logo classPath={CLASSPATH_LOGO_HEADER} />
 
       </header>
 
       <div className="user-page__content">
-        <h1 className="not-found-message">404 Not Found</h1>
+        <h1 className="not-found-message">Page Not Found</h1>
       </div>
 
       <footer className="page-footer">
-        <div className="logo">
-          <a href="main.html" className="logo__link logo__link--light">
-            <span className="logo__letter logo__letter--1">W</span>
-            <span className="logo__letter logo__letter--2">T</span>
-            <span className="logo__letter logo__letter--3">W</span>
-          </a>
-        </div>
+        <Logo classPath={CLASSPATH_LOGO_FOOTER} />
 
         <div className="copyright">
           <p>© 2019 What to watch Ltd.</p>
