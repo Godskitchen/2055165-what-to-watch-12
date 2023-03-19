@@ -9,7 +9,7 @@ type MainPageProps = {
   promoFilmReleaseYear: string;
 }
 
-const INITIAL_FILMCARDS_COUNT = 20;
+const INITIAL_FILMCARDS_COUNT = 8;
 
 export default function MainPage ({promoFilmTitle, promoFilmGenre, promoFilmReleaseYear} : MainPageProps) : JSX.Element {
 
