@@ -1,23 +1,17 @@
 import { Helmet } from 'react-helmet-async';
-import FilmCard from '../../components/film-card/film-card';
+import FilmList from '../../components/film-list/film-list';
 import Logo from '../../components/logo/logo';
 import {CLASSPATH_LOGO_FOOTER, CLASSPATH_LOGO_HEADER } from '../../const';
+import { Films } from '../../types/film';
 
 type MainPageProps = {
   promoFilmTitle: string;
   promoFilmGenre: string;
   promoFilmReleaseYear: string;
+  filmList: Films;
 }
 
-const INITIAL_FILMCARDS_COUNT = 8;
-
-export default function MainPage ({promoFilmTitle, promoFilmGenre, promoFilmReleaseYear} : MainPageProps) : JSX.Element {
-
-  const cardComponents = Array(INITIAL_FILMCARDS_COUNT);
-
-  for (let i = 0; i < cardComponents.length; i++) {
-    cardComponents[i] = i + 1;
-  }
+export default function MainPage ({promoFilmTitle, promoFilmGenre, promoFilmReleaseYear, filmList} : MainPageProps) : JSX.Element {
 
   return (
     <>
@@ -116,9 +110,7 @@ export default function MainPage ({promoFilmTitle, promoFilmGenre, promoFilmRele
             </li>
           </ul>
 
-          <div className="catalog__films-list">
-            {cardComponents.map((key : number) => <FilmCard key = {key} />)}
-          </div>
+          <FilmList filmList={filmList}/>
 
           <div className="catalog__more">
             <button className="catalog__button" type="button">Show more</button>

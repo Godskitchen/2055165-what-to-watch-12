@@ -18,6 +18,8 @@ export type Film = {
   isFavorite: boolean;
 }
 
+export type Films = Film[];
+
 export type Review = {
   filmId ?: number;
   comment: string;
@@ -29,3 +31,4 @@ export type Review = {
     name: string;
   };
 }
+

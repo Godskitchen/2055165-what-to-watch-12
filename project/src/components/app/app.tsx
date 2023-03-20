@@ -9,14 +9,16 @@ import MoviePage from '../../pages/movie-page/movie-page';
 import AddReviewPage from '../../pages/add-review-page/add-review-page';
 import PlayerPage from '../../pages/player-page/player-page';
 import PrivateRoute from '../private-route/private-route';
+import { Films } from '../../types/film';
 
 type AppProps = {
   promoFilmTitle: string;
   promoFilmGenre: string;
   promoFilmReleaseYear: string;
+  filmList: Films;
 }
 
-export default function App({promoFilmTitle, promoFilmGenre, promoFilmReleaseYear} : AppProps): JSX.Element {
+export default function App({promoFilmTitle, promoFilmGenre, promoFilmReleaseYear, filmList} : AppProps): JSX.Element {
   return (
     <HelmetProvider>
       <BrowserRouter>
@@ -28,6 +30,7 @@ export default function App({promoFilmTitle, promoFilmGenre, promoFilmReleaseYea
                 promoFilmTitle = {promoFilmTitle}
                 promoFilmGenre = {promoFilmGenre}
                 promoFilmReleaseYear = {promoFilmReleaseYear}
+                filmList = {filmList}
               />
             }
           />
