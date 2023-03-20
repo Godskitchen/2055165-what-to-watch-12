@@ -48,7 +48,7 @@ export default function App({promoFilmTitle, promoFilmGenre, promoFilmReleaseYea
           />
           <Route
             path={AppRoute.Film}
-            element={<MoviePage />}
+            element={<MoviePage filmList={filmList} />}
           />
           <Route
             path={AppRoute.AddReview}

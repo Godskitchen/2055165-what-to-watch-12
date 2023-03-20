@@ -1,9 +1,20 @@
 import { Helmet } from 'react-helmet-async';
+import { useParams } from 'react-router-dom';
 import Logo from '../../components/logo/logo';
 import {CLASSPATH_LOGO_FOOTER, CLASSPATH_LOGO_HEADER } from '../../const';
+import { Films } from '../../types/film';
+import NotFoundPage from '../not-found-page/not-found-page';
 
-export default function MoviePage() : JSX.Element {
-  return (
+type MoviePageProps = {
+  filmList: Films;
+}
+
+export default function MoviePage({filmList} : MoviePageProps) : JSX.Element {
+
+  const {id} = useParams();
+  const film = filmList.find((movie) => `${movie.id}` === id);
+
+  return film ? (
     <>
       <Helmet>
         <title>What to Watch. Описание фильма</title>
@@ -154,5 +165,5 @@ export default function MoviePage() : JSX.Element {
         </footer>
       </div>
     </>
-  );
+  ) : <NotFoundPage />;
 }
