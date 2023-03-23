@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Film, Films } from '../../types/film';
+import { Films } from '../../types/film';
 import { MouseEvent } from 'react';
 import FilmCard from '../film-card/film-card';
 
@@ -26,7 +26,7 @@ export default function FilmList({filmList} : FilmListProps) : JSX.Element {
 
   return (
     <div className="catalog__films-list">
-      {filmList.map(({id, name, previewImage} : Film) =>
+      {filmList.map(({id, name, previewImage}) =>
         (
           <FilmCard
             key={`${id}`}

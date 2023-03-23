@@ -1,4 +1,4 @@
-import { Route, Routes, BrowserRouter } from 'react-router-dom';
+import { Route, Routes, BrowserRouter, Navigate } from 'react-router-dom';
 import {HelmetProvider} from 'react-helmet-async';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import MainPage from '../../pages/main-page/main-page';
@@ -9,16 +9,20 @@ import MoviePage from '../../pages/movie-page/movie-page';
 import AddReviewPage from '../../pages/add-review-page/add-review-page';
 import PlayerPage from '../../pages/player-page/player-page';
 import PrivateRoute from '../private-route/private-route';
-import { Films } from '../../types/film';
+import { Films, Reviews } from '../../types/film';
+import DetailsPage from '../../pages/details-page/details-page';
+import ReviewsPage from '../../pages/reviews-page/reviews-page';
 
 type AppProps = {
   promoFilmTitle: string;
   promoFilmGenre: string;
   promoFilmReleaseYear: string;
+  promoFilmId: string;
   filmList: Films;
+  reviewList: Reviews;
 }
 
-export default function App({promoFilmTitle, promoFilmGenre, promoFilmReleaseYear, filmList} : AppProps): JSX.Element {
+export default function App({promoFilmTitle, promoFilmGenre, promoFilmReleaseYear, promoFilmId, filmList, reviewList} : AppProps): JSX.Element {
   return (
     <HelmetProvider>
       <BrowserRouter>
@@ -30,6 +34,7 @@ export default function App({promoFilmTitle, promoFilmGenre, promoFilmReleaseYea
                 promoFilmTitle = {promoFilmTitle}
                 promoFilmGenre = {promoFilmGenre}
                 promoFilmReleaseYear = {promoFilmReleaseYear}
+                promoFilmId = {promoFilmId}
                 filmList = {filmList}
               />
             }
@@ -41,26 +46,29 @@ export default function App({promoFilmTitle, promoFilmGenre, promoFilmReleaseYea
           <Route
             path={AppRoute.MyList}
             element={
-              <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
-                <MyListPage />
+              <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
+                <MyListPage favouriteList={filmList} />
               </PrivateRoute>
             }
           />
+          <Route path='/films' element={<Navigate to={AppRoute.Main}/>} />
+          <Route path={AppRoute.Film} element={<MoviePage filmList={filmList} />} />
+          <Route path={`${AppRoute.Film}/details`} element={<DetailsPage filmList={filmList}/>} />
           <Route
-            path={AppRoute.Film}
-            element={<MoviePage filmList={filmList} />}
+            path={`${AppRoute.Film}/reviews`}
+            element={<ReviewsPage reviewList={reviewList} filmList={filmList}/>}
           />
           <Route
             path={AppRoute.AddReview}
             element={
-              <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
-                <AddReviewPage />
+              <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
+                <AddReviewPage filmList={filmList} />
               </PrivateRoute>
             }
           />
           <Route
             path={AppRoute.Player}
-            element={<PlayerPage />}
+            element={<PlayerPage filmList={filmList} />}
           />
           <Route
             path='*'

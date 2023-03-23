@@ -17,7 +17,7 @@ export default function FilmCard({id, name, previewImage, onCardEnter, onCardLea
 
   return (
     <article className="small-film-card catalog__films-card" data-id={id} onMouseEnter={handleCardMouseEnter} onMouseLeave={handleCardMouseLeave}>
-      <Link className="small-film-card__link" to={`films/${id}`}>
+      <Link className="small-film-card__link" to={`/films/${id}`}>
         <div className="small-film-card__image">
           <img src={previewImage} alt={name} width="280" height="175" />
         </div>

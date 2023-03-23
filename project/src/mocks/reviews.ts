@@ -1,6 +1,6 @@
-import type { Review } from '../types/film';
+import type { Reviews } from '../types/film';
 
-export const reviewsList: Review[] = [
+export const reviewList: Reviews = [
   {
     filmId: 1,
     comment: 'I found this to be an entertaining film, certainly. However, I just don\t see it as one of the top 250 films of all time. Tom Hanks does a great job playing Forrest Gump throughout the film. Sally Field as his mother is also quite good, so the problem isn\'t with the acting. The story is a shade weak, I think. It skips around a good bit and ends up slightly disjointed.',
