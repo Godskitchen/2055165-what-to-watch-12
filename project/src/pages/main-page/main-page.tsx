@@ -1,23 +1,21 @@
 import { Helmet } from 'react-helmet-async';
-import FilmCard from '../../components/film-card/film-card';
+import { Link } from 'react-router-dom';
+import FilmList from '../../components/film-list/film-list';
 import Logo from '../../components/logo/logo';
-import {CLASSPATH_LOGO_FOOTER, CLASSPATH_LOGO_HEADER } from '../../const';
+import PlayerButton from '../../components/player-button/player-button';
+import UserAvatar from '../../components/user-avatar/user-avatar';
+import {CLASSPATH_LOGO_FOOTER, CLASSPATH_LOGO_HEADER, FAVOURITE_MOCKS_COUNT } from '../../const';
+import { Films } from '../../types/film';
 
 type MainPageProps = {
   promoFilmTitle: string;
   promoFilmGenre: string;
   promoFilmReleaseYear: string;
+  promoFilmId: string;
+  filmList: Films;
 }
 
-const INITIAL_FILMCARDS_COUNT = 20;
-
-export default function MainPage ({promoFilmTitle, promoFilmGenre, promoFilmReleaseYear} : MainPageProps) : JSX.Element {
-
-  const cardComponents = Array(INITIAL_FILMCARDS_COUNT);
-
-  for (let i = 0; i < cardComponents.length; i++) {
-    cardComponents[i] = i + 1;
-  }
+export default function MainPage ({promoFilmTitle, promoFilmGenre, promoFilmReleaseYear, filmList, promoFilmId} : MainPageProps) : JSX.Element {
 
   return (
     <>
@@ -36,12 +34,10 @@ export default function MainPage ({promoFilmTitle, promoFilmGenre, promoFilmRele
 
           <ul className="user-block">
             <li className="user-block__item">
-              <div className="user-block__avatar">
-                <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-              </div>
+              <UserAvatar />
             </li>
             <li className="user-block__item">
-              <a className="user-block__link">Sign out</a>
+              <Link to='/' className="user-block__link">Sign out</Link>
             </li>
           </ul>
         </header>
@@ -60,18 +56,13 @@ export default function MainPage ({promoFilmTitle, promoFilmGenre, promoFilmRele
               </p>
 
               <div className="film-card__buttons">
-                <button className="btn btn--play film-card__button" type="button">
-                  <svg viewBox="0 0 19 19" width="19" height="19">
-                    <use xlinkHref="#play-s"></use>
-                  </svg>
-                  <span>Play</span>
-                </button>
+                <PlayerButton filmId={promoFilmId}/>
                 <button className="btn btn--list film-card__button" type="button">
                   <svg viewBox="0 0 19 20" width="19" height="20">
                     <use xlinkHref="#add"></use>
                   </svg>
                   <span>My list</span>
-                  <span className="film-card__count">9</span>
+                  <span className="film-card__count">{FAVOURITE_MOCKS_COUNT}</span>
                 </button>
               </div>
             </div>
@@ -116,9 +107,7 @@ export default function MainPage ({promoFilmTitle, promoFilmGenre, promoFilmRele
             </li>
           </ul>
 
-          <div className="catalog__films-list">
-            {cardComponents.map((key : number) => <FilmCard key = {key} />)}
-          </div>
+          <FilmList filmList={filmList}/>
 
           <div className="catalog__more">
             <button className="catalog__button" type="button">Show more</button>

@@ -16,4 +16,6 @@ export enum AuthorizationStatus {
 const CLASSPATH_LOGO_HEADER = 'logo__link';
 const CLASSPATH_LOGO_FOOTER = 'logo__link logo__link--light';
 
-export {CLASSPATH_LOGO_FOOTER, CLASSPATH_LOGO_HEADER};
+const FAVOURITE_MOCKS_COUNT = 4;
+
+export {CLASSPATH_LOGO_FOOTER, CLASSPATH_LOGO_HEADER, FAVOURITE_MOCKS_COUNT};
