@@ -8,22 +8,21 @@ type FilmListProps = {
 
 export default function FilmsList({filmsList} : FilmListProps) : JSX.Element {
 
-  const [activeCardId, setActiveCardId] = useState('');
-
-  // eslint-disable-next-line no-console
-  console.log('activeCardid = ', activeCardId);
+  const [activeCardId, setActiveCardId] = useState(0);
 
   return (
     <div className="catalog__films-list">
-      {filmsList.map(({id, name, previewImage}) =>
+      {filmsList.map(({id, name, previewImage, previewVideoLink}) =>
         (
           <FilmCard
-            key={`${id}`}
+            key={id}
             id={id}
             name={name}
             previewImage={previewImage}
-            onCardEnter={() => setActiveCardId(`${id}`)}
-            onCardLeave={() => setActiveCardId('')}
+            previewVideoLink = {previewVideoLink}
+            onCardEnter={() => setActiveCardId(id)}
+            onCardLeave={() => setActiveCardId(0)}
+            isActive={id === activeCardId}
           />
         )
       )}
