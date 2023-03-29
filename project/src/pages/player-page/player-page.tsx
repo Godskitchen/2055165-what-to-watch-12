@@ -4,13 +4,13 @@ import NotFoundPage from '../not-found-page/not-found-page';
 import dayjs from 'dayjs';
 
 type PlayerPageProps = {
-  filmList: Films;
+  filmsList: Films;
 }
 
-export default function PlayerPage({filmList} : PlayerPageProps) : JSX.Element {
+export default function PlayerPage({filmsList} : PlayerPageProps) : JSX.Element {
 
   const {id} = useParams();
-  const film = filmList.find((movie) => `${movie.id}` === id);
+  const film = filmsList.find((movie) => `${movie.id}` === id);
   const navigate = useNavigate();
 
   if (film && id) {

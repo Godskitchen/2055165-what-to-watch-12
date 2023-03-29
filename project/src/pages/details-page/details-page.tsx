@@ -8,12 +8,12 @@ import UserAvatar from '../../components/user-avatar/user-avatar';
 import PlayerButton from '../../components/player-button/player-button';
 
 type DetailsProps = {
-  filmList: Films;
+  filmsList: Films;
 }
 
-export default function DetailsPage({filmList} : DetailsProps): JSX.Element {
+export default function DetailsPage({filmsList} : DetailsProps): JSX.Element {
   const {id} = useParams();
-  const film = filmList.find((movie) => `${movie.id}` === id);
+  const film = filmsList.find((movie) => `${movie.id}` === id);
 
   if (film && id) {
 

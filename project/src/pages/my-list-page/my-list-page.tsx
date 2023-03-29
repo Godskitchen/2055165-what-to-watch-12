@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
-import FilmList from '../../components/film-list/film-list';
+import FilmsList from '../../components/film-list/film-list';
 import Logo from '../../components/logo/logo';
 import UserAvatar from '../../components/user-avatar/user-avatar';
 import { CLASSPATH_LOGO_FOOTER, CLASSPATH_LOGO_HEADER, FAVOURITE_MOCKS_COUNT } from '../../const';
@@ -33,7 +33,7 @@ export default function MyListPage({favouriteList} : MyListPageProps) : JSX.Elem
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-        <FilmList filmList={favouriteList.slice(0, FAVOURITE_MOCKS_COUNT)} />
+        <FilmsList filmsList={favouriteList.slice(0, FAVOURITE_MOCKS_COUNT)} />
       </section>
 
       <footer className="page-footer">

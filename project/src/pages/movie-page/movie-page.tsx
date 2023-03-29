@@ -8,15 +8,15 @@ import { Film, Films } from '../../types/film';
 import NotFoundPage from '../not-found-page/not-found-page';
 
 type MoviePageProps = {
-  filmList: Films;
+  filmsList: Films;
 }
 
 type contextType = {movie: Film};
 
-export default function MoviePage({filmList} : MoviePageProps) : JSX.Element {
+export default function MoviePage({filmsList} : MoviePageProps) : JSX.Element {
 
   const {id} = useParams();
-  const film = filmList.find((movie) => `${movie.id}` === id);
+  const film = filmsList.find((movie) => `${movie.id}` === id);
 
   if (film && id) {
 

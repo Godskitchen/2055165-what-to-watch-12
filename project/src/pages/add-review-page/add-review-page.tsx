@@ -8,13 +8,13 @@ import { Films } from '../../types/film';
 import NotFoundPage from '../not-found-page/not-found-page';
 
 type AddReviewPageProps = {
-  filmList: Films;
+  filmsList: Films;
 }
 
-export default function AddReviewPage({filmList} : AddReviewPageProps) : JSX.Element {
+export default function AddReviewPage({filmsList} : AddReviewPageProps) : JSX.Element {
 
   const {id} = useParams();
-  const film = filmList.find((movie) => `${movie.id}` === id);
+  const film = filmsList.find((movie) => `${movie.id}` === id);
 
   const [reviewData, setReviewData] = useState({rating: '', reviewText: ''});
 

@@ -9,14 +9,14 @@ import UserAvatar from '../../components/user-avatar/user-avatar';
 import PlayerButton from '../../components/player-button/player-button';
 
 type ReviewsProp = {
-  filmList: Films;
+  filmsList: Films;
   reviewList: Reviews;
 }
 
-export default function ReviewsPage({reviewList, filmList} : ReviewsProp) : JSX.Element {
+export default function ReviewsPage({reviewList, filmsList} : ReviewsProp) : JSX.Element {
   const {id} = useParams();
   const reviews = reviewList.filter((review) => review.filmId && `${review.filmId}` === id);
-  const film = filmList.find((movie) => `${movie.id}` === id);
+  const film = filmsList.find((movie) => `${movie.id}` === id);
 
   if (film && id) {
 
