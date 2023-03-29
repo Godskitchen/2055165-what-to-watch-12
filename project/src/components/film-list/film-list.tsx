@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Films } from '../../types/film';
-import { MouseEvent } from 'react';
 import FilmCard from '../film-card/film-card';
 
 type FilmListProps = {
@@ -10,16 +9,6 @@ type FilmListProps = {
 export default function FilmsList({filmsList} : FilmListProps) : JSX.Element {
 
   const [activeCardId, setActiveCardId] = useState('');
-
-  const onCardEnter = (evt : MouseEvent<HTMLElement>) => {
-    if (evt.currentTarget.dataset['id']) {
-      setActiveCardId(evt.currentTarget.dataset['id']);
-    }
-  };
-
-  const onCardLeave = () => {
-    setActiveCardId('');
-  };
 
   // eslint-disable-next-line no-console
   console.log('activeCardid = ', activeCardId);
@@ -33,8 +22,8 @@ export default function FilmsList({filmsList} : FilmListProps) : JSX.Element {
             id={id}
             name={name}
             previewImage={previewImage}
-            onCardEnter={onCardEnter}
-            onCardLeave={onCardLeave}
+            onCardEnter={() => setActiveCardId(`${id}`)}
+            onCardLeave={() => setActiveCardId('')}
           />
         )
       )}

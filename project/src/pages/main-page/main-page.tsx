@@ -4,7 +4,7 @@ import FilmsList from '../../components/film-list/film-list';
 import Logo from '../../components/logo/logo';
 import PlayerButton from '../../components/player-button/player-button';
 import UserAvatar from '../../components/user-avatar/user-avatar';
-import {CLASSPATH_LOGO_FOOTER, CLASSPATH_LOGO_HEADER, FAVOURITE_MOCKS_COUNT } from '../../const';
+import {CLASSPATH_LOGO_FOOTER, CLASSPATH_LOGO_HEADER, FAVORITE_MOCKS_COUNT } from '../../const';
 import { Films } from '../../types/film';
 
 type MainPageProps = {
@@ -62,7 +62,7 @@ export default function MainPage ({promoFilmTitle, promoFilmGenre, promoFilmRele
                     <use xlinkHref="#add"></use>
                   </svg>
                   <span>My list</span>
-                  <span className="film-card__count">{FAVOURITE_MOCKS_COUNT}</span>
+                  <span className="film-card__count">{FAVORITE_MOCKS_COUNT}</span>
                 </button>
               </div>
             </div>

@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 import { Link, useParams } from 'react-router-dom';
-import { CLASSPATH_LOGO_FOOTER, CLASSPATH_LOGO_HEADER, FAVOURITE_MOCKS_COUNT } from '../../const';
+import { CLASSPATH_LOGO_FOOTER, CLASSPATH_LOGO_HEADER, FAVORITE_MOCKS_COUNT } from '../../const';
 import NotFoundPage from '../not-found-page/not-found-page';
 import { Films, Reviews } from '../../types/film';
 import Logo from '../../components/logo/logo';
@@ -70,7 +70,7 @@ export default function ReviewsPage({reviewList, filmsList} : ReviewsProp) : JSX
                       <use xlinkHref="#add"></use>
                     </svg>
                     <span>My list</span>
-                    <span className="film-card__count">{FAVOURITE_MOCKS_COUNT}</span>
+                    <span className="film-card__count">{FAVORITE_MOCKS_COUNT}</span>
                   </button>
                   <Link to={`/films/${id}/review`} className="btn film-card__button">Add review</Link>
                 </div>

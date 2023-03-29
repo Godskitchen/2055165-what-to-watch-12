@@ -47,7 +47,7 @@ export default function App({promoFilmTitle, promoFilmGenre, promoFilmReleaseYea
             path={AppRoute.MyList}
             element={
               <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
-                <MyListPage favouriteList={filmsList} />
+                <MyListPage favoritesList={filmsList} />
               </PrivateRoute>
             }
           />
