@@ -33,4 +33,3 @@ export type ReviewType = {
 }
 
 export type Reviews = ReviewType[];
-

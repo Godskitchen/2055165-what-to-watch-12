@@ -1,17 +1,21 @@
 import { Helmet } from 'react-helmet-async';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link} from 'react-router-dom';
 import Logo from '../../components/logo/logo';
 import PlayerButton from '../../components/player-button/player-button';
 import UserAvatar from '../../components/user-avatar/user-avatar';
-import {CLASSPATH_LOGO_FOOTER, CLASSPATH_LOGO_HEADER, FAVORITE_MOCKS_COUNT } from '../../const';
-import { Films } from '../../types/film';
+import {CLASSPATH_LOGO_FOOTER, CLASSPATH_LOGO_HEADER, FAVORITE_MOCKS_COUNT, tabNames} from '../../const';
+import { Films, Reviews } from '../../types/film';
+import Tabs from '../../components/tabs/tabs';
 import NotFoundPage from '../not-found-page/not-found-page';
+import TabsNavigation from '../../components/tabs-navigation/tabs-navigation';
 
 type MoviePageProps = {
+  activeTab: typeof tabNames[number];
   filmsList: Films;
+  reviewsList: Reviews;
 }
 
-export default function MoviePage({filmsList} : MoviePageProps) : JSX.Element {
+export default function MoviePage({filmsList, reviewsList, activeTab} : MoviePageProps) : JSX.Element {
 
   const {id} = useParams();
   const film = filmsList.find((movie) => `${movie.id}` === id);
@@ -27,12 +31,9 @@ export default function MoviePage({filmsList} : MoviePageProps) : JSX.Element {
     genre,
     released,
     backgroundColor,
-    rating,
-    scoresCount,
-    description,
-    director,
-    starring
   } = film;
+
+  const reviews = reviewsList.filter((review) => `${review.filmId}` === id);
 
   return (
     <>
@@ -90,35 +91,9 @@ export default function MoviePage({filmsList} : MoviePageProps) : JSX.Element {
             </div>
 
             <div className="film-card__desc">
-              <nav className="film-nav film-card__nav">
-                <ul className="film-nav__list">
-                  <li className="film-nav__item film-nav__item--active">
-                    <Link to={`/films/${id}`} className="film-nav__link">Overview</Link>
-                  </li>
-                  <li className="film-nav__item">
-                    <Link to={`/films/${id}/details`} className="film-nav__link">Details</Link>
-                  </li>
-                  <li className="film-nav__item">
-                    <Link to={`/films/${id}/reviews`} className="film-nav__link">Reviews</Link>
-                  </li>
-                </ul>
-              </nav>
+              <TabsNavigation activeTab={activeTab} id={id} />
 
-              <div className="film-rating">
-                <div className="film-rating__score">{`${rating.toFixed(1)}`.replace('.', ',')}</div>
-                <p className="film-rating__meta">
-                  <span className="film-rating__level">Very good</span>
-                  <span className="film-rating__count">{scoresCount} ratings</span>
-                </p>
-              </div>
-
-              <div className="film-card__text">
-                <p>{description}</p>
-
-                <p className="film-card__director"><strong>Director: {director}</strong></p>
-
-                <p className="film-card__starring"><strong>Starring: {starring.join(', ')} and other</strong></p>
-              </div>
+              <Tabs activeTab={activeTab} film={film} reviewsList={reviews} />
             </div>
           </div>
         </div>

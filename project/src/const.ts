@@ -13,6 +13,8 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
+export const tabNames = ['Overview', 'Details', 'Reviews'] as const;
+
 const CLASSPATH_LOGO_HEADER = 'logo__link';
 const CLASSPATH_LOGO_FOOTER = 'logo__link logo__link--light';
 

@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/app/app';
 import { filmsList } from './mocks/films';
-import { reviewList } from './mocks/reviews';
+import { reviewsList } from './mocks/reviews';
 
 const PromoFilmInfo = {
   promoFilmTitle: 'The Grand Budapest Hotel',
@@ -23,7 +23,7 @@ root.render(
       promoFilmReleaseYear = {PromoFilmInfo.promoFileReleaseYear}
       promoFilmId = {PromoFilmInfo.promoFilmId}
       filmsList = {filmsList}
-      reviewList = {reviewList}
+      reviewsList = {reviewsList}
     />
   </React.StrictMode>,
 );
