@@ -1,10 +1,10 @@
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
-import FilmList from '../../components/film-list/film-list';
+import FilmsList from '../../components/film-list/film-list';
 import Logo from '../../components/logo/logo';
 import PlayerButton from '../../components/player-button/player-button';
 import UserAvatar from '../../components/user-avatar/user-avatar';
-import {CLASSPATH_LOGO_FOOTER, CLASSPATH_LOGO_HEADER, FAVOURITE_MOCKS_COUNT } from '../../const';
+import {CLASSPATH_LOGO_FOOTER, CLASSPATH_LOGO_HEADER, FAVORITE_MOCKS_COUNT } from '../../const';
 import { Films } from '../../types/film';
 
 type MainPageProps = {
@@ -12,10 +12,10 @@ type MainPageProps = {
   promoFilmGenre: string;
   promoFilmReleaseYear: string;
   promoFilmId: string;
-  filmList: Films;
+  filmsList: Films;
 }
 
-export default function MainPage ({promoFilmTitle, promoFilmGenre, promoFilmReleaseYear, filmList, promoFilmId} : MainPageProps) : JSX.Element {
+export default function MainPage ({promoFilmTitle, promoFilmGenre, promoFilmReleaseYear, filmsList, promoFilmId} : MainPageProps) : JSX.Element {
 
   return (
     <>
@@ -62,7 +62,7 @@ export default function MainPage ({promoFilmTitle, promoFilmGenre, promoFilmRele
                     <use xlinkHref="#add"></use>
                   </svg>
                   <span>My list</span>
-                  <span className="film-card__count">{FAVOURITE_MOCKS_COUNT}</span>
+                  <span className="film-card__count">{FAVORITE_MOCKS_COUNT}</span>
                 </button>
               </div>
             </div>
@@ -107,7 +107,7 @@ export default function MainPage ({promoFilmTitle, promoFilmGenre, promoFilmRele
             </li>
           </ul>
 
-          <FilmList filmList={filmList}/>
+          <FilmsList filmsList={filmsList}/>
 
           <div className="catalog__more">
             <button className="catalog__button" type="button">Show more</button>

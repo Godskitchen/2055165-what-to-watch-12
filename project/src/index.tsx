@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/app/app';
-import { filmList } from './mocks/films';
+import { filmsList } from './mocks/films';
 import { reviewList } from './mocks/reviews';
 
 const PromoFilmInfo = {
@@ -22,7 +22,7 @@ root.render(
       promoFilmGenre = {PromoFilmInfo.promoFilmGenre}
       promoFilmReleaseYear = {PromoFilmInfo.promoFileReleaseYear}
       promoFilmId = {PromoFilmInfo.promoFilmId}
-      filmList = {filmList}
+      filmsList = {filmsList}
       reviewList = {reviewList}
     />
   </React.StrictMode>,
