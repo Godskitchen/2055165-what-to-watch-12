@@ -1,6 +1,6 @@
 import { tabNames } from '../../const';
 import { Film, Reviews } from '../../types/film';
-import addNewlinesInList from '../../utils';
+import { addNewlinesInList } from '../../utils';
 import ReviewList from '../reviews-list/review-list';
 
 type TabProps = {

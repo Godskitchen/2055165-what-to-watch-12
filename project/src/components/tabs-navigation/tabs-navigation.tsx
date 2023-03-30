@@ -19,7 +19,6 @@ export default function TabsNavigation({activeTab, id}: TabsListProps) : JSX.Ele
     </li>
   ));
 
-
   return (
     <nav className="film-nav film-card__nav">
       <ul className="film-nav__list">

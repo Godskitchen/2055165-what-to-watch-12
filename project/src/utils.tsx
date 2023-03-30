@@ -1,5 +1,7 @@
 import { Fragment } from 'react';
-export default function addNewlinesInList<T extends string>(list: T[]) : JSX.Element[] {
+import { Films } from './types/film';
+
+export function addNewlinesInList<T extends string>(list: T[]) : JSX.Element[] {
 
   const resultList = list.map(
     (value, index) =>
@@ -10,3 +12,10 @@ export default function addNewlinesInList<T extends string>(list: T[]) : JSX.Ele
 
   return resultList;
 }
+
+export function getSimilarFilms(currentFilmId: string, filmsList: Films, genre: string, count: number) : Films {
+
+  const similarFilms = filmsList.filter((film) => film.genre === genre && currentFilmId !== `${film.id}`).slice(0, count);
+  return similarFilms;
+}
+

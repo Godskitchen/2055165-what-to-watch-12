@@ -10,8 +10,6 @@ import AddReviewPage from '../../pages/add-review-page/add-review-page';
 import PlayerPage from '../../pages/player-page/player-page';
 import PrivateRoute from '../private-route/private-route';
 import { Films, Reviews } from '../../types/film';
-//import DetailsPage from '../../pages/details-page/details-page';
-//import ReviewsPage from '../../pages/reviews-page/reviews-page';
 
 type AppProps = {
   promoFilmTitle: string;
