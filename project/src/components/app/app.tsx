@@ -10,19 +10,17 @@ import AddReviewPage from '../../pages/add-review-page/add-review-page';
 import PlayerPage from '../../pages/player-page/player-page';
 import PrivateRoute from '../private-route/private-route';
 import { Films, Reviews } from '../../types/film';
-import DetailsPage from '../../pages/details-page/details-page';
-import ReviewsPage from '../../pages/reviews-page/reviews-page';
 
 type AppProps = {
   promoFilmTitle: string;
   promoFilmGenre: string;
   promoFilmReleaseYear: string;
   promoFilmId: string;
-  filmList: Films;
-  reviewList: Reviews;
+  filmsList: Films;
+  reviewsList: Reviews;
 }
 
-export default function App({promoFilmTitle, promoFilmGenre, promoFilmReleaseYear, promoFilmId, filmList, reviewList} : AppProps): JSX.Element {
+export default function App({promoFilmTitle, promoFilmGenre, promoFilmReleaseYear, promoFilmId, filmsList, reviewsList} : AppProps): JSX.Element {
   return (
     <HelmetProvider>
       <BrowserRouter>
@@ -35,7 +33,7 @@ export default function App({promoFilmTitle, promoFilmGenre, promoFilmReleaseYea
                 promoFilmGenre = {promoFilmGenre}
                 promoFilmReleaseYear = {promoFilmReleaseYear}
                 promoFilmId = {promoFilmId}
-                filmList = {filmList}
+                filmsList = {filmsList}
               />
             }
           />
@@ -47,28 +45,37 @@ export default function App({promoFilmTitle, promoFilmGenre, promoFilmReleaseYea
             path={AppRoute.MyList}
             element={
               <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
-                <MyListPage favouriteList={filmList} />
+                <MyListPage favoritesList={filmsList} />
               </PrivateRoute>
             }
           />
+
           <Route path='/films' element={<Navigate to={AppRoute.Main}/>} />
-          <Route path={AppRoute.Film} element={<MoviePage filmList={filmList} />} />
-          <Route path={`${AppRoute.Film}/details`} element={<DetailsPage filmList={filmList}/>} />
+          <Route path={AppRoute.Film} element={<Navigate to='overview' />} />;
+          <Route
+            path={`${AppRoute.Film}/overview`}
+            element={<MoviePage activeTab='Overview' filmsList={filmsList} reviewsList={reviewsList} />}
+          />
+          <Route
+            path={`${AppRoute.Film}/details`}
+            element={<MoviePage activeTab='Details' filmsList={filmsList} reviewsList={reviewsList} />}
+          />
           <Route
             path={`${AppRoute.Film}/reviews`}
-            element={<ReviewsPage reviewList={reviewList} filmList={filmList}/>}
+            element={<MoviePage activeTab='Reviews' filmsList={filmsList} reviewsList={reviewsList} />}
           />
+
           <Route
             path={AppRoute.AddReview}
             element={
               <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
-                <AddReviewPage filmList={filmList} />
+                <AddReviewPage filmsList={filmsList} />
               </PrivateRoute>
             }
           />
           <Route
             path={AppRoute.Player}
-            element={<PlayerPage filmList={filmList} />}
+            element={<PlayerPage filmsList={filmsList} />}
           />
           <Route
             path='*'

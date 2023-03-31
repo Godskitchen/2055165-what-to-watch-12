@@ -13,9 +13,11 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
+export const tabNames = ['Overview', 'Details', 'Reviews'] as const;
+
 const CLASSPATH_LOGO_HEADER = 'logo__link';
 const CLASSPATH_LOGO_FOOTER = 'logo__link logo__link--light';
 
-const FAVOURITE_MOCKS_COUNT = 4;
+const FAVORITE_MOCKS_COUNT = 4;
 
-export {CLASSPATH_LOGO_FOOTER, CLASSPATH_LOGO_HEADER, FAVOURITE_MOCKS_COUNT};
+export {CLASSPATH_LOGO_FOOTER, CLASSPATH_LOGO_HEADER, FAVORITE_MOCKS_COUNT};
