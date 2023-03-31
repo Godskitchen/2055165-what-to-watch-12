@@ -10,8 +10,6 @@ import AddReviewPage from '../../pages/add-review-page/add-review-page';
 import PlayerPage from '../../pages/player-page/player-page';
 import PrivateRoute from '../private-route/private-route';
 import { Films, Reviews } from '../../types/film';
-import DetailsPage from '../../pages/details-page/details-page';
-import ReviewsPage from '../../pages/reviews-page/reviews-page';
 
 type AppProps = {
   promoFilmTitle: string;
@@ -19,10 +17,10 @@ type AppProps = {
   promoFilmReleaseYear: string;
   promoFilmId: string;
   filmsList: Films;
-  reviewList: Reviews;
+  reviewsList: Reviews;
 }
 
-export default function App({promoFilmTitle, promoFilmGenre, promoFilmReleaseYear, promoFilmId, filmsList, reviewList} : AppProps): JSX.Element {
+export default function App({promoFilmTitle, promoFilmGenre, promoFilmReleaseYear, promoFilmId, filmsList, reviewsList} : AppProps): JSX.Element {
   return (
     <HelmetProvider>
       <BrowserRouter>
@@ -51,13 +49,22 @@ export default function App({promoFilmTitle, promoFilmGenre, promoFilmReleaseYea
               </PrivateRoute>
             }
           />
+
           <Route path='/films' element={<Navigate to={AppRoute.Main}/>} />
-          <Route path={AppRoute.Film} element={<MoviePage filmsList={filmsList} />} />
-          <Route path={`${AppRoute.Film}/details`} element={<DetailsPage filmsList={filmsList}/>} />
+          <Route path={AppRoute.Film} element={<Navigate to='overview' />} />;
+          <Route
+            path={`${AppRoute.Film}/overview`}
+            element={<MoviePage activeTab='Overview' filmsList={filmsList} reviewsList={reviewsList} />}
+          />
+          <Route
+            path={`${AppRoute.Film}/details`}
+            element={<MoviePage activeTab='Details' filmsList={filmsList} reviewsList={reviewsList} />}
+          />
           <Route
             path={`${AppRoute.Film}/reviews`}
-            element={<ReviewsPage reviewList={reviewList} filmsList={filmsList}/>}
+            element={<MoviePage activeTab='Reviews' filmsList={filmsList} reviewsList={reviewsList} />}
           />
+
           <Route
             path={AppRoute.AddReview}
             element={

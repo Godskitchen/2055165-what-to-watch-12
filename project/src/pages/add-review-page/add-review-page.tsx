@@ -16,7 +16,8 @@ export default function AddReviewPage({filmsList} : AddReviewPageProps) : JSX.El
   const {id} = useParams();
   const film = filmsList.find((movie) => `${movie.id}` === id);
 
-  const [reviewData, setReviewData] = useState({rating: '', reviewText: ''});
+  const DEFAULT_RATING_VALUE = '5';
+  const [reviewData, setReviewData] = useState({rating: DEFAULT_RATING_VALUE, reviewText: ''});
 
   if (!film || !id) {
     return <NotFoundPage />;
@@ -29,10 +30,8 @@ export default function AddReviewPage({filmsList} : AddReviewPageProps) : JSX.El
     posterImage
   } = film;
 
-  const onRatingChange = ({target}: ChangeEvent<HTMLFormElement>) : void => {
-    if (target.name === 'rating' && typeof target.value === 'string') {
-      setReviewData({...reviewData, rating: target.value});
-    }
+  const onRatingChange = ({target}: ChangeEvent<HTMLInputElement>) : void => {
+    setReviewData({...reviewData, rating: target.value});
   };
 
   const onTextReviewChange = ({target}: ChangeEvent<HTMLTextAreaElement>) : void => {
@@ -40,13 +39,15 @@ export default function AddReviewPage({filmsList} : AddReviewPageProps) : JSX.El
   };
 
   const ratingStars = new Array(10).fill('').map((_, index) =>
-    (
-      <Fragment key={`${10 - index}`}>
-        <input className="rating__input" id={`star-${10 - index}`} type="radio" name="rating" value={`${10 - index}`} />
-        <label className="rating__label" htmlFor={`star-${10 - index}`}>{`Rating ${10 - index}`}</label>
+  {
+    const ratingValue = `${10 - index}`;
+    return (
+      <Fragment key={ratingValue}>
+        <input className="rating__input" id={`star-${ratingValue}`} type="radio" name="rating" value={`${ratingValue}`} onChange={onRatingChange} checked={reviewData.rating === `${ratingValue}`} />
+        <label className="rating__label" htmlFor={`star-${ratingValue}`}>{`Rating ${ratingValue}`}</label>
       </Fragment>
-    )
-  );
+    );
+  });
 
   return (
     <section className="film-card film-card--full" style={{backgroundColor: `${backgroundColor}`}}>
@@ -69,7 +70,7 @@ export default function AddReviewPage({filmsList} : AddReviewPageProps) : JSX.El
                 <Link to={`/films/${id}`} className="breadcrumbs__link">{name}</Link>
               </li>
               <li className="breadcrumbs__item">
-                <a className="breadcrumbs__link">Add review</a>
+                <Link to='#' className="breadcrumbs__link" style={{pointerEvents: 'none'}}>Add review</Link>
               </li>
             </ul>
           </nav>
@@ -90,7 +91,7 @@ export default function AddReviewPage({filmsList} : AddReviewPageProps) : JSX.El
       </div>
 
       <div className="add-review">
-        <form onChange={onRatingChange} action="#" className="add-review__form">
+        <form action="#" className="add-review__form">
           <div className="rating">
             <div className="rating__stars">
               {ratingStars}

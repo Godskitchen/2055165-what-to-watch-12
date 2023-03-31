@@ -1,20 +1,27 @@
 import { Helmet } from 'react-helmet-async';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link} from 'react-router-dom';
 import Logo from '../../components/logo/logo';
 import PlayerButton from '../../components/player-button/player-button';
 import UserAvatar from '../../components/user-avatar/user-avatar';
-import {CLASSPATH_LOGO_FOOTER, CLASSPATH_LOGO_HEADER, FAVORITE_MOCKS_COUNT } from '../../const';
-import { Films } from '../../types/film';
+import {CLASSPATH_LOGO_FOOTER, CLASSPATH_LOGO_HEADER, FAVORITE_MOCKS_COUNT, tabNames} from '../../const';
+import { Films, Reviews } from '../../types/film';
+import { getSimilarFilms } from '../../utils';
+import Tabs from '../../components/tabs/tabs';
 import NotFoundPage from '../not-found-page/not-found-page';
+import TabsNavigation from '../../components/tabs-navigation/tabs-navigation';
+import FilmsList from '../../components/film-list/film-list';
 
 type MoviePageProps = {
+  activeTab: typeof tabNames[number];
   filmsList: Films;
+  reviewsList: Reviews;
 }
 
-export default function MoviePage({filmsList} : MoviePageProps) : JSX.Element {
+export default function MoviePage({filmsList, reviewsList, activeTab} : MoviePageProps) : JSX.Element {
 
   const {id} = useParams();
   const film = filmsList.find((movie) => `${movie.id}` === id);
+  const SIMILAR_MOVIES_COUNT = 4;
 
   if (!film || !id) {
     return <NotFoundPage />;
@@ -27,12 +34,10 @@ export default function MoviePage({filmsList} : MoviePageProps) : JSX.Element {
     genre,
     released,
     backgroundColor,
-    rating,
-    scoresCount,
-    description,
-    director,
-    starring
   } = film;
+
+  const reviews = reviewsList.filter((review) => `${review.filmId}` === id);
+  const similarFilms = getSimilarFilms(id, filmsList, genre, SIMILAR_MOVIES_COUNT);
 
   return (
     <>
@@ -90,35 +95,9 @@ export default function MoviePage({filmsList} : MoviePageProps) : JSX.Element {
             </div>
 
             <div className="film-card__desc">
-              <nav className="film-nav film-card__nav">
-                <ul className="film-nav__list">
-                  <li className="film-nav__item film-nav__item--active">
-                    <Link to={`/films/${id}`} className="film-nav__link">Overview</Link>
-                  </li>
-                  <li className="film-nav__item">
-                    <Link to={`/films/${id}/details`} className="film-nav__link">Details</Link>
-                  </li>
-                  <li className="film-nav__item">
-                    <Link to={`/films/${id}/reviews`} className="film-nav__link">Reviews</Link>
-                  </li>
-                </ul>
-              </nav>
+              <TabsNavigation activeTab={activeTab} id={id} />
 
-              <div className="film-rating">
-                <div className="film-rating__score">{`${rating.toFixed(1)}`.replace('.', ',')}</div>
-                <p className="film-rating__meta">
-                  <span className="film-rating__level">Very good</span>
-                  <span className="film-rating__count">{scoresCount} ratings</span>
-                </p>
-              </div>
-
-              <div className="film-card__text">
-                <p>{description}</p>
-
-                <p className="film-card__director"><strong>Director: {director}</strong></p>
-
-                <p className="film-card__starring"><strong>Starring: {starring.join(', ')} and other</strong></p>
-              </div>
+              <Tabs activeTab={activeTab} film={film} reviewsList={reviews} />
             </div>
           </div>
         </div>
@@ -128,43 +107,7 @@ export default function MoviePage({filmsList} : MoviePageProps) : JSX.Element {
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
 
-          <div className="catalog__films-list">
-            <article className="small-film-card catalog__films-card">
-              <div className="small-film-card__image">
-                <img src="img/fantastic-beasts-the-crimes-of-grindelwald.jpg" alt="Fantastic Beasts: The Crimes of Grindelwald" width="280" height="175" />
-              </div>
-              <h3 className="small-film-card__title">
-                <a className="small-film-card__link" href="film-page.html">Fantastic Beasts: The Crimes of Grindelwald</a>
-              </h3>
-            </article>
-
-            <article className="small-film-card catalog__films-card">
-              <div className="small-film-card__image">
-                <img src="img/bohemian-rhapsody.jpg" alt="Bohemian Rhapsody" width="280" height="175" />
-              </div>
-              <h3 className="small-film-card__title">
-                <a className="small-film-card__link" href="film-page.html">Bohemian Rhapsody</a>
-              </h3>
-            </article>
-
-            <article className="small-film-card catalog__films-card">
-              <div className="small-film-card__image">
-                <img src="img/macbeth.jpg" alt="Macbeth" width="280" height="175" />
-              </div>
-              <h3 className="small-film-card__title">
-                <a className="small-film-card__link" href="film-page.html">Macbeth</a>
-              </h3>
-            </article>
-
-            <article className="small-film-card catalog__films-card">
-              <div className="small-film-card__image">
-                <img src="img/aviator.jpg" alt="Aviator" width="280" height="175" />
-              </div>
-              <h3 className="small-film-card__title">
-                <a className="small-film-card__link" href="film-page.html">Aviator</a>
-              </h3>
-            </article>
-          </div>
+          <FilmsList filmsList={similarFilms} />
         </section>
 
         <footer className="page-footer">
