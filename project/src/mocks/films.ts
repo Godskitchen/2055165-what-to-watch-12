@@ -66,7 +66,7 @@ export const filmsList: Films = [
       'Jessica Chastain'
     ],
     runTime: 169,
-    genre: 'Adventure',
+    genre: 'Sci-Fi',
     released: 2014,
     isFavorite: false
   },
@@ -89,7 +89,7 @@ export const filmsList: Films = [
       'Connie Nielsen'
     ],
     runTime: 155,
-    genre: 'Action',
+    genre: 'Drama',
     released: 2000,
     isFavorite: false
   },
@@ -158,7 +158,7 @@ export const filmsList: Films = [
       'Margot Robbie'
     ],
     runTime: 180,
-    genre: 'Biography',
+    genre: 'Documentary',
     released: 2013,
     isFavorite: false
   },
