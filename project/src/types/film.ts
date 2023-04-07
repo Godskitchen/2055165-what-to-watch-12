@@ -20,6 +20,13 @@ export type Film = {
 
 export type Films = Film[];
 
+export type PromoFilmInfo = {
+    promoFilmTitle: string;
+    promoFilmGenre: string;
+    promoFilmReleaseYear: string;
+    promoFilmId: string;
+}
+
 export type ReviewType = {
   filmId : number;
   comment: string;

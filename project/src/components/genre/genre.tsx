@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks';
-import { changeGenre, resetFilmsList } from '../../store/action';
+import { changeGenre, resetFilmsCountOnPage, resetFilmsList } from '../../store/action';
 
 type GenreProps = {
   filterName: string;
@@ -13,6 +13,7 @@ export default function Genre({filterName, isActive} : GenreProps) : JSX.Element
 
   const onGenreClickHandler = () => {
     dispatch(resetFilmsList());
+    dispatch(resetFilmsCountOnPage());
     dispatch(changeGenre({activeGenre: filterName}));
   };
 

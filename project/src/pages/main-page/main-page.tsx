@@ -8,25 +8,31 @@ import UserAvatar from '../../components/user-avatar/user-avatar';
 import {CLASSPATH_LOGO_FOOTER, CLASSPATH_LOGO_HEADER, FAVORITE_MOCKS_COUNT } from '../../const';
 import { filterFilmsByGenre } from '../../utils';
 import { useAppSelector } from '../../hooks';
+import { PromoFilmInfo } from '../../types/film';
+import ShowMoreButton from '../../components/show-more-button/show-more-button';
 
 type MainPageProps = {
-  promoFilmTitle: string;
-  promoFilmGenre: string;
-  promoFilmReleaseYear: string;
-  promoFilmId: string;
+  promoFilmInfo: PromoFilmInfo;
 }
 
-const FILMS_COUNT_PER_LOAD = 8;
 const MAX_GENRES_COUNT = 10;
 
-export default function MainPage ({promoFilmTitle, promoFilmGenre, promoFilmReleaseYear, promoFilmId} : MainPageProps) : JSX.Element {
+export default function MainPage ({promoFilmInfo} : MainPageProps) : JSX.Element {
+
+  const {promoFilmTitle, promoFilmGenre, promoFilmReleaseYear, promoFilmId} = promoFilmInfo;
 
   const activeGenre = useAppSelector((state) => state.activeGenre);
   const filmsList = useAppSelector((state) => state.filmsList);
+  const maxFilmsCountOnPage = useAppSelector((state) => state.filmsCountOnPage);
 
   const filters = new Set<string>().add('All genres');
   filmsList.forEach(({genre}) => filters.add(genre));
   const availableGenres = Array.from(filters).slice(0, MAX_GENRES_COUNT);
+
+  const allFilmsByGenre = filterFilmsByGenre(activeGenre, filmsList);
+  const showedFilmsOnPage = allFilmsByGenre.slice(0, Math.min(allFilmsByGenre.length, maxFilmsCountOnPage));
+
+  const isShowButton = allFilmsByGenre.length > showedFilmsOnPage.length;
 
   return (
     <>
@@ -87,11 +93,10 @@ export default function MainPage ({promoFilmTitle, promoFilmGenre, promoFilmRele
 
           <GenresList activeGenre={activeGenre} availableGenres={availableGenres} />
 
-          <FilmsList filmsList={filterFilmsByGenre(activeGenre, filmsList).slice(0, FILMS_COUNT_PER_LOAD)} />
+          <FilmsList filmsList={showedFilmsOnPage} />
 
-          <div className="catalog__more">
-            <button className="catalog__button" type="button">Show more</button>
-          </div>
+          {isShowButton ? <ShowMoreButton /> : ''}
+
         </section>
 
         <footer className="page-footer">
