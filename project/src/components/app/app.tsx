@@ -44,8 +44,8 @@ export default function App({promoFilmInfo, filmsList, reviewsList} : AppProps):
             }
           />
 
-          <Route path='/films' element={<Navigate to={AppRoute.Main}/>} />
-          <Route path={AppRoute.Film} element={<Navigate to='overview' />} />;
+          <Route path='/films' element={<Navigate to={AppRoute.Main} replace />} />
+          <Route path={AppRoute.Film} element={<Navigate to='overview' replace />} />;
           <Route
             path={`${AppRoute.Film}/overview`}
             element={<MoviePage activeTab='Overview' filmsList={filmsList} reviewsList={reviewsList} />}
