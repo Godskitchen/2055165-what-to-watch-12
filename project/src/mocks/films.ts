@@ -184,6 +184,250 @@ export const filmsList: Films = [
     genre: 'Sci-Fi',
     released: 2018,
     isFavorite: false
+  },
+
+  {
+    id: 9,
+    name: 'Upgrade',
+    posterImage: '/mocks/posters/upgrade_s.jpg',
+    previewImage: '/mocks/previews/upgrade_m.jpg',
+    backgroundImage: '/mocks/backgroundImages/upgrade_x.jpg',
+    backgroundColor: '#bc221a',
+    videoLink: '/mocks/trailers/Upgrade.mp4',
+    previewVideoLink: '/mocks/trailers/Upgrade.mp4',
+    description: 'Set in the near-future, technology controls nearly all aspects of life. But when the world of Grey, a self-labeled technophobe, is turned upside down, his only hope for revenge is an experimental computer chip implant.',
+    rating: 7.8,
+    scoresCount: 304,
+    director: 'Leigh Whannell',
+    starring: [
+      'Logan Marshall-Green',
+      'Mellanie Vallejo',
+      'Steve Danielsen'
+    ],
+    runTime: 104,
+    genre: 'Sci-Fi',
+    released: 2018,
+    isFavorite: false
+  },{
+    id: 10,
+    name: 'Upgrade',
+    posterImage: '/mocks/posters/upgrade_s.jpg',
+    previewImage: '/mocks/previews/upgrade_m.jpg',
+    backgroundImage: '/mocks/backgroundImages/upgrade_x.jpg',
+    backgroundColor: '#bc221a',
+    videoLink: '/mocks/trailers/Upgrade.mp4',
+    previewVideoLink: '/mocks/trailers/Upgrade.mp4',
+    description: 'Set in the near-future, technology controls nearly all aspects of life. But when the world of Grey, a self-labeled technophobe, is turned upside down, his only hope for revenge is an experimental computer chip implant.',
+    rating: 7.8,
+    scoresCount: 304,
+    director: 'Leigh Whannell',
+    starring: [
+      'Logan Marshall-Green',
+      'Mellanie Vallejo',
+      'Steve Danielsen'
+    ],
+    runTime: 104,
+    genre: 'Sci-Fi',
+    released: 2018,
+    isFavorite: false
+  }, {
+    id: 11,
+    name: 'Upgrade',
+    posterImage: '/mocks/posters/upgrade_s.jpg',
+    previewImage: '/mocks/previews/upgrade_m.jpg',
+    backgroundImage: '/mocks/backgroundImages/upgrade_x.jpg',
+    backgroundColor: '#bc221a',
+    videoLink: '/mocks/trailers/Upgrade.mp4',
+    previewVideoLink: '/mocks/trailers/Upgrade.mp4',
+    description: 'Set in the near-future, technology controls nearly all aspects of life. But when the world of Grey, a self-labeled technophobe, is turned upside down, his only hope for revenge is an experimental computer chip implant.',
+    rating: 7.8,
+    scoresCount: 304,
+    director: 'Leigh Whannell',
+    starring: [
+      'Logan Marshall-Green',
+      'Mellanie Vallejo',
+      'Steve Danielsen'
+    ],
+    runTime: 104,
+    genre: 'Sci-Fi',
+    released: 2018,
+    isFavorite: false
+  }, {
+    id: 12,
+    name: 'Upgrade',
+    posterImage: '/mocks/posters/upgrade_s.jpg',
+    previewImage: '/mocks/previews/upgrade_m.jpg',
+    backgroundImage: '/mocks/backgroundImages/upgrade_x.jpg',
+    backgroundColor: '#bc221a',
+    videoLink: '/mocks/trailers/Upgrade.mp4',
+    previewVideoLink: '/mocks/trailers/Upgrade.mp4',
+    description: 'Set in the near-future, technology controls nearly all aspects of life. But when the world of Grey, a self-labeled technophobe, is turned upside down, his only hope for revenge is an experimental computer chip implant.',
+    rating: 7.8,
+    scoresCount: 304,
+    director: 'Leigh Whannell',
+    starring: [
+      'Logan Marshall-Green',
+      'Mellanie Vallejo',
+      'Steve Danielsen'
+    ],
+    runTime: 104,
+    genre: 'Sci-Fi',
+    released: 2018,
+    isFavorite: false
+  }, {
+    id: 13,
+    name: 'Upgrade',
+    posterImage: '/mocks/posters/upgrade_s.jpg',
+    previewImage: '/mocks/previews/upgrade_m.jpg',
+    backgroundImage: '/mocks/backgroundImages/upgrade_x.jpg',
+    backgroundColor: '#bc221a',
+    videoLink: '/mocks/trailers/Upgrade.mp4',
+    previewVideoLink: '/mocks/trailers/Upgrade.mp4',
+    description: 'Set in the near-future, technology controls nearly all aspects of life. But when the world of Grey, a self-labeled technophobe, is turned upside down, his only hope for revenge is an experimental computer chip implant.',
+    rating: 7.8,
+    scoresCount: 304,
+    director: 'Leigh Whannell',
+    starring: [
+      'Logan Marshall-Green',
+      'Mellanie Vallejo',
+      'Steve Danielsen'
+    ],
+    runTime: 104,
+    genre: 'Sci-Fi',
+    released: 2018,
+    isFavorite: false
+  }, {
+    id: 14,
+    name: 'Upgrade',
+    posterImage: '/mocks/posters/upgrade_s.jpg',
+    previewImage: '/mocks/previews/upgrade_m.jpg',
+    backgroundImage: '/mocks/backgroundImages/upgrade_x.jpg',
+    backgroundColor: '#bc221a',
+    videoLink: '/mocks/trailers/Upgrade.mp4',
+    previewVideoLink: '/mocks/trailers/Upgrade.mp4',
+    description: 'Set in the near-future, technology controls nearly all aspects of life. But when the world of Grey, a self-labeled technophobe, is turned upside down, his only hope for revenge is an experimental computer chip implant.',
+    rating: 7.8,
+    scoresCount: 304,
+    director: 'Leigh Whannell',
+    starring: [
+      'Logan Marshall-Green',
+      'Mellanie Vallejo',
+      'Steve Danielsen'
+    ],
+    runTime: 104,
+    genre: 'Sci-Fi',
+    released: 2018,
+    isFavorite: false
+  }, {
+    id: 15,
+    name: 'Upgrade',
+    posterImage: '/mocks/posters/upgrade_s.jpg',
+    previewImage: '/mocks/previews/upgrade_m.jpg',
+    backgroundImage: '/mocks/backgroundImages/upgrade_x.jpg',
+    backgroundColor: '#bc221a',
+    videoLink: '/mocks/trailers/Upgrade.mp4',
+    previewVideoLink: '/mocks/trailers/Upgrade.mp4',
+    description: 'Set in the near-future, technology controls nearly all aspects of life. But when the world of Grey, a self-labeled technophobe, is turned upside down, his only hope for revenge is an experimental computer chip implant.',
+    rating: 7.8,
+    scoresCount: 304,
+    director: 'Leigh Whannell',
+    starring: [
+      'Logan Marshall-Green',
+      'Mellanie Vallejo',
+      'Steve Danielsen'
+    ],
+    runTime: 104,
+    genre: 'Sci-Fi',
+    released: 2018,
+    isFavorite: false
+  }, {
+    id: 16,
+    name: 'Upgrade',
+    posterImage: '/mocks/posters/upgrade_s.jpg',
+    previewImage: '/mocks/previews/upgrade_m.jpg',
+    backgroundImage: '/mocks/backgroundImages/upgrade_x.jpg',
+    backgroundColor: '#bc221a',
+    videoLink: '/mocks/trailers/Upgrade.mp4',
+    previewVideoLink: '/mocks/trailers/Upgrade.mp4',
+    description: 'Set in the near-future, technology controls nearly all aspects of life. But when the world of Grey, a self-labeled technophobe, is turned upside down, his only hope for revenge is an experimental computer chip implant.',
+    rating: 7.8,
+    scoresCount: 304,
+    director: 'Leigh Whannell',
+    starring: [
+      'Logan Marshall-Green',
+      'Mellanie Vallejo',
+      'Steve Danielsen'
+    ],
+    runTime: 104,
+    genre: 'Sci-Fi',
+    released: 2018,
+    isFavorite: false
+  }, {
+    id: 17,
+    name: 'Upgrade',
+    posterImage: '/mocks/posters/upgrade_s.jpg',
+    previewImage: '/mocks/previews/upgrade_m.jpg',
+    backgroundImage: '/mocks/backgroundImages/upgrade_x.jpg',
+    backgroundColor: '#bc221a',
+    videoLink: '/mocks/trailers/Upgrade.mp4',
+    previewVideoLink: '/mocks/trailers/Upgrade.mp4',
+    description: 'Set in the near-future, technology controls nearly all aspects of life. But when the world of Grey, a self-labeled technophobe, is turned upside down, his only hope for revenge is an experimental computer chip implant.',
+    rating: 7.8,
+    scoresCount: 304,
+    director: 'Leigh Whannell',
+    starring: [
+      'Logan Marshall-Green',
+      'Mellanie Vallejo',
+      'Steve Danielsen'
+    ],
+    runTime: 104,
+    genre: 'Sci-Fi',
+    released: 2018,
+    isFavorite: false
+  }, {
+    id: 18,
+    name: 'Upgrade',
+    posterImage: '/mocks/posters/upgrade_s.jpg',
+    previewImage: '/mocks/previews/upgrade_m.jpg',
+    backgroundImage: '/mocks/backgroundImages/upgrade_x.jpg',
+    backgroundColor: '#bc221a',
+    videoLink: '/mocks/trailers/Upgrade.mp4',
+    previewVideoLink: '/mocks/trailers/Upgrade.mp4',
+    description: 'Set in the near-future, technology controls nearly all aspects of life. But when the world of Grey, a self-labeled technophobe, is turned upside down, his only hope for revenge is an experimental computer chip implant.',
+    rating: 7.8,
+    scoresCount: 304,
+    director: 'Leigh Whannell',
+    starring: [
+      'Logan Marshall-Green',
+      'Mellanie Vallejo',
+      'Steve Danielsen'
+    ],
+    runTime: 104,
+    genre: 'Sci-Fi',
+    released: 2018,
+    isFavorite: false
+  }, {
+    id: 19,
+    name: 'Upgrade',
+    posterImage: '/mocks/posters/upgrade_s.jpg',
+    previewImage: '/mocks/previews/upgrade_m.jpg',
+    backgroundImage: '/mocks/backgroundImages/upgrade_x.jpg',
+    backgroundColor: '#bc221a',
+    videoLink: '/mocks/trailers/Upgrade.mp4',
+    previewVideoLink: '/mocks/trailers/Upgrade.mp4',
+    description: 'Set in the near-future, technology controls nearly all aspects of life. But when the world of Grey, a self-labeled technophobe, is turned upside down, his only hope for revenge is an experimental computer chip implant.',
+    rating: 7.8,
+    scoresCount: 304,
+    director: 'Leigh Whannell',
+    starring: [
+      'Logan Marshall-Green',
+      'Mellanie Vallejo',
+      'Steve Danielsen'
+    ],
+    runTime: 104,
+    genre: 'Sci-Fi',
+    released: 2018,
+    isFavorite: false
   }
 ];
 

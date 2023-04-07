@@ -9,7 +9,7 @@ import { store } from './store';
 const PromoFilmInfo = {
   promoFilmTitle: 'The Grand Budapest Hotel',
   promoFilmGenre: 'Drama',
-  promoFileReleaseYear: '2014',
+  promoFilmReleaseYear: '2014',
   promoFilmId: '0'
 };
 
@@ -21,10 +21,7 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <App
-        promoFilmTitle = {PromoFilmInfo.promoFilmTitle}
-        promoFilmGenre = {PromoFilmInfo.promoFilmGenre}
-        promoFilmReleaseYear = {PromoFilmInfo.promoFileReleaseYear}
-        promoFilmId = {PromoFilmInfo.promoFilmId}
+        promoFilmInfo = {PromoFilmInfo}
         filmsList = {filmsList}
         reviewsList = {reviewsList}
       />

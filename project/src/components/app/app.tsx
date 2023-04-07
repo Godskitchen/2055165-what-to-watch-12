@@ -9,18 +9,16 @@ import MoviePage from '../../pages/movie-page/movie-page';
 import AddReviewPage from '../../pages/add-review-page/add-review-page';
 import PlayerPage from '../../pages/player-page/player-page';
 import PrivateRoute from '../private-route/private-route';
-import { Films, Reviews } from '../../types/film';
+import { Films, PromoFilmInfo, Reviews } from '../../types/film';
 
 type AppProps = {
-  promoFilmTitle: string;
-  promoFilmGenre: string;
-  promoFilmReleaseYear: string;
-  promoFilmId: string;
+  promoFilmInfo: PromoFilmInfo;
   filmsList: Films;
   reviewsList: Reviews;
 }
 
-export default function App({promoFilmTitle, promoFilmGenre, promoFilmReleaseYear, promoFilmId, filmsList, reviewsList} : AppProps): JSX.Element {
+export default function App({promoFilmInfo, filmsList, reviewsList} : AppProps): JSX.Element {
+
   return (
     <HelmetProvider>
       <BrowserRouter>
@@ -29,10 +27,7 @@ export default function App({promoFilmTitle, promoFilmGenre, promoFilmReleaseYea
             path={AppRoute.Main}
             element = {
               <MainPage
-                promoFilmTitle = {promoFilmTitle}
-                promoFilmGenre = {promoFilmGenre}
-                promoFilmReleaseYear = {promoFilmReleaseYear}
-                promoFilmId = {promoFilmId}
+                promoFilmInfo={promoFilmInfo}
               />
             }
           />
@@ -49,8 +44,8 @@ export default function App({promoFilmTitle, promoFilmGenre, promoFilmReleaseYea
             }
           />
 
-          <Route path='/films' element={<Navigate to={AppRoute.Main}/>} />
-          <Route path={AppRoute.Film} element={<Navigate to='overview' />} />;
+          <Route path='/films' element={<Navigate to={AppRoute.Main} replace />} />
+          <Route path={AppRoute.Film} element={<Navigate to='overview' replace />} />;
           <Route
             path={`${AppRoute.Film}/overview`}
             element={<MoviePage activeTab='Overview' filmsList={filmsList} reviewsList={reviewsList} />}
