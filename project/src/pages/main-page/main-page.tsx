@@ -17,6 +17,7 @@ type MainPageProps = {
 }
 
 const FILMS_COUNT_PER_LOAD = 8;
+const MAX_GENRES_COUNT = 10;
 
 export default function MainPage ({promoFilmTitle, promoFilmGenre, promoFilmReleaseYear, promoFilmId} : MainPageProps) : JSX.Element {
 
@@ -25,7 +26,7 @@ export default function MainPage ({promoFilmTitle, promoFilmGenre, promoFilmRele
 
   const filters = new Set<string>().add('All genres');
   filmsList.forEach(({genre}) => filters.add(genre));
-  const availableGenres = Array.from(filters).slice(0, FILMS_COUNT_PER_LOAD);
+  const availableGenres = Array.from(filters).slice(0, MAX_GENRES_COUNT);
 
   return (
     <>
@@ -86,7 +87,7 @@ export default function MainPage ({promoFilmTitle, promoFilmGenre, promoFilmRele
 
           <GenresList activeGenre={activeGenre} availableGenres={availableGenres} />
 
-          <FilmsList filmsList={filterFilmsByGenre(activeGenre, filmsList)}/>
+          <FilmsList filmsList={filterFilmsByGenre(activeGenre, filmsList).slice(0, FILMS_COUNT_PER_LOAD)} />
 
           <div className="catalog__more">
             <button className="catalog__button" type="button">Show more</button>
