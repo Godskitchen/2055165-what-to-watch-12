@@ -8,20 +8,24 @@ import UserAvatar from '../../components/user-avatar/user-avatar';
 import {CLASSPATH_LOGO_FOOTER, CLASSPATH_LOGO_HEADER, FAVORITE_MOCKS_COUNT } from '../../const';
 import { filterFilmsByGenre } from '../../utils';
 import { useAppSelector } from '../../hooks';
-// import { Films } from '../../types/film';
 
 type MainPageProps = {
   promoFilmTitle: string;
   promoFilmGenre: string;
   promoFilmReleaseYear: string;
   promoFilmId: string;
-  // filmsList: Films;
 }
+
+const FILMS_COUNT_PER_LOAD = 8;
 
 export default function MainPage ({promoFilmTitle, promoFilmGenre, promoFilmReleaseYear, promoFilmId} : MainPageProps) : JSX.Element {
 
   const activeGenre = useAppSelector((state) => state.activeGenre);
   const filmsList = useAppSelector((state) => state.filmsList);
+
+  const filters = new Set<string>().add('All genres');
+  filmsList.forEach(({genre}) => filters.add(genre));
+  const availableGenres = Array.from(filters).slice(0, FILMS_COUNT_PER_LOAD);
 
   return (
     <>
@@ -80,7 +84,7 @@ export default function MainPage ({promoFilmTitle, promoFilmGenre, promoFilmRele
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-          <GenresList activeGenre={activeGenre} />
+          <GenresList activeGenre={activeGenre} availableGenres={availableGenres} />
 
           <FilmsList filmsList={filterFilmsByGenre(activeGenre, filmsList)}/>
 
@@ -93,7 +97,7 @@ export default function MainPage ({promoFilmTitle, promoFilmGenre, promoFilmRele
           <Logo classPath = {CLASSPATH_LOGO_FOOTER} />
 
           <div className="copyright">
-            <p>© 2019 What to watch Ltd.</p>
+            <p>© 2023 What to watch Ltd.</p>
           </div>
         </footer>
       </div>

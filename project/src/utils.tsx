@@ -1,6 +1,5 @@
 import { Fragment } from 'react';
 import { Films } from './types/film';
-import { genres } from './const';
 
 export function addNewlinesInList<T extends string>(list: T[]) : JSX.Element[] {
 
@@ -23,10 +22,5 @@ export function filterFilmsByGenre(genre: string, filmsList: Films) : Films {
     return filmsList;
   }
 
-  const activeFilter = genres.find(({filter}) => filter === genre);
-  if (!activeFilter) {
-    return filmsList;
-  }
-
-  return filmsList.filter((film) => film.genre === activeFilter.name);
+  return filmsList.filter((film) => film.genre === genre);
 }
