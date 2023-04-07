@@ -33,7 +33,6 @@ export default function App({promoFilmTitle, promoFilmGenre, promoFilmReleaseYea
                 promoFilmGenre = {promoFilmGenre}
                 promoFilmReleaseYear = {promoFilmReleaseYear}
                 promoFilmId = {promoFilmId}
-                filmsList = {filmsList}
               />
             }
           />

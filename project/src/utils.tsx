@@ -14,8 +14,13 @@ export function addNewlinesInList<T extends string>(list: T[]) : JSX.Element[] {
 }
 
 export function getSimilarFilms(currentFilmId: string, filmsList: Films, genre: string, count: number) : Films {
-
-  const similarFilms = filmsList.filter((film) => film.genre === genre && currentFilmId !== `${film.id}`).slice(0, count);
-  return similarFilms;
+  return filmsList.filter((film) => film.genre === genre && currentFilmId !== `${film.id}`).slice(0, count);
 }
 
+export function filterFilmsByGenre(genre: string, filmsList: Films) : Films {
+  if (genre === 'All genres') {
+    return filmsList;
+  }
+
+  return filmsList.filter((film) => film.genre === genre);
+}
