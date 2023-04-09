@@ -13,7 +13,6 @@ export default function Logo({classPath} : LogoProps) : JSX.Element {
 
   const onLogoClickHandler = () => {
     dispatch(resetFilmsCountOnPage());
-    dispatch(resetFilmsCountOnPage());
     dispatch(resetFilmsList());
   };
 
