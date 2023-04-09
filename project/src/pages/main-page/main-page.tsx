@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import FilmsList from '../../components/film-list/film-list';
@@ -10,6 +11,8 @@ import { filterFilmsByGenre } from '../../utils';
 import { useAppSelector } from '../../hooks';
 import { PromoFilmInfo } from '../../types/film';
 import ShowMoreButton from '../../components/show-more-button/show-more-button';
+import LoadingSpinner from '../loading-spinner/loading-spinner';
+import { Fragment } from 'react';
 
 type MainPageProps = {
   promoFilmInfo: PromoFilmInfo;
@@ -24,6 +27,8 @@ export default function MainPage ({promoFilmInfo} : MainPageProps) : JSX.Element
   const activeGenre = useAppSelector((state) => state.activeGenre);
   const filmsList = useAppSelector((state) => state.filmsList);
   const maxFilmsCountOnPage = useAppSelector((state) => state.filmsCountOnPage);
+
+  const isFilmsDataLoading = useAppSelector((state) => state.isFilmsDataLoadingStatus);
 
   const filters = new Set<string>().add('All genres');
   filmsList.forEach(({genre}) => filters.add(genre));
@@ -91,12 +96,16 @@ export default function MainPage ({promoFilmInfo} : MainPageProps) : JSX.Element
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-          <GenresList activeGenre={activeGenre} availableGenres={availableGenres} />
-
-          <FilmsList filmsList={showedFilmsOnPage} />
-
-          {isShowButton ? <ShowMoreButton /> : ''}
-
+          {
+            !isFilmsDataLoading
+              ? (
+                <Fragment>
+                  <GenresList activeGenre={activeGenre} availableGenres={availableGenres} />
+                  <FilmsList filmsList={showedFilmsOnPage} />
+                  {isShowButton ? <ShowMoreButton /> : ''}
+                </Fragment>
+              ) : <LoadingSpinner />
+          }
         </section>
 
         <footer className="page-footer">

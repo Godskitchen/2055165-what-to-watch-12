@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { useAppDispatch } from '../../hooks';
-import { resetFilmsCountOnPage, resetFilmsList } from '../../store/action';
+import { resetFilmsCountOnPage, resetFilmsList, resetFilterGenre } from '../../store/action';
 
 type LogoProps = {
   classPath: string;
@@ -13,6 +13,7 @@ export default function Logo({classPath} : LogoProps) : JSX.Element {
 
   const onLogoClickHandler = () => {
     dispatch(resetFilmsCountOnPage());
+    dispatch(resetFilterGenre());
     dispatch(resetFilmsList());
   };
 
