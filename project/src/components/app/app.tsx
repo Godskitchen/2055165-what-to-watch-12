@@ -9,15 +9,14 @@ import MoviePage from '../../pages/movie-page/movie-page';
 import AddReviewPage from '../../pages/add-review-page/add-review-page';
 import PlayerPage from '../../pages/player-page/player-page';
 import PrivateRoute from '../private-route/private-route';
-import { Films, PromoFilmInfo, Reviews } from '../../types/film';
+import { Films, Reviews } from '../../types/film';
 
 type AppProps = {
-  promoFilmInfo: PromoFilmInfo;
   filmsList: Films;
   reviewsList: Reviews;
 }
 
-export default function App({promoFilmInfo, filmsList, reviewsList} : AppProps): JSX.Element {
+export default function App({filmsList, reviewsList} : AppProps): JSX.Element {
 
   return (
     <HelmetProvider>
@@ -25,11 +24,7 @@ export default function App({promoFilmInfo, filmsList, reviewsList} : AppProps):
         <Routes>
           <Route
             path={AppRoute.Main}
-            element = {
-              <MainPage
-                promoFilmInfo={promoFilmInfo}
-              />
-            }
+            element = {<MainPage />}
           />
           <Route
             path={AppRoute.Login}
