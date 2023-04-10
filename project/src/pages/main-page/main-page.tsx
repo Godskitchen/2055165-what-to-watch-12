@@ -6,13 +6,14 @@ import GenresList from '../../components/genres-list/genres-list';
 import Logo from '../../components/logo/logo';
 import PlayerButton from '../../components/player-button/player-button';
 import UserAvatar from '../../components/user-avatar/user-avatar';
-import {CLASSPATH_LOGO_FOOTER, CLASSPATH_LOGO_HEADER, FAVORITE_MOCKS_COUNT } from '../../const';
+import {CLASSPATH_LOGO_FOOTER, CLASSPATH_LOGO_HEADER, FAVORITE_MOCKS_COUNT, DEFAULT_FILTER } from '../../const';
 import { filterFilmsByGenre } from '../../utils';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { PromoFilmInfo } from '../../types/film';
 import ShowMoreButton from '../../components/show-more-button/show-more-button';
 import LoadingSpinner from '../loading-spinner/loading-spinner';
-import { Fragment } from 'react';
+import { Fragment, useEffect } from 'react';
+import { fetchFilmsAction } from '../../store/api-actions';
 
 type MainPageProps = {
   promoFilmInfo: PromoFilmInfo;
@@ -22,6 +23,12 @@ const MAX_GENRES_COUNT = 10;
 
 export default function MainPage ({promoFilmInfo} : MainPageProps) : JSX.Element {
 
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchFilmsAction());
+  }, [dispatch]);
+
   const {promoFilmTitle, promoFilmGenre, promoFilmReleaseYear, promoFilmId} = promoFilmInfo;
 
   const activeGenre = useAppSelector((state) => state.activeGenre);
@@ -30,7 +37,7 @@ export default function MainPage ({promoFilmInfo} : MainPageProps) : JSX.Element
 
   const isFilmsDataLoading = useAppSelector((state) => state.isFilmsDataLoadingStatus);
 
-  const filters = new Set<string>().add('All genres');
+  const filters = new Set<string>().add(DEFAULT_FILTER);
   filmsList.forEach(({genre}) => filters.add(genre));
   const availableGenres = Array.from(filters).slice(0, MAX_GENRES_COUNT);
 

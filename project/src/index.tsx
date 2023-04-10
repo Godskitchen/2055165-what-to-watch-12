@@ -5,7 +5,6 @@ import App from './components/app/app';
 import { filmsList } from './mocks/films';
 import { reviewsList } from './mocks/reviews';
 import { store } from './store';
-import { fetchFilmsAction } from './store/api-actions';
 
 const PromoFilmInfo = {
   promoFilmTitle: 'The Grand Budapest Hotel',
@@ -13,8 +12,6 @@ const PromoFilmInfo = {
   promoFilmReleaseYear: '2014',
   promoFilmId: '0'
 };
-
-store.dispatch(fetchFilmsAction());
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,

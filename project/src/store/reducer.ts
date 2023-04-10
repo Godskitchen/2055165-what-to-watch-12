@@ -1,11 +1,10 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { changeGenre, loadFilmsList, resetFilmsCountOnPage, resetFilmsList, resetFilterGenre, setFilmsDataLoadingStatus, showMoreFilms } from './action';
-//import { filmsList } from '../mocks/films';
+import { changeGenre, loadFilmsList, resetFilmsCountOnPage, resetFilterGenre, setFilmsDataLoadingStatus, showMoreFilms } from './action';
 import { Films } from '../types/film';
+import { DEFAULT_FILTER } from '../const';
 
 const INITIAL_FILMS_COUNT_ON_PAGE = 8;
 const FILMS_COUNT_PER_LOAD = 8;
-const DEFAULT_FILTER = 'All genres';
 
 type InitialState = {
   activeGenre: string;
@@ -25,9 +24,6 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(changeGenre, (state, action) => {
       const {activeGenre} = action.payload;
       state.activeGenre = activeGenre;
-    })
-    .addCase(resetFilmsList, (state) => {
-      state.filmsList = [];
     })
     .addCase(resetFilterGenre, (state) => {
       state.activeGenre = DEFAULT_FILTER;
