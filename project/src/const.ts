@@ -13,6 +13,11 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
+export enum APIRoute {
+  FilmsList = '/films',
+  PromoFilm = '/promo'
+}
+
 export const tabNames = ['Overview', 'Details', 'Reviews'] as const;
 
 const CLASSPATH_LOGO_HEADER = 'logo__link';
