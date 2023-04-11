@@ -15,7 +15,8 @@ export enum AuthorizationStatus {
 
 export enum APIRoute {
   FilmsList = '/films',
-  PromoFilm = '/promo'
+  PromoFilm = '/promo',
+  Login ='/login'
 }
 
 export const tabNames = ['Overview', 'Details', 'Reviews'] as const;

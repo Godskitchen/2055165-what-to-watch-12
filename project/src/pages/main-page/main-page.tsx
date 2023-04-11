@@ -1,17 +1,17 @@
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
 import FilmsList from '../../components/film-list/film-list';
 import GenresList from '../../components/genres-list/genres-list';
 import Logo from '../../components/logo/logo';
 import PlayerButton from '../../components/player-button/player-button';
-import UserAvatar from '../../components/user-avatar/user-avatar';
-import {CLASSPATH_LOGO_FOOTER, CLASSPATH_LOGO_HEADER, FAVORITE_MOCKS_COUNT, DEFAULT_FILTER } from '../../const';
+import {CLASSPATH_LOGO_FOOTER, CLASSPATH_LOGO_HEADER, FAVORITE_MOCKS_COUNT, DEFAULT_FILTER, AuthorizationStatus } from '../../const';
 import { filterFilmsByGenre } from '../../utils';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import ShowMoreButton from '../../components/show-more-button/show-more-button';
 import LoadingSpinner from '../loading-spinner/loading-spinner';
 import { Fragment, useEffect } from 'react';
 import { fetchFilmsAction, fetchPromoFilmAction } from '../../store/api-actions';
+import UserBlock from '../../components/user-block/user-block';
+import GuestBlock from '../../components/guest-block/guest-block';
 
 const MAX_GENRES_COUNT = 10;
 
@@ -33,6 +33,8 @@ export default function MainPage () : JSX.Element {
   const maxFilmsCountOnPage = useAppSelector((state) => state.filmsCountOnPage);
 
   const isFilmsDataLoading = useAppSelector((state) => state.isFilmsDataLoadingStatus);
+
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
 
   const filters = new Set<string>().add(DEFAULT_FILTER);
   filmsList.forEach(({genre}) => filters.add(genre));
@@ -58,14 +60,9 @@ export default function MainPage () : JSX.Element {
         <header className="page-header film-card__head">
           <Logo classPath={CLASSPATH_LOGO_HEADER} />
 
-          <ul className="user-block">
-            <li className="user-block__item">
-              <UserAvatar />
-            </li>
-            <li className="user-block__item">
-              <Link to='/' className="user-block__link">Sign out</Link>
-            </li>
-          </ul>
+          { authorizationStatus === AuthorizationStatus.Auth
+            ? <UserBlock />
+            : <GuestBlock /> }
         </header>
 
         <div className="film-card__wrap">

@@ -1,19 +1,22 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { changeGenre, loadFilmsList, loadPromoFilm, resetFilmsCountOnPage, resetFilterGenre, setFilmsDataLoadingStatus, showMoreFilms } from './action';
+import { changeGenre, loadUserAvatarUrl, loadFilmsList, loadPromoFilm, requireAuthorization, resetFilmsCountOnPage, resetFilterGenre, setFilmsDataLoadingStatus, showMoreFilms } from './action';
 import { Film, Films } from '../types/film';
-import { DEFAULT_FILTER } from '../const';
+import { AuthorizationStatus, DEFAULT_FILTER } from '../const';
 
 const INITIAL_FILMS_COUNT_ON_PAGE = 8;
 const FILMS_COUNT_PER_LOAD = 8;
 
 type InitialState = {
+  authorizationStatus: AuthorizationStatus;
   activeGenre: string;
   filmsCountOnPage: number;
   isFilmsDataLoadingStatus: boolean;
   promoFilm: Film;
   filmsList: Films;
+  userAvatarUrl: string;
 }
 const initialState: InitialState = {
+  authorizationStatus: AuthorizationStatus.Unknown,
   activeGenre: DEFAULT_FILTER,
   filmsCountOnPage: INITIAL_FILMS_COUNT_ON_PAGE,
   isFilmsDataLoadingStatus: false,
@@ -36,14 +39,17 @@ const initialState: InitialState = {
     released: 0,
     isFavorite: false,
   },
-  filmsList: []
+  filmsList: [],
+  userAvatarUrl: ''
 };
 
 export const reducer = createReducer(initialState, (builder) => {
   builder
+    .addCase(requireAuthorization, (state, action) => {
+      state.authorizationStatus = action.payload;
+    })
     .addCase(changeGenre, (state, action) => {
-      const {activeGenre} = action.payload;
-      state.activeGenre = activeGenre;
+      state.activeGenre = action.payload;
     })
     .addCase(resetFilterGenre, (state) => {
       state.activeGenre = DEFAULT_FILTER;
@@ -62,5 +68,8 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setFilmsDataLoadingStatus, (state, action) => {
       state.isFilmsDataLoadingStatus = action.payload;
+    })
+    .addCase(loadUserAvatarUrl, (state, action) => {
+      state.userAvatarUrl = action.payload;
     });
 });

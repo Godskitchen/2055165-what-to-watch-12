@@ -13,7 +13,7 @@ export default function Genre({filterName, isActive} : GenreProps) : JSX.Element
 
   const onGenreClickHandler = () => {
     dispatch(resetFilmsCountOnPage());
-    dispatch(changeGenre({activeGenre: filterName}));
+    dispatch(changeGenre(filterName));
   };
 
   return (

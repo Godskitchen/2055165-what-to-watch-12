@@ -1,4 +1,4 @@
-import { Route, Routes, BrowserRouter, Navigate } from 'react-router-dom';
+import { Route, Routes, Navigate } from 'react-router-dom';
 import {HelmetProvider} from 'react-helmet-async';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import MainPage from '../../pages/main-page/main-page';
@@ -10,6 +10,9 @@ import AddReviewPage from '../../pages/add-review-page/add-review-page';
 import PlayerPage from '../../pages/player-page/player-page';
 import PrivateRoute from '../private-route/private-route';
 import { Films, Reviews } from '../../types/film';
+import { useAppSelector } from '../../hooks';
+import HistoryRouter from '../history-router/history-router';
+import browserHistory from '../../browser-history';
 
 type AppProps = {
   filmsList: Films;
@@ -18,9 +21,11 @@ type AppProps = {
 
 export default function App({filmsList, reviewsList} : AppProps): JSX.Element {
 
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+
   return (
     <HelmetProvider>
-      <BrowserRouter>
+      <HistoryRouter history={browserHistory}>
         <Routes>
           <Route
             path={AppRoute.Main}
@@ -33,7 +38,7 @@ export default function App({filmsList, reviewsList} : AppProps): JSX.Element {
           <Route
             path={AppRoute.MyList}
             element={
-              <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
+              <PrivateRoute authorizationStatus={authorizationStatus}>
                 <MyListPage favoritesList={filmsList} />
               </PrivateRoute>
             }
@@ -71,7 +76,7 @@ export default function App({filmsList, reviewsList} : AppProps): JSX.Element {
             element = {<NotFoundPage />}
           />
         </Routes>
-      </BrowserRouter>
+      </HistoryRouter>
     </HelmetProvider>
   );
 }
