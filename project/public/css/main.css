@@ -613,14 +613,14 @@ main {
   text-decoration: none;
   -webkit-transition: color 0.2s, border-color 0.2s;
   transition: color 0.2s, border-color 0.2s; }
-  .logo__link[href]:hover, .logo__link[href]:focus {
+  .logo__link[href]:hover {
     border-color: rgba(84, 80, 62, 0.36);
     color: #54503E; }
   .logo__link--light {
     border: 1px solid rgba(84, 80, 62, 0.36);
     margin: 0 auto 24px;
     color: #54503E; }
-    .logo__link--light[href]:hover, .logo__link--light[href]:focus {
+    .logo__link--light[href]:hover {
       border-color: rgba(223, 207, 119, 0.36);
       color: #D9CD8D; }
 

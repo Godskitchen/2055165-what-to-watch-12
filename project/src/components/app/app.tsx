@@ -1,4 +1,4 @@
-import { Route, Routes, BrowserRouter, Navigate } from 'react-router-dom';
+import { Route, Routes, Navigate } from 'react-router-dom';
 import {HelmetProvider} from 'react-helmet-async';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import MainPage from '../../pages/main-page/main-page';
@@ -9,27 +9,27 @@ import MoviePage from '../../pages/movie-page/movie-page';
 import AddReviewPage from '../../pages/add-review-page/add-review-page';
 import PlayerPage from '../../pages/player-page/player-page';
 import PrivateRoute from '../private-route/private-route';
-import { Films, PromoFilmInfo, Reviews } from '../../types/film';
+import { Films, Reviews } from '../../types/film';
+import { useAppSelector } from '../../hooks';
+import HistoryRouter from '../history-router/history-router';
+import browserHistory from '../../browser-history';
 
 type AppProps = {
-  promoFilmInfo: PromoFilmInfo;
   filmsList: Films;
   reviewsList: Reviews;
 }
 
-export default function App({promoFilmInfo, filmsList, reviewsList} : AppProps): JSX.Element {
+export default function App({filmsList, reviewsList} : AppProps): JSX.Element {
+
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
 
   return (
     <HelmetProvider>
-      <BrowserRouter>
+      <HistoryRouter history={browserHistory}>
         <Routes>
           <Route
             path={AppRoute.Main}
-            element = {
-              <MainPage
-                promoFilmInfo={promoFilmInfo}
-              />
-            }
+            element = {<MainPage />}
           />
           <Route
             path={AppRoute.Login}
@@ -38,7 +38,7 @@ export default function App({promoFilmInfo, filmsList, reviewsList} : AppProps):
           <Route
             path={AppRoute.MyList}
             element={
-              <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
+              <PrivateRoute authorizationStatus={authorizationStatus}>
                 <MyListPage favoritesList={filmsList} />
               </PrivateRoute>
             }
@@ -76,7 +76,7 @@ export default function App({promoFilmInfo, filmsList, reviewsList} : AppProps):
             element = {<NotFoundPage />}
           />
         </Routes>
-      </BrowserRouter>
+      </HistoryRouter>
     </HelmetProvider>
   );
 }

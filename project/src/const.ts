@@ -15,13 +15,16 @@ export enum AuthorizationStatus {
 
 export enum APIRoute {
   FilmsList = '/films',
-  PromoFilm = '/promo'
+  PromoFilm = '/promo',
+  Login ='/login'
 }
 
 export const tabNames = ['Overview', 'Details', 'Reviews'] as const;
 
 const CLASSPATH_LOGO_HEADER = 'logo__link';
 const CLASSPATH_LOGO_FOOTER = 'logo__link logo__link--light';
+
+export const DEFAULT_FILTER = 'All genres';
 
 const FAVORITE_MOCKS_COUNT = 4;
 
