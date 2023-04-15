@@ -1,18 +1,21 @@
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
 import FilmsList from '../../components/film-list/film-list';
 import Logo from '../../components/logo/logo';
-import UserAvatar from '../../components/user-avatar/user-avatar';
-import { CLASSPATH_LOGO_FOOTER, CLASSPATH_LOGO_HEADER, FAVORITE_MOCKS_COUNT } from '../../const';
-import { Films } from '../../types/film';
+import { CLASSPATH_LOGO_FOOTER, CLASSPATH_LOGO_HEADER } from '../../const';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { useEffect } from 'react';
+import { fetchFavoriteFilmsAction } from '../../store/api-actions';
+import UserBlock from '../../components/user-block/user-block';
 
-type MyListPageProps = {
-  favoritesList: Films;
-}
+export default function MyListPage() : JSX.Element {
 
-export default function MyListPage({favoritesList} : MyListPageProps) : JSX.Element {
+  const dispatch = useAppDispatch();
 
-  const favList = favoritesList.slice(0, FAVORITE_MOCKS_COUNT);
+  useEffect(() => {
+    dispatch(fetchFavoriteFilmsAction());
+  }, [dispatch]);
+
+  const favList = useAppSelector((state) => state.userFavoriteFilms);
 
   return (
     <div className="user-page">
@@ -22,15 +25,8 @@ export default function MyListPage({favoritesList} : MyListPageProps) : JSX.Elem
       <header className="page-header user-page__head">
         <Logo classPath={CLASSPATH_LOGO_HEADER} />
 
-        <h1 className="page-title user-page__title">My list <span className="user-page__film-count">{FAVORITE_MOCKS_COUNT}</span></h1>
-        <ul className="user-block">
-          <li className="user-block__item">
-            <UserAvatar />
-          </li>
-          <li className="user-block__item">
-            <Link to='/' className="user-block__link">Sign out</Link>
-          </li>
-        </ul>
+        <h1 className="page-title user-page__title">My list <span className="user-page__film-count">{favList.length}</span></h1>
+        <UserBlock />
       </header>
 
       <section className="catalog">

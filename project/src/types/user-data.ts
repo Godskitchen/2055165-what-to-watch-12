@@ -10,3 +10,5 @@ export type UserData = {
   name: string;
   token: string;
 };
+
+export type UserInfo = Omit<UserData, 'token'>;

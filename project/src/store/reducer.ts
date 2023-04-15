@@ -1,7 +1,8 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { changeGenre, loadUserAvatarUrl, loadFilmsList, loadPromoFilm, requireAuthorization, resetFilmsCountOnPage, resetFilterGenre, setFilmsDataLoadingStatus, showMoreFilms } from './action';
-import { Film, Films } from '../types/film';
+import { changeGenre, setFilmsList, setPromoFilm, requireAuthorization, resetFilmsCountOnPage, resetFilterGenre, setFilmsDataLoadingStatus, showMoreFilms, setUserInfo, setFilm, setFilmReviews, setSimilarFilms, setFavoriteFilms } from './action';
+import { Film, Films, Reviews } from '../types/film';
 import { AuthorizationStatus, DEFAULT_FILTER } from '../const';
+import { UserInfo } from '../types/user-data';
 
 const INITIAL_FILMS_COUNT_ON_PAGE = 8;
 const FILMS_COUNT_PER_LOAD = 8;
@@ -13,7 +14,11 @@ type InitialState = {
   isFilmsDataLoadingStatus: boolean;
   promoFilm: Film;
   filmsList: Films;
-  userAvatarUrl: string;
+  userInfo: UserInfo;
+  currentFilm: Film | null;
+  filmReviews: Reviews;
+  similarFilms: Films;
+  userFavoriteFilms: Films;
 }
 const initialState: InitialState = {
   authorizationStatus: AuthorizationStatus.Unknown,
@@ -40,7 +45,16 @@ const initialState: InitialState = {
     isFavorite: false,
   },
   filmsList: [],
-  userAvatarUrl: ''
+  userInfo: {
+    avatarUrl: '',
+    email: '',
+    id: 0,
+    name: '',
+  },
+  currentFilm: null,
+  filmReviews: [],
+  similarFilms: [],
+  userFavoriteFilms: []
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -60,16 +74,28 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(resetFilmsCountOnPage, (state) => {
       state.filmsCountOnPage = INITIAL_FILMS_COUNT_ON_PAGE;
     })
-    .addCase(loadFilmsList, (state, action) => {
+    .addCase(setFilmsList, (state, action) => {
       state.filmsList = action.payload;
     })
-    .addCase(loadPromoFilm, (state, action) => {
+    .addCase(setPromoFilm, (state, action) => {
       state.promoFilm = action.payload;
     })
     .addCase(setFilmsDataLoadingStatus, (state, action) => {
       state.isFilmsDataLoadingStatus = action.payload;
     })
-    .addCase(loadUserAvatarUrl, (state, action) => {
-      state.userAvatarUrl = action.payload;
+    .addCase(setUserInfo, (state, action) => {
+      state.userInfo = action.payload;
+    })
+    .addCase(setFilm, (state, action) => {
+      state.currentFilm = action.payload;
+    })
+    .addCase(setFilmReviews, (state, action) => {
+      state.filmReviews = action.payload;
+    })
+    .addCase(setSimilarFilms, (state, action) => {
+      state.similarFilms = action.payload;
+    })
+    .addCase(setFavoriteFilms, (state, action) => {
+      state.userFavoriteFilms = action.payload;
     });
 });
