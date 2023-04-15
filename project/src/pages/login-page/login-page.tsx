@@ -3,7 +3,6 @@ import Logo from '../../components/logo/logo';
 import {CLASSPATH_LOGO_FOOTER, CLASSPATH_LOGO_HEADER } from '../../const';
 import { FormEvent, useRef } from 'react';
 import { useAppDispatch } from '../../hooks';
-//import { useNavigate } from 'react-router-dom';
 import { AuthData } from '../../types/user-data';
 import { loginAction } from '../../store/api-actions';
 
@@ -13,7 +12,6 @@ export default function LoginPage() : JSX.Element {
   const passwordRef = useRef<HTMLInputElement | null>(null);
 
   const dispatch = useAppDispatch();
-  //const navigate = useNavigate();
 
   const onSubmit = (authData: AuthData) => {
     dispatch(loginAction(authData));

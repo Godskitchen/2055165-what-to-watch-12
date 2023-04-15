@@ -2,26 +2,56 @@ import { Helmet } from 'react-helmet-async';
 import { useParams, Link} from 'react-router-dom';
 import Logo from '../../components/logo/logo';
 import PlayerButton from '../../components/player-button/player-button';
-import UserAvatar from '../../components/user-avatar/user-avatar';
-import {CLASSPATH_LOGO_FOOTER, CLASSPATH_LOGO_HEADER, FAVORITE_MOCKS_COUNT, tabNames} from '../../const';
-import { Films, Reviews } from '../../types/film';
-import { getSimilarFilms } from '../../utils';
+import {AuthorizationStatus, CLASSPATH_LOGO_FOOTER, CLASSPATH_LOGO_HEADER, tabNames} from '../../const';
 import Tabs from '../../components/tabs/tabs';
 import NotFoundPage from '../not-found-page/not-found-page';
 import TabsNavigation from '../../components/tabs-navigation/tabs-navigation';
 import FilmsList from '../../components/film-list/film-list';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import UserBlock from '../../components/user-block/user-block';
+import GuestBlock from '../../components/guest-block/guest-block';
+import { useEffect } from 'react';
+import { fetchFavoriteFilmsAction, fetchFilmAction, fetchReviewsAction, fetchSimilarFilmsAction } from '../../store/api-actions';
+import { getRandomFilms } from '../../utils';
+import MyListButton from '../../components/my-list-button/my-list-button';
 
 type MoviePageProps = {
   activeTab: typeof tabNames[number];
-  filmsList: Films;
-  reviewsList: Reviews;
 }
 
-export default function MoviePage({filmsList, reviewsList, activeTab} : MoviePageProps) : JSX.Element {
+export default function MoviePage({activeTab} : MoviePageProps) : JSX.Element {
+
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+
+  const isAuthorized = authorizationStatus === AuthorizationStatus.Auth;
 
   const {id} = useParams();
-  const film = filmsList.find((movie) => `${movie.id}` === id);
-  const SIMILAR_MOVIES_COUNT = 4;
+  const dispatch = useAppDispatch();
+
+  const SIMILAR_FILMS_COUNT = 4;
+
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchFilmAction(id));
+      dispatch(fetchReviewsAction(id));
+      dispatch(fetchSimilarFilmsAction(id));
+    }
+  }, [id, dispatch]);
+
+  useEffect(() => {
+    if (isAuthorized) {
+      dispatch(fetchFavoriteFilmsAction());
+    }
+  }, [isAuthorized, dispatch]);
+
+  const film = useAppSelector((state) => state.currentFilm);
+  const reviews = useAppSelector((state) => state.filmReviews);
+  const similarFilmsList = useAppSelector((state) => state.similarFilms);
+
+  const favoritesFilmsCount = useAppSelector((state) => state.userFavoriteFilms.length);
+
+
+  const similarFilms = getRandomFilms(similarFilmsList, SIMILAR_FILMS_COUNT);
 
   if (!film || !id) {
     return <NotFoundPage />;
@@ -34,10 +64,8 @@ export default function MoviePage({filmsList, reviewsList, activeTab} : MoviePag
     genre,
     released,
     backgroundColor,
+    isFavorite
   } = film;
-
-  const reviews = reviewsList.filter((review) => `${review.filmId}` === id);
-  const similarFilms = getSimilarFilms(id, filmsList, genre, SIMILAR_MOVIES_COUNT);
 
   return (
     <>
@@ -54,15 +82,11 @@ export default function MoviePage({filmsList, reviewsList, activeTab} : MoviePag
 
           <header className="page-header film-card__head">
             <Logo classPath={CLASSPATH_LOGO_HEADER} />
-
-            <ul className="user-block">
-              <li className="user-block__item">
-                <UserAvatar />
-              </li>
-              <li className="user-block__item">
-                <Link to="/" className="user-block__link">Sign out</Link>
-              </li>
-            </ul>
+            {
+              isAuthorized
+                ? <UserBlock />
+                : <GuestBlock />
+            }
           </header>
 
           <div className="film-card__wrap">
@@ -75,13 +99,7 @@ export default function MoviePage({filmsList, reviewsList, activeTab} : MoviePag
 
               <div className="film-card__buttons">
                 <PlayerButton filmId={id}/>
-                <button className="btn btn--list film-card__button" type="button">
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"></use>
-                  </svg>
-                  <span>My list</span>
-                  <span className="film-card__count">{FAVORITE_MOCKS_COUNT}</span>
-                </button>
+                <MyListButton isAuthorized={isAuthorized} isFavorite={isFavorite} filmsCount={favoritesFilmsCount} filmId={id}/>
                 <Link to={`/films/${id}/review`} className="btn film-card__button">Add review</Link>
               </div>
             </div>

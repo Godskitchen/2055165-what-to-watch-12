@@ -45,6 +45,10 @@ export default function Tabs({activeTab, film, reviewsList} : TabProps) : JSX.El
     }
 
     case 'Details' : {
+
+      const hours = Math.floor(runTime / 60);
+      const totalTime = `${hours ? `${hours}h` : ''} ${runTime % 60}m`;
+
       return (
         <div className="film-card__text film-card__row">
           <div className="film-card__text-col">
@@ -63,7 +67,7 @@ export default function Tabs({activeTab, film, reviewsList} : TabProps) : JSX.El
           <div className="film-card__text-col">
             <p className="film-card__details-item">
               <strong className="film-card__details-name">Run Time</strong>
-              <span className="film-card__details-value">{Math.floor(runTime / 60)}h {runTime % 60}m</span>
+              <span className="film-card__details-value">{totalTime}</span>
             </p>
             <p className="film-card__details-item">
               <strong className="film-card__details-name">Genre</strong>

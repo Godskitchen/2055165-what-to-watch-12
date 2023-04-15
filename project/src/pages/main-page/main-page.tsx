@@ -3,30 +3,39 @@ import FilmsList from '../../components/film-list/film-list';
 import GenresList from '../../components/genres-list/genres-list';
 import Logo from '../../components/logo/logo';
 import PlayerButton from '../../components/player-button/player-button';
-import {CLASSPATH_LOGO_FOOTER, CLASSPATH_LOGO_HEADER, FAVORITE_MOCKS_COUNT, DEFAULT_FILTER, AuthorizationStatus } from '../../const';
+import {CLASSPATH_LOGO_FOOTER, CLASSPATH_LOGO_HEADER, DEFAULT_FILTER, AuthorizationStatus } from '../../const';
 import { filterFilmsByGenre } from '../../utils';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import ShowMoreButton from '../../components/show-more-button/show-more-button';
 import LoadingSpinner from '../loading-spinner/loading-spinner';
 import { Fragment, useEffect } from 'react';
-import { fetchFilmsAction, fetchPromoFilmAction } from '../../store/api-actions';
+import { fetchFavoriteFilmsAction, fetchFilmsAction, fetchPromoFilmAction } from '../../store/api-actions';
 import UserBlock from '../../components/user-block/user-block';
 import GuestBlock from '../../components/guest-block/guest-block';
+import MyListButton from '../../components/my-list-button/my-list-button';
 
 const MAX_GENRES_COUNT = 10;
 
 export default function MainPage () : JSX.Element {
 
   const dispatch = useAppDispatch();
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const isAuthorized = authorizationStatus === AuthorizationStatus.Auth;
 
   useEffect(() => {
     dispatch(fetchFilmsAction());
     dispatch(fetchPromoFilmAction());
   }, [dispatch]);
 
+  useEffect(() => {
+    if (isAuthorized) {
+      dispatch(fetchFavoriteFilmsAction());
+    }
+  }, [isAuthorized, dispatch]);
+
   const promoFilm = useAppSelector((state) => state.promoFilm);
 
-  const {id, name, posterImage, backgroundImage, genre: promoGenre, released} = promoFilm;
+  const {id, name, posterImage, backgroundImage, genre: promoGenre, released, isFavorite} = promoFilm;
 
   const activeGenre = useAppSelector((state) => state.activeGenre);
   const filmsList = useAppSelector((state) => state.filmsList);
@@ -34,7 +43,7 @@ export default function MainPage () : JSX.Element {
 
   const isFilmsDataLoading = useAppSelector((state) => state.isFilmsDataLoadingStatus);
 
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const favoritesFilmsCount = useAppSelector((state) => state.userFavoriteFilms.length);
 
   const filters = new Set<string>().add(DEFAULT_FILTER);
   filmsList.forEach(({genre}) => filters.add(genre));
@@ -59,10 +68,11 @@ export default function MainPage () : JSX.Element {
 
         <header className="page-header film-card__head">
           <Logo classPath={CLASSPATH_LOGO_HEADER} />
-
-          { authorizationStatus === AuthorizationStatus.Auth
-            ? <UserBlock />
-            : <GuestBlock /> }
+          {
+            isAuthorized
+              ? <UserBlock />
+              : <GuestBlock />
+          }
         </header>
 
         <div className="film-card__wrap">
@@ -79,14 +89,8 @@ export default function MainPage () : JSX.Element {
               </p>
 
               <div className="film-card__buttons">
-                <PlayerButton filmId={`${id}`}/>
-                <button className="btn btn--list film-card__button" type="button">
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"></use>
-                  </svg>
-                  <span>My list</span>
-                  <span className="film-card__count">{FAVORITE_MOCKS_COUNT}</span>
-                </button>
+                <PlayerButton filmId={`${id}`} />
+                <MyListButton isAuthorized={isAuthorized} isFavorite={isFavorite} filmsCount={favoritesFilmsCount} filmId={`${id}`} />
               </div>
             </div>
           </div>

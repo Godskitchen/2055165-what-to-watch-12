@@ -1,6 +1,7 @@
 import { createAction } from '@reduxjs/toolkit';
-import { Film, Films } from '../types/film';
+import { Film, Films, Reviews } from '../types/film';
 import { AppRoute, AuthorizationStatus } from '../const';
+import { UserInfo } from '../types/user-data';
 
 export const changeGenre = createAction<string>('main/changeFilterGenre');
 
@@ -10,14 +11,22 @@ export const showMoreFilms = createAction('main/showMoreFilms');
 
 export const resetFilmsCountOnPage = createAction('main/resetFilmsCountOnPage');
 
-export const loadFilmsList = createAction<Films>('data/loadFilmsList');
+export const setFilmsList = createAction<Films>('data/setFilmsList');
 
-export const loadPromoFilm = createAction<Film>('data/loadPromoFilm');
+export const setPromoFilm = createAction<Film>('data/setPromoFilm');
 
 export const setFilmsDataLoadingStatus = createAction<boolean>('data/setFilmsDataLoadingStatus');
 
 export const requireAuthorization = createAction<AuthorizationStatus>('user/requireAuthorization');
 
-export const loadUserAvatarUrl = createAction<string>('user/loadUserAvatarUrl');
+export const setUserInfo = createAction<UserInfo>('user/setUserInfo');
 
 export const redirectToRoute = createAction<AppRoute>('app/redirectToRoute');
+
+export const setFilm = createAction<Film | null>('data/setFilm');
+
+export const setFilmReviews = createAction<Reviews>('data/setFilmReviews');
+
+export const setSimilarFilms = createAction<Films>('data/setSimilarFilms');
+
+export const setFavoriteFilms = createAction<Films>('data/setFavoriteFilms');
