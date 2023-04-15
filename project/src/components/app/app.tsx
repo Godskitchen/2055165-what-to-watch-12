@@ -9,17 +9,16 @@ import MoviePage from '../../pages/movie-page/movie-page';
 import AddReviewPage from '../../pages/add-review-page/add-review-page';
 import PlayerPage from '../../pages/player-page/player-page';
 import PrivateRoute from '../private-route/private-route';
-import { Films, Reviews } from '../../types/film';
+import { Films } from '../../types/film';
 import { useAppSelector } from '../../hooks';
 import HistoryRouter from '../history-router/history-router';
 import browserHistory from '../../browser-history';
 
 type AppProps = {
   filmsList: Films;
-  reviewsList: Reviews;
 }
 
-export default function App({filmsList, reviewsList} : AppProps): JSX.Element {
+export default function App({filmsList} : AppProps): JSX.Element {
 
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
 
@@ -39,7 +38,7 @@ export default function App({filmsList, reviewsList} : AppProps): JSX.Element {
             path={AppRoute.MyList}
             element={
               <PrivateRoute authorizationStatus={authorizationStatus}>
-                <MyListPage favoritesList={filmsList} />
+                <MyListPage />
               </PrivateRoute>
             }
           />
@@ -48,15 +47,15 @@ export default function App({filmsList, reviewsList} : AppProps): JSX.Element {
           <Route path={AppRoute.Film} element={<Navigate to='overview' replace />} />;
           <Route
             path={`${AppRoute.Film}/overview`}
-            element={<MoviePage activeTab='Overview' filmsList={filmsList} reviewsList={reviewsList} />}
+            element={<MoviePage activeTab='Overview' />}
           />
           <Route
             path={`${AppRoute.Film}/details`}
-            element={<MoviePage activeTab='Details' filmsList={filmsList} reviewsList={reviewsList} />}
+            element={<MoviePage activeTab='Details' />}
           />
           <Route
             path={`${AppRoute.Film}/reviews`}
-            element={<MoviePage activeTab='Reviews' filmsList={filmsList} reviewsList={reviewsList} />}
+            element={<MoviePage activeTab='Reviews' />}
           />
 
           <Route
