@@ -1,20 +1,44 @@
-import { useState, ChangeEvent, Fragment } from 'react';
+import { useState, ChangeEvent, Fragment, useEffect, FormEvent } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link, useParams } from 'react-router-dom';
 import Logo from '../../components/logo/logo';
-import UserAvatar from '../../components/user-avatar/user-avatar';
 import { CLASSPATH_LOGO_HEADER } from '../../const';
-import { Films } from '../../types/film';
 import NotFoundPage from '../not-found-page/not-found-page';
+import { addReviewAction, fetchFilmAction } from '../../store/api-actions';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import UserBlock from '../../components/user-block/user-block';
+import BlockUI from '../../components/block-UI/block-UI';
 
-type AddReviewPageProps = {
-  filmsList: Films;
-}
+const MIN_CHARS_COUNT = 50;
+const MAX_CHARS_COUNT = 400;
 
-export default function AddReviewPage({filmsList} : AddReviewPageProps) : JSX.Element {
+
+export default function AddReviewPage() : JSX.Element {
+
+  const isUIBlocking = useAppSelector((state) => state.isDataUploadingStatus);
+
+  const [textFieldError, setTextFieldError] = useState('Your review must not be empty');
+  const [isTextFieldUsed, setIsTextFieldUsed] = useState(false);
+  const [isFormValid, setIsFormValid] = useState(false);
 
   const {id} = useParams();
-  const film = filmsList.find((movie) => `${movie.id}` === id);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchFilmAction(id));
+    }
+  }, [id, dispatch]);
+
+  useEffect(() => {
+    if (textFieldError) {
+      setIsFormValid(false);
+    } else {
+      setIsFormValid(true);
+    }
+  }, [textFieldError]);
+
+  const film = useAppSelector((state) => state.currentFilm);
 
   const DEFAULT_RATING_VALUE = '5';
   const [reviewData, setReviewData] = useState({rating: DEFAULT_RATING_VALUE, reviewText: ''});
@@ -30,12 +54,20 @@ export default function AddReviewPage({filmsList} : AddReviewPageProps) : JSX.El
     posterImage
   } = film;
 
-  const onRatingChange = ({target}: ChangeEvent<HTMLInputElement>) : void => {
+  const onRatingChangeHandler = ({target}: ChangeEvent<HTMLInputElement>) => {
     setReviewData({...reviewData, rating: target.value});
   };
 
-  const onTextReviewChange = ({target}: ChangeEvent<HTMLTextAreaElement>) : void => {
+  const onTextReviewChangeHandler = ({target}: ChangeEvent<HTMLTextAreaElement>) => {
     setReviewData({...reviewData, reviewText: target.value});
+    if (target.value.length < MIN_CHARS_COUNT || target.value.length > MAX_CHARS_COUNT) {
+      setTextFieldError(`Your review mustn't be less then ${MIN_CHARS_COUNT} and greater then ${MAX_CHARS_COUNT} characters`);
+      if (!target.value) {
+        setTextFieldError('Your review must not be empty');
+      }
+    } else {
+      setTextFieldError('');
+    }
   };
 
   const ratingStars = new Array(10).fill('').map((_, index) =>
@@ -43,11 +75,22 @@ export default function AddReviewPage({filmsList} : AddReviewPageProps) : JSX.El
     const ratingValue = `${10 - index}`;
     return (
       <Fragment key={ratingValue}>
-        <input className="rating__input" id={`star-${ratingValue}`} type="radio" name="rating" value={`${ratingValue}`} onChange={onRatingChange} checked={reviewData.rating === `${ratingValue}`} />
+        <input className="rating__input" id={`star-${ratingValue}`} type="radio" name="rating" value={`${ratingValue}`} onChange={onRatingChangeHandler} checked={reviewData.rating === `${ratingValue}`} />
         <label className="rating__label" htmlFor={`star-${ratingValue}`}>{`Rating ${ratingValue}`}</label>
       </Fragment>
     );
   });
+
+  const blurHandler = () => setIsTextFieldUsed(true);
+
+  const onSubmit = () => {
+    dispatch(addReviewAction({rating: +reviewData.rating, comment: reviewData.reviewText, filmId: id}));
+  };
+
+  const submitHandler = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+    onSubmit();
+  };
 
   return (
     <section className="film-card film-card--full" style={{backgroundColor: `${backgroundColor}`}}>
@@ -75,14 +118,7 @@ export default function AddReviewPage({filmsList} : AddReviewPageProps) : JSX.El
             </ul>
           </nav>
 
-          <ul className="user-block">
-            <li className="user-block__item">
-              <UserAvatar />
-            </li>
-            <li className="user-block__item">
-              <Link to='/' className="user-block__link">Sign out</Link>
-            </li>
-          </ul>
+          <UserBlock />
         </header>
 
         <div className="film-card__poster film-card__poster--small">
@@ -91,7 +127,7 @@ export default function AddReviewPage({filmsList} : AddReviewPageProps) : JSX.El
       </div>
 
       <div className="add-review">
-        <form action="#" className="add-review__form">
+        <form action="#" className="add-review__form" onSubmit={submitHandler}>
           <div className="rating">
             <div className="rating__stars">
               {ratingStars}
@@ -99,14 +135,33 @@ export default function AddReviewPage({filmsList} : AddReviewPageProps) : JSX.El
           </div>
 
           <div className="add-review__text" style={{backgroundColor: 'rgba(255, 255, 255, 0.35)'}}>
-            <textarea onChange={onTextReviewChange} className="add-review__textarea" value={reviewData.reviewText} name="review-text" id="review-text" placeholder="Review text"></textarea>
+            <textarea
+              onBlur={blurHandler}
+              onChange={onTextReviewChangeHandler}
+              className="add-review__textarea"
+              value={reviewData.reviewText}
+              name="review-text"
+              id="review-text"
+              placeholder="Review text"
+            >
+            </textarea>
+
             <div className="add-review__submit">
-              <button className="add-review__btn" type="submit">Post</button>
+              <button
+                className="add-review__btn"
+                type="submit"
+                disabled={!isFormValid}
+              >
+                Post
+              </button>
             </div>
 
           </div>
+          {(isTextFieldUsed && textFieldError) && <div style={{color: 'red'}}>{textFieldError}</div>}
         </form>
       </div>
+
+      {isUIBlocking ? <BlockUI /> : ''}
     </section>
   );
 }

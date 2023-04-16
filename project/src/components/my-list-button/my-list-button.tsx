@@ -1,5 +1,7 @@
+import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { fetchFavoriteFilmsAction, setFilmStatusAction } from '../../store/api-actions';
+import { setFilmStatusAction } from '../../store/api-actions';
+import { AppRoute } from '../../const';
 
 type MyListBtnProps = {
   isAuthorized: boolean;
@@ -14,9 +16,14 @@ export default function MyListButton({isAuthorized, isFavorite, filmsCount, film
   const newStatus = isFavorite ? 0 : 1;
   const promoId = useAppSelector((state) => state.promoFilm.id);
 
+  const navigate = useNavigate();
+
   const onClickHandler = () => {
-    dispatch(setFilmStatusAction({filmId, status: newStatus, isPromo: `${promoId}` === filmId}));
-    dispatch(fetchFavoriteFilmsAction());
+    if (isAuthorized) {
+      dispatch(setFilmStatusAction({filmId, status: newStatus, isPromo: `${promoId}` === filmId}));
+    } else {
+      navigate(AppRoute.Login);
+    }
   };
 
   return (

@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { changeGenre, setFilmsList, setPromoFilm, requireAuthorization, resetFilmsCountOnPage, resetFilterGenre, setFilmsDataLoadingStatus, showMoreFilms, setUserInfo, setFilm, setFilmReviews, setSimilarFilms, setFavoriteFilms } from './action';
+import { changeGenre, setFilmsList, setPromoFilm, requireAuthorization, resetFilmsCountOnPage, resetFilterGenre, setFilmsDataLoadingStatus, showMoreFilms, setUserInfo, setFilm, setFilmReviews, setSimilarFilms, setFavoriteFilms, setDataUploadingStatus } from './action';
 import { Film, Films, Reviews } from '../types/film';
 import { AuthorizationStatus, DEFAULT_FILTER } from '../const';
 import { UserInfo } from '../types/user-data';
@@ -12,10 +12,11 @@ type InitialState = {
   activeGenre: string;
   filmsCountOnPage: number;
   isFilmsDataLoadingStatus: boolean;
+  isDataUploadingStatus: boolean;
   promoFilm: Film;
   filmsList: Films;
   userInfo: UserInfo;
-  currentFilm: Film | null;
+  currentFilm: Film | null | undefined;
   filmReviews: Reviews;
   similarFilms: Films;
   userFavoriteFilms: Films;
@@ -25,6 +26,7 @@ const initialState: InitialState = {
   activeGenre: DEFAULT_FILTER,
   filmsCountOnPage: INITIAL_FILMS_COUNT_ON_PAGE,
   isFilmsDataLoadingStatus: false,
+  isDataUploadingStatus: false,
   promoFilm: {
     id: 0,
     name: '',
@@ -51,7 +53,7 @@ const initialState: InitialState = {
     id: 0,
     name: '',
   },
-  currentFilm: null,
+  currentFilm: undefined,
   filmReviews: [],
   similarFilms: [],
   userFavoriteFilms: []
@@ -82,6 +84,9 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setFilmsDataLoadingStatus, (state, action) => {
       state.isFilmsDataLoadingStatus = action.payload;
+    })
+    .addCase(setDataUploadingStatus, (state, action) => {
+      state.isDataUploadingStatus = action.payload;
     })
     .addCase(setUserInfo, (state, action) => {
       state.userInfo = action.payload;

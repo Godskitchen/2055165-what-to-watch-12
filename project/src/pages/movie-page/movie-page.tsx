@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import { useParams, Link} from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Logo from '../../components/logo/logo';
 import PlayerButton from '../../components/player-button/player-button';
 import {AuthorizationStatus, CLASSPATH_LOGO_FOOTER, CLASSPATH_LOGO_HEADER, tabNames} from '../../const';
@@ -14,6 +14,8 @@ import { useEffect } from 'react';
 import { fetchFavoriteFilmsAction, fetchFilmAction, fetchReviewsAction, fetchSimilarFilmsAction } from '../../store/api-actions';
 import { getRandomFilms } from '../../utils';
 import MyListButton from '../../components/my-list-button/my-list-button';
+import AddReviewButton from '../../components/add-review-button/add-review-button';
+import LoadingSpinner from '../loading-spinner/loading-spinner';
 
 type MoviePageProps = {
   activeTab: typeof tabNames[number];
@@ -22,6 +24,7 @@ type MoviePageProps = {
 export default function MoviePage({activeTab} : MoviePageProps) : JSX.Element {
 
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const isFilmsDataLoading = useAppSelector((state) => state.isFilmsDataLoadingStatus);
 
   const isAuthorized = authorizationStatus === AuthorizationStatus.Auth;
 
@@ -53,7 +56,12 @@ export default function MoviePage({activeTab} : MoviePageProps) : JSX.Element {
 
   const similarFilms = getRandomFilms(similarFilmsList, SIMILAR_FILMS_COUNT);
 
-  if (!film || !id) {
+  if (film === undefined || isFilmsDataLoading) {
+    return <LoadingSpinner />;
+  }
+
+
+  if (film === null || !id) {
     return <NotFoundPage />;
   }
 
@@ -100,7 +108,7 @@ export default function MoviePage({activeTab} : MoviePageProps) : JSX.Element {
               <div className="film-card__buttons">
                 <PlayerButton filmId={id}/>
                 <MyListButton isAuthorized={isAuthorized} isFavorite={isFavorite} filmsCount={favoritesFilmsCount} filmId={id}/>
-                <Link to={`/films/${id}/review`} className="btn film-card__button">Add review</Link>
+                {isAuthorized ? <AddReviewButton filmsId={id} /> : ''}
               </div>
             </div>
           </div>

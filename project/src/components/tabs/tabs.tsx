@@ -1,6 +1,6 @@
 import { tabNames } from '../../const';
 import { Film, Reviews } from '../../types/film';
-import { addNewlinesInList } from '../../utils';
+import { addNewlinesInList, getFilmRatingLevel } from '../../utils';
 import ReviewList from '../reviews-list/review-list';
 
 type TabProps = {
@@ -28,7 +28,7 @@ export default function Tabs({activeTab, film, reviewsList} : TabProps) : JSX.El
           <div className="film-rating">
             <div className="film-rating__score">{`${rating.toFixed(1)}`.replace('.', ',')}</div>
             <p className="film-rating__meta">
-              <span className="film-rating__level">Very good</span>
+              <span className="film-rating__level">{getFilmRatingLevel(+rating.toFixed(1))}</span>
               <span className="film-rating__count">{scoresCount} ratings</span>
             </p>
           </div>

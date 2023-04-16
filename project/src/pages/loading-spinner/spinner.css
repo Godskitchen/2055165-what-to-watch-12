@@ -21,7 +21,7 @@
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: #fdd;
+  background: rgba(255, 221, 221, 0.747);
   margin: -4px 0 0 -4px;
 }
 .loading-spinner div:nth-child(1) {
