@@ -62,7 +62,7 @@ export default function App({filmsList} : AppProps): JSX.Element {
             path={AppRoute.AddReview}
             element={
               <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
-                <AddReviewPage filmsList={filmsList} />
+                <AddReviewPage />
               </PrivateRoute>
             }
           />

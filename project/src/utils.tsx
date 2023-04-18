@@ -1,5 +1,6 @@
 import { Fragment } from 'react';
 import { Films } from './types/film';
+import { FilmRatingLevel } from './const';
 
 
 const getRandomIntNumber = (min: number, max: number) : number | typeof NaN => {
@@ -53,4 +54,18 @@ export function getRandomFilms(filmsList: Films, filmsCount: number) {
   }
 
   return resultElements;
+}
+
+export function getFilmRatingLevel(rating: number) : string {
+  if (rating > 0 && rating < 3) {
+    return FilmRatingLevel.Bad;
+  } else if (rating >= 3 && rating < 5) {
+    return FilmRatingLevel.Normal;
+  } else if (rating >= 5 && rating < 8) {
+    return FilmRatingLevel.Good;
+  } else if (rating >= 8 && rating < 10) {
+    return FilmRatingLevel.VeryGood;
+  } else {
+    return FilmRatingLevel.Awesome;
+  }
 }

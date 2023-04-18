@@ -21,6 +21,14 @@ export enum APIRoute {
   Logout = '/logout'
 }
 
+export enum FilmRatingLevel {
+  Bad = 'Bad',
+  Normal = 'Normal',
+  Good = 'Good',
+  VeryGood = 'Very good',
+  Awesome = 'Awesome'
+}
+
 export const tabNames = ['Overview', 'Details', 'Reviews'] as const;
 
 export const CLASSPATH_LOGO_HEADER = 'logo__link';
@@ -28,7 +36,6 @@ export const CLASSPATH_LOGO_FOOTER = 'logo__link logo__link--light';
 
 export const DEFAULT_FILTER = 'All genres';
 
-export const FAVORITE_MOCKS_COUNT = 4;
 
 export const guestData = {
   avatarUrl: '',
