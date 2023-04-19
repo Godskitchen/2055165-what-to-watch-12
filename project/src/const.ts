@@ -36,12 +36,17 @@ export const CLASSPATH_LOGO_FOOTER = 'logo__link logo__link--light';
 
 export const DEFAULT_FILTER = 'All genres';
 
-
 export const guestData = {
   avatarUrl: '',
   email: '',
   id: 0,
   name: '',
 };
+
+export enum SliceNameSpace {
+  Data = 'DATA',
+  Main = 'MAIN',
+  User = 'USER',
+}
 
 

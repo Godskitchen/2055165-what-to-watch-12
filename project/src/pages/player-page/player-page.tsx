@@ -2,13 +2,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useNavigate, useParams } from 'react-router-dom';
 import NotFoundPage from '../not-found-page/not-found-page';
-import dayjs from 'dayjs';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { useEffect, useRef, useState } from 'react';
 import { fetchFilmAction } from '../../store/api-actions';
 import ProgressBar from '../../components/progress-bar/progress-bar';
 import LoadingSpinner from '../loading-spinner/loading-spinner';
-import { clearInterval } from 'timers';
 
 export default function PlayerPage() : JSX.Element {
 
@@ -18,6 +16,8 @@ export default function PlayerPage() : JSX.Element {
 
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
@@ -38,7 +38,15 @@ export default function PlayerPage() : JSX.Element {
     backgroundImage
   } = film;
 
-  const fullScreenBtnCLickHandler = () => {videoRef.current?.requestFullscreen();};
+  const handleMetadata = () => {
+    if (videoRef.current !== null) {
+      setDuration(Number(videoRef.current.duration.toFixed(0)));
+    }
+  };
+
+  const fullScreenBtnCLickHandler = () => {
+    videoRef.current?.requestFullscreen();
+  };
 
   const playBtnClickHandler = () => {
     if (videoRef.current?.paused) {
@@ -49,9 +57,6 @@ export default function PlayerPage() : JSX.Element {
     }
   };
 
-  let currentTime = 0;
-  const duration = videoRef.current?.duration;
-
   const playHandler = () => {
     setIsPlaying(true);
   };
@@ -61,7 +66,9 @@ export default function PlayerPage() : JSX.Element {
   };
 
   const timeUpdateHandler = () => {
-    currentTime = Number(videoRef.current?.currentTime.toFixed(0));
+    if (videoRef.current !== null) {
+      setCurrentTime(Number(videoRef.current.currentTime.toFixed(0)));
+    }
   };
 
   return (
@@ -73,6 +80,7 @@ export default function PlayerPage() : JSX.Element {
         onPlay={playHandler}
         onPause={pauseHandler}
         onTimeUpdate={timeUpdateHandler}
+        onLoadedMetadata={handleMetadata}
         autoPlay
         className="player__video"
         poster={backgroundImage}
@@ -81,7 +89,7 @@ export default function PlayerPage() : JSX.Element {
       <button onClick={() => navigate(`/films/${id}`)} type="button" className="player__exit">Exit</button>
 
       <div className="player__controls">
-        <ProgressBar currTime={currentTime} />
+        <ProgressBar currentTime={currentTime} duration={duration} />
 
         <div className="player__controls-row">
           <button onClick={playBtnClickHandler} type="button" className="player__play">

@@ -1,11 +1,10 @@
-/* eslint-disable no-console */
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { Film, Films, Reviews } from '../types/film';
 import { APIRoute, AppRoute, AuthorizationStatus, guestData } from '../const';
 import { setFilmsList, setPromoFilm, setUserInfo, redirectToRoute, requireAuthorization, setFilmsDataLoadingStatus, setFilm, setFilmReviews, setSimilarFilms, setFavoriteFilms, setDataUploadingStatus } from './action';
 import { AppDispatch } from '../types/state';
 import { AxiosInstance } from 'axios';
-import { AuthData, UserData } from '../types/user-data';
+import { AuthData, UserData, UserInfo } from '../types/user-data';
 import { dropToken, saveToken } from '../services/authToken';
 
 export const fetchFilmsAction = createAsyncThunk<void, undefined, {dispatch: AppDispatch; extra: AxiosInstance}>(
@@ -97,7 +96,7 @@ export const fetchFavoriteFilmsAction = createAsyncThunk<void, undefined,
   }
 );
 
-export const loginAction = createAsyncThunk<void, AuthData,
+export const loginAction = createAsyncThunk<UserInfo, AuthData,
 {
   dispatch: AppDispatch;
   extra: AxiosInstance;
@@ -109,8 +108,9 @@ export const loginAction = createAsyncThunk<void, AuthData,
 
     saveToken(token);
     dispatch(requireAuthorization(AuthorizationStatus.Auth));
-    dispatch(setUserInfo(userInfo));
+    // dispatch(setUserInfo(userInfo));
     dispatch(redirectToRoute(AppRoute.Main));
+    return userInfo;
   },
 );
 
