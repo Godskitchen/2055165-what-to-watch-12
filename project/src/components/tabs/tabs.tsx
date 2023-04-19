@@ -28,7 +28,7 @@ export default function Tabs({activeTab, film, reviewsList} : TabProps) : JSX.El
           <div className="film-rating">
             <div className="film-rating__score">{`${rating.toFixed(1)}`.replace('.', ',')}</div>
             <p className="film-rating__meta">
-              <span className="film-rating__level">{getFilmRatingLevel(+rating.toFixed(1))}</span>
+              <span className="film-rating__level">{getFilmRatingLevel(parseFloat(rating.toFixed(1)))}</span>
               <span className="film-rating__count">{scoresCount} ratings</span>
             </p>
           </div>

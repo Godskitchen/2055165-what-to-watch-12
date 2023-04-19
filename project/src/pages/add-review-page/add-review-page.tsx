@@ -84,7 +84,7 @@ export default function AddReviewPage() : JSX.Element {
   const blurHandler = () => setIsTextFieldUsed(true);
 
   const onSubmit = () => {
-    dispatch(addReviewAction({rating: +reviewData.rating, comment: reviewData.reviewText, filmId: id}));
+    dispatch(addReviewAction({rating: Number(reviewData.rating), comment: reviewData.reviewText, filmId: id}));
   };
 
   const submitHandler = (evt: FormEvent<HTMLFormElement>) => {

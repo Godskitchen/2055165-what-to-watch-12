@@ -9,16 +9,11 @@ import MoviePage from '../../pages/movie-page/movie-page';
 import AddReviewPage from '../../pages/add-review-page/add-review-page';
 import PlayerPage from '../../pages/player-page/player-page';
 import PrivateRoute from '../private-route/private-route';
-import { Films } from '../../types/film';
 import { useAppSelector } from '../../hooks';
 import HistoryRouter from '../history-router/history-router';
 import browserHistory from '../../browser-history';
 
-type AppProps = {
-  filmsList: Films;
-}
-
-export default function App({filmsList} : AppProps): JSX.Element {
+export default function App(): JSX.Element {
 
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
 
@@ -68,7 +63,7 @@ export default function App({filmsList} : AppProps): JSX.Element {
           />
           <Route
             path={AppRoute.Player}
-            element={<PlayerPage filmsList={filmsList} />}
+            element={<PlayerPage />}
           />
           <Route
             path='*'

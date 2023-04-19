@@ -1,8 +1,9 @@
 .spinner-container {
-  width: 80px;
-  margin-top: 80px;
-  margin-left: auto;
-  margin-right: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  /* background-image: linear-gradient(-180deg,#180202 0%,#000 100%); */
 }
 .loading-spinner {
   display: inline-block;

@@ -1,17 +1,32 @@
+/* eslint-disable no-console */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useNavigate, useParams } from 'react-router-dom';
-import { Films } from '../../types/film';
 import NotFoundPage from '../not-found-page/not-found-page';
 import dayjs from 'dayjs';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { useEffect, useRef, useState } from 'react';
+import { fetchFilmAction } from '../../store/api-actions';
+import ProgressBar from '../../components/progress-bar/progress-bar';
+import LoadingSpinner from '../loading-spinner/loading-spinner';
+import { clearInterval } from 'timers';
 
-type PlayerPageProps = {
-  filmsList: Films;
-}
-
-export default function PlayerPage({filmsList} : PlayerPageProps) : JSX.Element {
+export default function PlayerPage() : JSX.Element {
 
   const {id} = useParams();
-  const film = filmsList.find((movie) => `${movie.id}` === id);
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchFilmAction(id));
+    }
+  },[id, dispatch]);
+
+  const film = useAppSelector((state) => state.currentFilm);
 
   if (!film || !id) {
     return <NotFoundPage />;
@@ -20,35 +35,64 @@ export default function PlayerPage({filmsList} : PlayerPageProps) : JSX.Element 
   const {
     videoLink,
     name,
-    runTime,
     backgroundImage
   } = film;
 
+  const fullScreenBtnCLickHandler = () => {videoRef.current?.requestFullscreen();};
+
+  const playBtnClickHandler = () => {
+    if (videoRef.current?.paused) {
+      videoRef.current?.play();
+
+    } else {
+      videoRef.current?.pause();
+    }
+  };
+
+  let currentTime = 0;
+  const duration = videoRef.current?.duration;
+
+  const playHandler = () => {
+    setIsPlaying(true);
+  };
+
+  const pauseHandler = () => {
+    setIsPlaying(false);
+  };
+
+  const timeUpdateHandler = () => {
+    currentTime = Number(videoRef.current?.currentTime.toFixed(0));
+  };
+
   return (
     <div className="player">
-      <video src={videoLink} autoPlay muted className="player__video" poster={backgroundImage} />
+      <video
+        ref={videoRef}
+        src={videoLink}
+        onEnded={() => setIsPlaying(false)}
+        onPlay={playHandler}
+        onPause={pauseHandler}
+        onTimeUpdate={timeUpdateHandler}
+        autoPlay
+        className="player__video"
+        poster={backgroundImage}
+      />
 
       <button onClick={() => navigate(`/films/${id}`)} type="button" className="player__exit">Exit</button>
 
       <div className="player__controls">
-        <div className="player__controls-row">
-          <div className="player__time">
-            <progress className="player__progress" value="0" max="100"></progress>
-            <div className="player__toggler" style={{left: '0'}}>Toggler</div>
-          </div>
-          <div className="player__time-value">{dayjs().minute(runTime).second(0).format('HH:mm:ss')}</div>
-        </div>
+        <ProgressBar currTime={currentTime} />
 
         <div className="player__controls-row">
-          <button type="button" className="player__play">
+          <button onClick={playBtnClickHandler} type="button" className="player__play">
             <svg viewBox="0 0 19 19" width="19" height="19">
-              <use xlinkHref="#play-s"></use>
+              <use xlinkHref={isPlaying ? '#pause' : '#play-s'}></use>
             </svg>
             <span>Play</span>
           </button>
           <div className="player__name">{name}</div>
 
-          <button type="button" className="player__full-screen">
+          <button onClick={fullScreenBtnCLickHandler} type="button" className="player__full-screen">
             <svg viewBox="0 0 27 27" width="27" height="27">
               <use xlinkHref="#full-screen"></use>
             </svg>
