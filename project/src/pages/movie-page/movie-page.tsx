@@ -114,7 +114,6 @@ export default function MoviePage({activeTab} : MoviePageProps) : JSX.Element {
 
             <div className="film-card__desc">
               <TabsNavigation activeTab={activeTab} id={id} />
-
               <Tabs activeTab={activeTab} film={film} reviewsList={reviews} />
             </div>
           </div>

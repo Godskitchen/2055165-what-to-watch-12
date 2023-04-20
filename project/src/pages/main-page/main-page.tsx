@@ -47,7 +47,7 @@ export default function MainPage () : JSX.Element {
       <PromoFilm />
 
       <div className="page-content">
-        <section className="catalog">
+        <section className="catalog" style={{minHeight: '485px'}}>
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
           {
