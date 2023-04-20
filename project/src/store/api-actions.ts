@@ -1,11 +1,12 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { Film, Films, Reviews } from '../types/film';
-import { APIRoute, AppRoute} from '../const';
+import { APIRoute, AppRoute } from '../const';
 import {redirectToRoute} from './action';
-import { AppDispatch } from '../types/state';
+import { AppDispatch, State } from '../types/state';
 import { AxiosInstance } from 'axios';
 import { AuthData, UserData, UserInfo } from '../types/user-data';
 import { dropToken, saveToken } from '../services/authToken';
+import { toast } from 'react-toastify';
 
 export const fetchFilmsAction = createAsyncThunk<Films, undefined, {extra: AxiosInstance}>(
   'data/fetchFilms',
@@ -73,27 +74,36 @@ export const fetchFavoriteFilmsAction = createAsyncThunk<Films, undefined,
 export const loginAction = createAsyncThunk<UserInfo, AuthData,
 {
   dispatch: AppDispatch;
+  state: State;
   extra: AxiosInstance;
 }>(
   'user/login',
   async ({login: email, password}, {dispatch, extra: serverApi}) => {
-    const {data} = await serverApi.post<UserData>(APIRoute.Login, {email, password});
-    const {token, ...userInfo} = data;
+    try {
+      const {data} = await serverApi.post<UserData>(APIRoute.Login, {email, password});
+      const {token, ...userInfo} = data;
 
-    saveToken(token);
-    dispatch(redirectToRoute(AppRoute.Main));
-    return userInfo;
+      saveToken(token);
+      dispatch(redirectToRoute(AppRoute.Main));
+
+      return userInfo;
+    } catch {
+      toast.error('Service isn\'t available. Please, try again later');
+      throw new Error();
+    }
   },
 );
 
 export const logoutAction = createAsyncThunk<void, undefined,
 {
+  dispatch: AppDispatch;
   extra: AxiosInstance;
 }>(
   'user/logout',
-  async (_arg, {extra: api}) => {
+  async (_arg, {dispatch, extra: api}) => {
     await api.delete(APIRoute.Logout);
     dropToken();
+    dispatch(redirectToRoute(AppRoute.Main));
   },
 );
 
@@ -116,9 +126,14 @@ export const setFilmStatusAction = createAsyncThunk<{updatedFilm: Film; isPromo:
 }>(
   'user/addToFavorites',
   async ({filmId, status, isPromo}, {dispatch, extra: serverApi}) => {
-    const {data} = await serverApi.post<Film>(`/favorite/${filmId}/${status}`);
-    await dispatch(fetchFavoriteFilmsAction());
-    return {updatedFilm: data, isPromo};
+    try {
+      const {data} = await serverApi.post<Film>(`/favorite/${filmId}/${status}`);
+      await dispatch(fetchFavoriteFilmsAction());
+      return {updatedFilm: data, isPromo};
+    } catch {
+      toast.error('Service isn\'t available. Please, try again later');
+      throw new Error();
+    }
   },
 );
 
@@ -129,9 +144,14 @@ export const addReviewAction = createAsyncThunk<Reviews, {filmId: string; commen
 }>(
   'user/addReview',
   async ({filmId, comment, rating}, {dispatch, extra: serverApi}) => {
-    const {data} = await serverApi.post<Reviews>(`/comments/${filmId}`, {comment, rating});
-    dispatch(redirectToRoute(`/films/${filmId}/reviews`));
-    return data;
+    try {
+      const {data} = await serverApi.post<Reviews>(`/comments/${filmId}`, {comment, rating});
+      dispatch(redirectToRoute(`/films/${filmId}/reviews`));
+      return data;
+    } catch {
+      toast.error('Service isn\'t available. Please, try again later');
+      throw new Error();
+    }
   },
 );
 

@@ -8,7 +8,6 @@ export const getPromoFilmId = (state: State): number => {
   return promoFilm ? promoFilm.id : 0;
 };
 
-
 export const getFilmsList = (state: State): Films => state[SliceNameSpace.Data].filmsList;
 export const getCurrentFilm = (state: State): Film | null | undefined => state[SliceNameSpace.Data].currentFilm;
 export const getFilmReviews = (state: State): Reviews => state[SliceNameSpace.Data].filmReviews;
@@ -16,3 +15,5 @@ export const getSimilarFilms = (state: State): Films => state[SliceNameSpace.Dat
 
 export const getFilmsDataLoadingStatus = (state: State): boolean => state[SliceNameSpace.Data].isFilmsDataLoadingStatus;
 export const getDataUploadingStatus = (state: State): boolean => state[SliceNameSpace.Data].isDataUploadingStatus;
+
+export const getUploadError = (state: State): string => state[SliceNameSpace.Data].dataUploadingError;

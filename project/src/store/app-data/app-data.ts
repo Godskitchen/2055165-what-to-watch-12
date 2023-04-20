@@ -6,6 +6,7 @@ import { addReviewAction, fetchFilmAction, fetchFilmsAction, fetchPromoFilmActio
 const initialState: AppData = {
   isFilmsDataLoadingStatus: false,
   isDataUploadingStatus: false,
+  dataUploadingError: '',
   promoFilm: undefined,
   filmsList: [],
   currentFilm: undefined,
@@ -85,6 +86,7 @@ export const appData = createSlice({
       })
       .addCase(addReviewAction.fulfilled, (state, action) => {
         state.isDataUploadingStatus = false;
+        state.dataUploadingError = '';
         state.filmReviews = action.payload;
       })
       .addCase(addReviewAction.rejected, (state) => {

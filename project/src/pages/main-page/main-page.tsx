@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import ShowMoreButton from '../../components/show-more-button/show-more-button';
 import LoadingSpinner from '../loading-spinner/loading-spinner';
 import { Fragment, useEffect } from 'react';
-import { fetchFilmsAction } from '../../store/api-actions';
+import { checkAuthAction, fetchFilmsAction } from '../../store/api-actions';
 import { getFilmsDataLoadingStatus, getFilmsList} from '../../store/app-data/app-data-selectors';
 import { getActiveFilterGenre, getFilmsCountOnPage } from '../../store/main-process/main-process-selectors';
 import PromoFilm from '../../components/promo-film/promo-film';
@@ -20,6 +20,7 @@ export default function MainPage () : JSX.Element {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    dispatch(checkAuthAction());
     dispatch(fetchFilmsAction());
   }, [dispatch]);
 
