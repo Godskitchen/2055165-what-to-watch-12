@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { useAppDispatch } from '../../hooks';
-import { resetFilmsCountOnPage, resetFilterGenre } from '../../store/action';
 import { fetchFilmsAction } from '../../store/api-actions';
+import { resetFilterGenre, resetFilmsCountOnPage } from '../../store/main-process/main-process';
 
 type LogoProps = {
   classPath: string;

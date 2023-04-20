@@ -6,6 +6,7 @@ import { UserInfo } from './user-data.js';
 export type UserProcess = {
   authorizationStatus: AuthorizationStatus;
   userInfo: UserInfo;
+  userFavoriteFilms: Films;
 };
 
 export type AppData = {
@@ -16,7 +17,11 @@ export type AppData = {
   currentFilm: Film | null | undefined;
   filmReviews: Reviews;
   similarFilms: Films;
-  userFavoriteFilms: Films;
+}
+
+export type MainProcess = {
+  activeGenre: string;
+  filmsCountOnPage: number;
 }
 
 export type State = ReturnType<typeof store.getState>;

@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { useEffect } from 'react';
 import { fetchFavoriteFilmsAction } from '../../store/api-actions';
 import UserBlock from '../../components/user-block/user-block';
+import { getFavoritesFilms } from '../../store/user-process/user-process-selectors';
 
 export default function MyListPage() : JSX.Element {
 
@@ -15,7 +16,7 @@ export default function MyListPage() : JSX.Element {
     dispatch(fetchFavoriteFilmsAction());
   }, [dispatch]);
 
-  const favList = useAppSelector((state) => state.userFavoriteFilms);
+  const favList = useAppSelector(getFavoritesFilms);
 
   return (
     <div className="user-page">

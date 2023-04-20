@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from 'react';
 import { fetchFilmAction } from '../../store/api-actions';
 import ProgressBar from '../../components/progress-bar/progress-bar';
 import LoadingSpinner from '../loading-spinner/loading-spinner';
+import { getCurrentFilm } from '../../store/app-data/app-data-selectors';
 
 export default function PlayerPage() : JSX.Element {
 
@@ -26,7 +27,7 @@ export default function PlayerPage() : JSX.Element {
     }
   },[id, dispatch]);
 
-  const film = useAppSelector((state) => state.currentFilm);
+  const film = useAppSelector(getCurrentFilm);
 
   if (!film || !id) {
     return <NotFoundPage />;

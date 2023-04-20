@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks';
-import { changeGenre, resetFilmsCountOnPage } from '../../store/action';
+import { resetFilmsCountOnPage, changeGenre } from '../../store/main-process/main-process';
 
 type GenreProps = {
   filterName: string;

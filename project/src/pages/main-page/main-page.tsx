@@ -13,13 +13,16 @@ import { fetchFavoriteFilmsAction, fetchFilmsAction, fetchPromoFilmAction } from
 import UserBlock from '../../components/user-block/user-block';
 import GuestBlock from '../../components/guest-block/guest-block';
 import MyListButton from '../../components/my-list-button/my-list-button';
+import { getAuthorizationStatus, getFavoritesFilmsCount } from '../../store/user-process/user-process-selectors';
+import { getFilmsDataLoadingStatus, getFilmsList, getPromoFilm } from '../../store/app-data/app-data-selectors';
+import { getActiveFilterGenre, getFilmsCountOnPage } from '../../store/main-process/main-process-selectors';
 
 const MAX_GENRES_COUNT = 10;
 
 export default function MainPage () : JSX.Element {
 
   const dispatch = useAppDispatch();
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const isAuthorized = authorizationStatus === AuthorizationStatus.Auth;
 
   useEffect(() => {
@@ -33,17 +36,17 @@ export default function MainPage () : JSX.Element {
     }
   }, [isAuthorized, dispatch]);
 
-  const promoFilm = useAppSelector((state) => state.promoFilm);
+  const promoFilm = useAppSelector(getPromoFilm);
 
   const {id, name, posterImage, backgroundImage, genre: promoGenre, released, isFavorite} = promoFilm;
 
-  const activeGenre = useAppSelector((state) => state.activeGenre);
-  const filmsList = useAppSelector((state) => state.filmsList);
-  const maxFilmsCountOnPage = useAppSelector((state) => state.filmsCountOnPage);
+  const activeGenre = useAppSelector(getActiveFilterGenre);
+  const filmsList = useAppSelector(getFilmsList);
+  const maxFilmsCountOnPage = useAppSelector(getFilmsCountOnPage);
 
-  const isFilmsDataLoading = useAppSelector((state) => state.isFilmsDataLoadingStatus);
+  const isFilmsDataLoading = useAppSelector(getFilmsDataLoadingStatus);
 
-  const favoritesFilmsCount = useAppSelector((state) => state.userFavoriteFilms.length);
+  const favoritesFilmsCount = useAppSelector(getFavoritesFilmsCount);
 
   const filters = new Set<string>().add(DEFAULT_FILTER);
   filmsList.forEach(({genre}) => filters.add(genre));

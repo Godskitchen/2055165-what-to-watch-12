@@ -1,5 +1,6 @@
 import { useAppDispatch } from '../../hooks';
-import { showMoreFilms } from '../../store/action';
+import { showMoreFilms } from '../../store/main-process/main-process';
+
 
 export default function ShowMoreButton() : JSX.Element {
 

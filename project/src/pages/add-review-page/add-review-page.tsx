@@ -8,6 +8,7 @@ import { addReviewAction, fetchFilmAction } from '../../store/api-actions';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import UserBlock from '../../components/user-block/user-block';
 import BlockUI from '../../components/block-UI/block-UI';
+import { getCurrentFilm, getDataUploadingStatus } from '../../store/app-data/app-data-selectors';
 
 const MIN_CHARS_COUNT = 50;
 const MAX_CHARS_COUNT = 400;
@@ -15,7 +16,7 @@ const MAX_CHARS_COUNT = 400;
 
 export default function AddReviewPage() : JSX.Element {
 
-  const isUIBlocking = useAppSelector((state) => state.isDataUploadingStatus);
+  const isUIBlocking = useAppSelector(getDataUploadingStatus);
 
   const [textFieldError, setTextFieldError] = useState('Your review must not be empty');
   const [isTextFieldUsed, setIsTextFieldUsed] = useState(false);
@@ -38,7 +39,7 @@ export default function AddReviewPage() : JSX.Element {
     }
   }, [textFieldError]);
 
-  const film = useAppSelector((state) => state.currentFilm);
+  const film = useAppSelector(getCurrentFilm);
 
   const DEFAULT_RATING_VALUE = '5';
   const [reviewData, setReviewData] = useState({rating: DEFAULT_RATING_VALUE, reviewText: ''});

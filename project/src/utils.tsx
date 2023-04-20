@@ -78,7 +78,3 @@ export function formatTime(timeleft: number) : string {
   const dur = dayjs.duration(timeleft, 'seconds');
   return dur.format(`[-]${dur.hours() === 0 ? '' : 'HH[:]'}${dur.minutes() === 0 ? '' : 'mm[:]'}ss`);
 }
-
-
-//Менее часа: -53:12;
-//Более часа: -01:45:35.

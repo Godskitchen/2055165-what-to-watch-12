@@ -6,13 +6,14 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { AuthData } from '../../types/user-data';
 import { loginAction } from '../../store/api-actions';
 import BlockUI from '../../components/block-UI/block-UI';
+import { getDataUploadingStatus } from '../../store/app-data/app-data-selectors';
 
 const loginEmailPattern = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
 const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{2,8}$/;
 
 export default function LoginPage() : JSX.Element {
 
-  const isUIBlocking = useAppSelector((state) => state.isDataUploadingStatus);
+  const isUIBlocking = useAppSelector(getDataUploadingStatus);
 
   const [fieldErrors, setFieldErrors] = useState({
     loginField: 'Login must not be empty',
@@ -60,7 +61,7 @@ export default function LoginPage() : JSX.Element {
   const passwordChangeHandler = ({target}: ChangeEvent<HTMLInputElement>) => {
     setUserData({...userData, password: target.value});
     if (!passwordPattern.test(String(target.value).toLowerCase())) {
-      setFieldErrors({...fieldErrors, passwordField: 'Your password must contain at least one letter and number and contain less then 9 characters long'});
+      setFieldErrors({...fieldErrors, passwordField: 'Your password must contain at least one latin letter and number and contain less then 9 characters long'});
       if (!target.value) {
         setFieldErrors({...fieldErrors, passwordField: 'Password must not be empty'});
       }

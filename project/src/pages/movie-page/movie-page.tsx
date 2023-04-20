@@ -16,6 +16,8 @@ import { getRandomFilms } from '../../utils';
 import MyListButton from '../../components/my-list-button/my-list-button';
 import AddReviewButton from '../../components/add-review-button/add-review-button';
 import LoadingSpinner from '../loading-spinner/loading-spinner';
+import { getAuthorizationStatus, getFavoritesFilmsCount } from '../../store/user-process/user-process-selectors';
+import { getCurrentFilm, getFilmReviews, getFilmsDataLoadingStatus, getSimilarFilms } from '../../store/app-data/app-data-selectors';
 
 type MoviePageProps = {
   activeTab: typeof tabNames[number];
@@ -23,8 +25,8 @@ type MoviePageProps = {
 
 export default function MoviePage({activeTab} : MoviePageProps) : JSX.Element {
 
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const isFilmsDataLoading = useAppSelector((state) => state.isFilmsDataLoadingStatus);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const isFilmsDataLoading = useAppSelector(getFilmsDataLoadingStatus);
 
   const isAuthorized = authorizationStatus === AuthorizationStatus.Auth;
 
@@ -47,11 +49,11 @@ export default function MoviePage({activeTab} : MoviePageProps) : JSX.Element {
     }
   }, [isAuthorized, dispatch]);
 
-  const film = useAppSelector((state) => state.currentFilm);
-  const reviews = useAppSelector((state) => state.filmReviews);
-  const similarFilmsList = useAppSelector((state) => state.similarFilms);
+  const film = useAppSelector(getCurrentFilm);
+  const reviews = useAppSelector(getFilmReviews);
+  const similarFilmsList = useAppSelector(getSimilarFilms);
 
-  const favoritesFilmsCount = useAppSelector((state) => state.userFavoriteFilms.length);
+  const favoritesFilmsCount = useAppSelector(getFavoritesFilmsCount);
 
 
   const similarFilms = getRandomFilms(similarFilmsList, SIMILAR_FILMS_COUNT);
