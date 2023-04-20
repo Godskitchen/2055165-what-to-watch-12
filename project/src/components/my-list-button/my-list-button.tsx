@@ -3,19 +3,21 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { setFilmStatusAction } from '../../store/api-actions';
 import { AppRoute } from '../../const';
 import { getPromoFilmId } from '../../store/app-data/app-data-selectors';
+import { getFavoritesFilmsCount } from '../../store/user-process/user-process-selectors';
 
 type MyListBtnProps = {
   isAuthorized: boolean;
   isFavorite: boolean;
-  filmsCount: number;
   filmId: string;
 }
 
-export default function MyListButton({isAuthorized, isFavorite, filmsCount, filmId}: MyListBtnProps) : JSX.Element {
+export default function MyListButton({isAuthorized, isFavorite, filmId}: MyListBtnProps) : JSX.Element {
 
   const dispatch = useAppDispatch();
   const newStatus = isFavorite ? 0 : 1;
   const promoId = useAppSelector(getPromoFilmId);
+  const favoritesFilmsCount = useAppSelector(getFavoritesFilmsCount);
+
 
   const navigate = useNavigate();
 
@@ -40,7 +42,7 @@ export default function MyListButton({isAuthorized, isFavorite, filmsCount, film
           </svg> : ''
       }
       <span style={{marginLeft: !isAuthorized ? '10px' : ''}}>My list</span>
-      <span className={`film-card__count ${!isAuthorized ? 'visually-hidden' : ''}`}>{filmsCount}</span>
+      <span className={`film-card__count ${!isAuthorized ? 'visually-hidden' : ''}`}>{favoritesFilmsCount}</span>
     </button>
   );
 }

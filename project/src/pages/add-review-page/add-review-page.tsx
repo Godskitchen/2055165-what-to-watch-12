@@ -13,7 +13,6 @@ import { getCurrentFilm, getDataUploadingStatus } from '../../store/app-data/app
 const MIN_CHARS_COUNT = 50;
 const MAX_CHARS_COUNT = 400;
 
-
 export default function AddReviewPage() : JSX.Element {
 
   const isUIBlocking = useAppSelector(getDataUploadingStatus);

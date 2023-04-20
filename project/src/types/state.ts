@@ -12,7 +12,7 @@ export type UserProcess = {
 export type AppData = {
   isFilmsDataLoadingStatus: boolean;
   isDataUploadingStatus: boolean;
-  promoFilm: Film;
+  promoFilm: Film | null | undefined;
   filmsList: Films;
   currentFilm: Film | null | undefined;
   filmReviews: Reviews;

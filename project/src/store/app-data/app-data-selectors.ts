@@ -2,8 +2,12 @@ import { SliceNameSpace } from '../../const';
 import { Film, Films, Reviews } from '../../types/film';
 import { State } from '../../types/state';
 
-export const getPromoFilm = (state: State): Film => state[SliceNameSpace.Data].promoFilm;
-export const getPromoFilmId = (state: State): number => state[SliceNameSpace.Data].promoFilm.id;
+export const getPromoFilm = (state: State): Film | null | undefined => state[SliceNameSpace.Data].promoFilm;
+export const getPromoFilmId = (state: State): number => {
+  const promoFilm = state[SliceNameSpace.Data].promoFilm;
+  return promoFilm ? promoFilm.id : 0;
+};
+
 
 export const getFilmsList = (state: State): Films => state[SliceNameSpace.Data].filmsList;
 export const getCurrentFilm = (state: State): Film | null | undefined => state[SliceNameSpace.Data].currentFilm;

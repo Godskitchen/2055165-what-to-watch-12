@@ -1,30 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { AppData } from '../../types/state';
 import { SliceNameSpace } from '../../const';
-import { addReviewAction, fetchFilmAction, fetchFilmsAction, fetchPromoFilmAction, fetchReviewsAction, fetchSimilarFilmsAction, setFilmStatusAction } from '../api-actions';
+import { addReviewAction, fetchFilmAction, fetchFilmsAction, fetchPromoFilmAction, fetchReviewsAction, fetchSimilarFilmsAction, loginAction, setFilmStatusAction } from '../api-actions';
 
 const initialState: AppData = {
   isFilmsDataLoadingStatus: false,
   isDataUploadingStatus: false,
-  promoFilm: {
-    id: 0,
-    name: '',
-    posterImage: '',
-    previewImage: '',
-    backgroundImage: '',
-    backgroundColor: '',
-    videoLink: '',
-    previewVideoLink: '',
-    description: '',
-    rating: 0,
-    scoresCount: 0,
-    director: '',
-    starring: [],
-    runTime: 0,
-    genre: '',
-    released: 0,
-    isFavorite: false,
-  },
+  promoFilm: undefined,
   filmsList: [],
   currentFilm: undefined,
   filmReviews: [],
@@ -37,6 +19,15 @@ export const appData = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder
+      .addCase(loginAction.pending, (state) => {
+        state.isDataUploadingStatus = true;
+      })
+      .addCase(loginAction.fulfilled, (state) => {
+        state.isDataUploadingStatus = false;
+      })
+      .addCase(loginAction.rejected, (state) => {
+        state.isDataUploadingStatus = false;
+      })
       .addCase(fetchFilmsAction.pending, (state) => {
         state.isFilmsDataLoadingStatus = true;
       })
@@ -48,8 +39,16 @@ export const appData = createSlice({
         state.isFilmsDataLoadingStatus = false;
         state.filmsList = [];
       })
+      .addCase(fetchPromoFilmAction.pending, (state) => {
+        state.isFilmsDataLoadingStatus = true;
+      })
       .addCase(fetchPromoFilmAction.fulfilled, (state, action) => {
         state.promoFilm = action.payload;
+        state.isFilmsDataLoadingStatus = false;
+      })
+      .addCase(fetchPromoFilmAction.rejected, (state) => {
+        state.promoFilm = null;
+        state.isFilmsDataLoadingStatus = false;
       })
       .addCase(fetchFilmAction.pending, (state) => {
         state.isFilmsDataLoadingStatus = true;

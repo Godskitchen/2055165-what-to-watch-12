@@ -6,13 +6,8 @@ import { guestData } from '../../const';
 
 const initialState: UserProcess = {
   authorizationStatus: AuthorizationStatus.Unknown,
-  userInfo: {
-    avatarUrl: '',
-    email: '',
-    id: 0,
-    name: '',
-  },
-  userFavoriteFilms: []
+  userInfo: guestData,
+  userFavoriteFilms: [],
 };
 
 export const userProcess = createSlice({

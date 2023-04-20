@@ -24,6 +24,7 @@ export default function LoginPage() : JSX.Element {
     loginField: false,
     passwordField: false,
   });
+
   const [isFormValid, setIsFormValid] = useState(false);
 
   const [userData, setUserData] = useState({
@@ -42,7 +43,6 @@ export default function LoginPage() : JSX.Element {
   const loginBlurHandler = () => setIsFieldUsed({...isFieldUsed, loginField: true});
 
   const passwordBlurHandler = () => setIsFieldUsed({...isFieldUsed, passwordField: true});
-
 
   const dispatch = useAppDispatch();
 
@@ -129,7 +129,18 @@ export default function LoginPage() : JSX.Element {
             {(isFieldUsed.passwordField && fieldErrors.passwordField) && <div style={{color: 'red'}}>{fieldErrors.passwordField}</div>}
           </div>
           <div className="sign-in__submit">
-            <button className="sign-in__btn" type="submit" disabled={!isFormValid}>Sign in</button>
+            <button
+              className="sign-in__btn"
+              type="submit"
+              style={{
+                borderColor: !isFormValid ? 'rgb(70, 70, 70)' : '',
+                color: !isFormValid ? 'rgb(70, 70, 70)' : '',
+                pointerEvents: !isFormValid ? 'none' : 'auto'
+              }}
+              disabled={!isFormValid}
+            >
+              Sign in
+            </button>
           </div>
         </form>
       </div>

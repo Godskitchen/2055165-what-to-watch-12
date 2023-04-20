@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useNavigate, useParams } from 'react-router-dom';
 import NotFoundPage from '../not-found-page/not-found-page';
 import { useAppDispatch, useAppSelector } from '../../hooks';
@@ -7,13 +5,15 @@ import { useEffect, useRef, useState } from 'react';
 import { fetchFilmAction } from '../../store/api-actions';
 import ProgressBar from '../../components/progress-bar/progress-bar';
 import LoadingSpinner from '../loading-spinner/loading-spinner';
-import { getCurrentFilm } from '../../store/app-data/app-data-selectors';
+import { getCurrentFilm, getFilmsDataLoadingStatus } from '../../store/app-data/app-data-selectors';
 
 export default function PlayerPage() : JSX.Element {
 
   const {id} = useParams();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const isFilmsDataLoading = useAppSelector(getFilmsDataLoadingStatus);
+
 
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
@@ -29,7 +29,11 @@ export default function PlayerPage() : JSX.Element {
 
   const film = useAppSelector(getCurrentFilm);
 
-  if (!film || !id) {
+  if (film === undefined || isFilmsDataLoading) {
+    return <LoadingSpinner />;
+  }
+
+  if (film === null || !id) {
     return <NotFoundPage />;
   }
 

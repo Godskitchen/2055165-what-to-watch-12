@@ -10,18 +10,20 @@ import FilmsList from '../../components/film-list/film-list';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import UserBlock from '../../components/user-block/user-block';
 import GuestBlock from '../../components/guest-block/guest-block';
-import { useEffect } from 'react';
-import { fetchFavoriteFilmsAction, fetchFilmAction, fetchReviewsAction, fetchSimilarFilmsAction } from '../../store/api-actions';
+import { Fragment, useEffect } from 'react';
+import { fetchFilmAction, fetchReviewsAction, fetchSimilarFilmsAction } from '../../store/api-actions';
 import { getRandomFilms } from '../../utils';
 import MyListButton from '../../components/my-list-button/my-list-button';
 import AddReviewButton from '../../components/add-review-button/add-review-button';
 import LoadingSpinner from '../loading-spinner/loading-spinner';
-import { getAuthorizationStatus, getFavoritesFilmsCount } from '../../store/user-process/user-process-selectors';
+import { getAuthorizationStatus } from '../../store/user-process/user-process-selectors';
 import { getCurrentFilm, getFilmReviews, getFilmsDataLoadingStatus, getSimilarFilms } from '../../store/app-data/app-data-selectors';
 
 type MoviePageProps = {
   activeTab: typeof tabNames[number];
 }
+
+const SIMILAR_FILMS_COUNT = 4;
 
 export default function MoviePage({activeTab} : MoviePageProps) : JSX.Element {
 
@@ -33,8 +35,6 @@ export default function MoviePage({activeTab} : MoviePageProps) : JSX.Element {
   const {id} = useParams();
   const dispatch = useAppDispatch();
 
-  const SIMILAR_FILMS_COUNT = 4;
-
   useEffect(() => {
     if (id) {
       dispatch(fetchFilmAction(id));
@@ -43,25 +43,15 @@ export default function MoviePage({activeTab} : MoviePageProps) : JSX.Element {
     }
   }, [id, dispatch]);
 
-  useEffect(() => {
-    if (isAuthorized) {
-      dispatch(fetchFavoriteFilmsAction());
-    }
-  }, [isAuthorized, dispatch]);
-
   const film = useAppSelector(getCurrentFilm);
   const reviews = useAppSelector(getFilmReviews);
   const similarFilmsList = useAppSelector(getSimilarFilms);
-
-  const favoritesFilmsCount = useAppSelector(getFavoritesFilmsCount);
-
 
   const similarFilms = getRandomFilms(similarFilmsList, SIMILAR_FILMS_COUNT);
 
   if (film === undefined || isFilmsDataLoading) {
     return <LoadingSpinner />;
   }
-
 
   if (film === null || !id) {
     return <NotFoundPage />;
@@ -78,7 +68,7 @@ export default function MoviePage({activeTab} : MoviePageProps) : JSX.Element {
   } = film;
 
   return (
-    <>
+    <Fragment>
       <Helmet>
         <title>What to Watch. Описание фильма</title>
       </Helmet>
@@ -109,7 +99,7 @@ export default function MoviePage({activeTab} : MoviePageProps) : JSX.Element {
 
               <div className="film-card__buttons">
                 <PlayerButton filmId={id}/>
-                <MyListButton isAuthorized={isAuthorized} isFavorite={isFavorite} filmsCount={favoritesFilmsCount} filmId={id}/>
+                <MyListButton isAuthorized={isAuthorized} isFavorite={isFavorite} filmId={id}/>
                 {isAuthorized ? <AddReviewButton filmsId={id} /> : ''}
               </div>
             </div>
@@ -146,7 +136,7 @@ export default function MoviePage({activeTab} : MoviePageProps) : JSX.Element {
           </div>
         </footer>
       </div>
-    </>
+    </Fragment>
   );
 }
 
