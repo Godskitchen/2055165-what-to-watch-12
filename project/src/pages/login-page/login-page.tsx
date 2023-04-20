@@ -70,6 +70,9 @@ export default function LoginPage() : JSX.Element {
     }
   };
 
+  const isShowLoginError = isFieldUsed.loginField && fieldErrors.loginField;
+  const isShowPasswordError = isFieldUsed.passwordField && fieldErrors.passwordField;
+
   const onSubmit = (authData: AuthData) => {
     if (isFormValid) {
       dispatch(loginAction(authData));
@@ -97,8 +100,9 @@ export default function LoginPage() : JSX.Element {
 
       <div className="sign-in user-page__content">
         <form action="#" className="sign-in__form" onSubmit={submitHandler}>
+          {(isShowLoginError) && <div className='sign-in__message'><p>{fieldErrors.loginField}</p></div>}
           <div className="sign-in__fields">
-            <div className="sign-in__field">
+            <div className={`sign-in__field ${isShowLoginError ? 'sign-in__field--error' : ''}`}>
               <input
                 className="sign-in__input"
                 type="email"
@@ -111,9 +115,8 @@ export default function LoginPage() : JSX.Element {
               />
               <label className="sign-in__label visually-hidden" htmlFor="user-email">Email address</label>
             </div>
-            {(isFieldUsed.loginField && fieldErrors.loginField) && <div style={{color: 'red'}}>{fieldErrors.loginField}</div>}
 
-            <div className="sign-in__field">
+            <div className={`sign-in__field ${isShowPasswordError ? 'sign-in__field--error' : ''}`}>
               <input
                 className="sign-in__input"
                 type="password"
@@ -126,7 +129,7 @@ export default function LoginPage() : JSX.Element {
               />
               <label className="sign-in__label visually-hidden" htmlFor="user-password">Password</label>
             </div>
-            {(isFieldUsed.passwordField && fieldErrors.passwordField) && <div style={{color: 'red'}}>{fieldErrors.passwordField}</div>}
+            {(isShowPasswordError) && <div className='sign-in__message'><p>{fieldErrors.passwordField}</p></div>}
           </div>
           <div className="sign-in__submit">
             <button

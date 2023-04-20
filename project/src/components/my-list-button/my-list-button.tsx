@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { setFilmStatusAction } from '../../store/api-actions';
+import { checkAuthAction, setFilmStatusAction } from '../../store/api-actions';
 import { AppRoute } from '../../const';
 import { getPromoFilmId } from '../../store/app-data/app-data-selectors';
 import { getFavoritesFilmsCount } from '../../store/user-process/user-process-selectors';
@@ -25,6 +25,7 @@ export default function MyListButton({isAuthorized, isFavorite, filmId}: MyListB
     if (isAuthorized) {
       dispatch(setFilmStatusAction({filmId, status: newStatus, isPromo: `${promoId}` === filmId}));
     } else {
+      dispatch(checkAuthAction());
       navigate(AppRoute.Login);
     }
   };

@@ -6,7 +6,7 @@ import { addReviewAction, fetchFilmAction, fetchFilmsAction, fetchPromoFilmActio
 const initialState: AppData = {
   isFilmsDataLoadingStatus: false,
   isDataUploadingStatus: false,
-  dataUploadingError: '',
+  hasLoadingError: false,
   promoFilm: undefined,
   filmsList: [],
   currentFilm: undefined,
@@ -35,10 +35,12 @@ export const appData = createSlice({
       .addCase(fetchFilmsAction.fulfilled, (state, action) => {
         state.isFilmsDataLoadingStatus = false;
         state.filmsList = action.payload;
+        state.hasLoadingError = false;
       })
       .addCase(fetchFilmsAction.rejected, (state) => {
         state.isFilmsDataLoadingStatus = false;
         state.filmsList = [];
+        state.hasLoadingError = true;
       })
       .addCase(fetchPromoFilmAction.pending, (state) => {
         state.isFilmsDataLoadingStatus = true;
@@ -57,10 +59,12 @@ export const appData = createSlice({
       .addCase(fetchFilmAction.fulfilled, (state, action) => {
         state.isFilmsDataLoadingStatus = false;
         state.currentFilm = action.payload;
+        state.hasLoadingError = false;
       })
       .addCase(fetchFilmAction.rejected, (state) => {
         state.isFilmsDataLoadingStatus = false;
         state.currentFilm = null;
+        state.hasLoadingError = true;
       })
       .addCase(fetchReviewsAction.fulfilled, (state, action) => {
         state.filmReviews = action.payload;
@@ -86,7 +90,6 @@ export const appData = createSlice({
       })
       .addCase(addReviewAction.fulfilled, (state, action) => {
         state.isDataUploadingStatus = false;
-        state.dataUploadingError = '';
         state.filmReviews = action.payload;
       })
       .addCase(addReviewAction.rejected, (state) => {

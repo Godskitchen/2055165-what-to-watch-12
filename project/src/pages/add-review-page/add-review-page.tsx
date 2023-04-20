@@ -8,8 +8,7 @@ import { addReviewAction, fetchFilmAction } from '../../store/api-actions';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import UserBlock from '../../components/user-block/user-block';
 import BlockUI from '../../components/block-UI/block-UI';
-import { getCurrentFilm, getDataUploadingStatus, getUploadError } from '../../store/app-data/app-data-selectors';
-import { toast } from 'react-toastify';
+import { getCurrentFilm, getDataUploadingStatus } from '../../store/app-data/app-data-selectors';
 
 const MIN_CHARS_COUNT = 50;
 const MAX_CHARS_COUNT = 400;
@@ -17,14 +16,6 @@ const MAX_CHARS_COUNT = 400;
 export default function AddReviewPage() : JSX.Element {
 
   const isUIBlocking = useAppSelector(getDataUploadingStatus);
-
-  const errorMsg = useAppSelector(getUploadError);
-
-  useEffect(() => {
-    if (errorMsg) {
-      toast.error(errorMsg);
-    }
-  });
 
   const [textFieldError, setTextFieldError] = useState('Your review must not be empty');
   const [isTextFieldUsed, setIsTextFieldUsed] = useState(false);
