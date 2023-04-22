@@ -8,10 +8,14 @@ import { addReviewAction, fetchFilmAction } from '../../store/api-actions';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import UserBlock from '../../components/user-block/user-block';
 import BlockUI from '../../components/block-UI/block-UI';
-import { getCurrentFilm, getDataUploadingStatus } from '../../store/app-data/app-data-selectors';
+import { getCurrentFilm, getDataUploadingStatus, getFilmsDataLoadingStatus, getLoadErrorStatus } from '../../store/app-data/app-data-selectors';
+import LoadingSpinner from '../loading-spinner/loading-spinner';
+import FilmErrorBlock from '../../components/film-error-block/film-error-block';
 
 const MIN_CHARS_COUNT = 50;
 const MAX_CHARS_COUNT = 400;
+
+const DEFAULT_RATING_VALUE = '5';
 
 export default function AddReviewPage() : JSX.Element {
 
@@ -21,29 +25,47 @@ export default function AddReviewPage() : JSX.Element {
   const [isTextFieldUsed, setIsTextFieldUsed] = useState(false);
   const [isFormValid, setIsFormValid] = useState(false);
 
+  const [reviewData, setReviewData] = useState({rating: DEFAULT_RATING_VALUE, reviewText: ''});
+
   const {id} = useParams();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (id) {
+    let isMounted = true;
+
+    if (id && isMounted) {
       dispatch(fetchFilmAction(id));
     }
+
+    return () => {isMounted = false;};
   }, [id, dispatch]);
 
   useEffect(() => {
-    if (textFieldError) {
-      setIsFormValid(false);
-    } else {
-      setIsFormValid(true);
+    let isMounted = true;
+
+    if (isMounted) {
+      if (textFieldError) {
+        setIsFormValid(false);
+      } else {
+        setIsFormValid(true);
+      }
     }
+    return () => {isMounted = false;};
   }, [textFieldError]);
 
   const film = useAppSelector(getCurrentFilm);
+  const isLoadError = useAppSelector(getLoadErrorStatus);
+  const isFilmsDataLoading = useAppSelector(getFilmsDataLoadingStatus);
 
-  const DEFAULT_RATING_VALUE = '5';
-  const [reviewData, setReviewData] = useState({rating: DEFAULT_RATING_VALUE, reviewText: ''});
 
-  if (!film || !id) {
+  if (film === undefined || isFilmsDataLoading) {
+    return <LoadingSpinner />;
+  }
+
+  if (film === null || !id) {
+    if (isLoadError) {
+      return <FilmErrorBlock />;
+    }
     return <NotFoundPage />;
   }
 

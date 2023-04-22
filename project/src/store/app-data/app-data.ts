@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { AppData } from '../../types/state';
 import { SliceNameSpace } from '../../const';
-import { addReviewAction, fetchFilmAction, fetchFilmsAction, fetchPromoFilmAction, fetchReviewsAction, fetchSimilarFilmsAction, loginAction, setFilmStatusAction } from '../api-actions';
+import { addReviewAction, fetchFavoriteFilmsAction, fetchFilmAction, fetchFilmsAction, fetchPromoFilmAction, fetchReviewsAction, fetchSimilarFilmsAction, loginAction, setFilmStatusAction } from '../api-actions';
 
 const initialState: AppData = {
   isFilmsDataLoadingStatus: false,
@@ -94,6 +94,17 @@ export const appData = createSlice({
       })
       .addCase(addReviewAction.rejected, (state) => {
         state.isDataUploadingStatus = false;
+      })
+      .addCase(fetchFavoriteFilmsAction.fulfilled, (state) => {
+        state.isDataUploadingStatus = false;
+        state.hasLoadingError = false;
+      })
+      .addCase(fetchFavoriteFilmsAction.rejected, (state) => {
+        state.isDataUploadingStatus = false;
+        state.hasLoadingError = true;
+      })
+      .addCase(fetchFavoriteFilmsAction.pending, (state) => {
+        state.isDataUploadingStatus = true;
       });
   }
 });

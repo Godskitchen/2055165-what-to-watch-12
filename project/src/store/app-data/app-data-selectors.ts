@@ -16,4 +16,4 @@ export const getSimilarFilms = (state: State): Films => state[SliceNameSpace.Dat
 export const getFilmsDataLoadingStatus = (state: State): boolean => state[SliceNameSpace.Data].isFilmsDataLoadingStatus;
 export const getDataUploadingStatus = (state: State): boolean => state[SliceNameSpace.Data].isDataUploadingStatus;
 
-export const getUploadErrorStatus = (state: State): boolean => state[SliceNameSpace.Data].hasLoadingError;
+export const getLoadErrorStatus = (state: State): boolean => state[SliceNameSpace.Data].hasLoadingError;

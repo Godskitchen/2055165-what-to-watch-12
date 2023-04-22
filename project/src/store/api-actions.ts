@@ -22,8 +22,13 @@ export const fetchPromoFilmAction = createAsyncThunk<Film, undefined,
 }>(
   'data/fetchPromoFilm',
   async (_arg, { extra: serverApi}) => {
-    const {data} = await serverApi.get<Film>(APIRoute.PromoFilm);
-    return data;
+    try {
+      const {data} = await serverApi.get<Film>(APIRoute.PromoFilm);
+      return data;
+    } catch {
+      toast.error('Failed to load promo film. Please try again later.');
+      throw new Error();
+    }
   }
 );
 
@@ -44,8 +49,13 @@ export const fetchReviewsAction = createAsyncThunk<Reviews, string,
 }>(
   'data/fetchReviews',
   async(filmId, { extra: serverApi}) => {
-    const {data} = await serverApi.get<Reviews>(`/comments/${filmId}`);
-    return data;
+    try {
+      const {data} = await serverApi.get<Reviews>(`/comments/${filmId}`);
+      return data;
+    } catch {
+      toast.error('Failed to load reviews. Please try again later.');
+      throw new Error();
+    }
   }
 );
 
@@ -55,8 +65,13 @@ export const fetchSimilarFilmsAction = createAsyncThunk<Films, string,
 }>(
   'data/fetchSimilarFilms',
   async(filmId, {extra: serverApi}) => {
-    const {data} = await serverApi.get<Films>(`/films/${filmId}/similar`);
-    return data;
+    try {
+      const {data} = await serverApi.get<Films>(`/films/${filmId}/similar`);
+      return data;
+    } catch {
+      toast.error('Failed to load similar films. Please try again later.');
+      throw new Error();
+    }
   }
 );
 
@@ -66,8 +81,13 @@ export const fetchFavoriteFilmsAction = createAsyncThunk<Films, undefined,
 }>(
   'user/fetchUseFavoriteFilms',
   async(_arg, { extra: serverApi}) => {
-    const {data} = await serverApi.get<Films>(APIRoute.FavoriteFilms);
-    return data;
+    try {
+      const {data} = await serverApi.get<Films>(APIRoute.FavoriteFilms);
+      return data;
+    } catch {
+      toast.error('Failed to load favorite films. Please try again later.');
+      throw new Error();
+    }
   }
 );
 

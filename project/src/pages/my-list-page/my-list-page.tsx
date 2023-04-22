@@ -7,10 +7,16 @@ import { useEffect } from 'react';
 import { fetchFavoriteFilmsAction } from '../../store/api-actions';
 import UserBlock from '../../components/user-block/user-block';
 import { getFavoritesFilms } from '../../store/user-process/user-process-selectors';
+import { getFilmsDataLoadingStatus, getLoadErrorStatus } from '../../store/app-data/app-data-selectors';
+import LoadingSpinner from '../loading-spinner/loading-spinner';
+import FavoritesErrorBlock from '../../components/filmlist-error-block/favorites-error-block';
 
 export default function MyListPage() : JSX.Element {
 
   const dispatch = useAppDispatch();
+
+  const isFilmsDataLoading = useAppSelector(getFilmsDataLoadingStatus);
+  const isLoadError = useAppSelector(getLoadErrorStatus);
 
   useEffect(() => {
     dispatch(fetchFavoriteFilmsAction());
@@ -32,8 +38,12 @@ export default function MyListPage() : JSX.Element {
 
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
-
-        <FilmsList filmsList={favList} />
+        {
+          isFilmsDataLoading
+            ? <LoadingSpinner />
+            : ( (isLoadError && <FavoritesErrorBlock />) ||
+              (!isLoadError && <FilmsList filmsList={favList} /> ))
+        }
       </section>
 
       <footer className="page-footer">

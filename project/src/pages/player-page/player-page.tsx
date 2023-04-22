@@ -5,8 +5,8 @@ import { useEffect, useRef, useState } from 'react';
 import { fetchFilmAction } from '../../store/api-actions';
 import ProgressBar from '../../components/progress-bar/progress-bar';
 import LoadingSpinner from '../loading-spinner/loading-spinner';
-import { getCurrentFilm, getFilmsDataLoadingStatus, getUploadErrorStatus } from '../../store/app-data/app-data-selectors';
-import FilmLoadingErrorBlock from '../../components/film-loading-error-block/film-loading-error-block';
+import { getCurrentFilm, getFilmsDataLoadingStatus, getLoadErrorStatus } from '../../store/app-data/app-data-selectors';
+import FilmErrorBlock from '../../components/film-error-block/film-error-block';
 
 export default function PlayerPage() : JSX.Element {
 
@@ -27,7 +27,7 @@ export default function PlayerPage() : JSX.Element {
   },[id, dispatch]);
 
   const isFilmsDataLoading = useAppSelector(getFilmsDataLoadingStatus);
-  const isUploadError = useAppSelector(getUploadErrorStatus);
+  const isLoadError = useAppSelector(getLoadErrorStatus);
 
   const film = useAppSelector(getCurrentFilm);
 
@@ -36,8 +36,8 @@ export default function PlayerPage() : JSX.Element {
   }
 
   if (film === null || !id) {
-    if (isUploadError) {
-      return <FilmLoadingErrorBlock />;
+    if (isLoadError) {
+      return <FilmErrorBlock />;
     }
     return <NotFoundPage />;
   }

@@ -17,8 +17,8 @@ import MyListButton from '../../components/my-list-button/my-list-button';
 import AddReviewButton from '../../components/add-review-button/add-review-button';
 import LoadingSpinner from '../loading-spinner/loading-spinner';
 import { getAuthorizationStatus } from '../../store/user-process/user-process-selectors';
-import { getCurrentFilm, getFilmReviews, getFilmsDataLoadingStatus, getSimilarFilms, getUploadErrorStatus } from '../../store/app-data/app-data-selectors';
-import FilmLoadingErrorBlock from '../../components/film-loading-error-block/film-loading-error-block';
+import { getCurrentFilm, getFilmReviews, getFilmsDataLoadingStatus, getSimilarFilms, getLoadErrorStatus } from '../../store/app-data/app-data-selectors';
+import FilmErrorBlock from '../../components/film-error-block/film-error-block';
 
 type MoviePageProps = {
   activeTab: typeof tabNames[number];
@@ -44,7 +44,8 @@ export default function MoviePage({activeTab} : MoviePageProps) : JSX.Element {
     }
   }, [id, dispatch]);
 
-  const isUploadError = useAppSelector(getUploadErrorStatus);
+
+  const isLoadError = useAppSelector(getLoadErrorStatus);
 
   const film = useAppSelector(getCurrentFilm);
   const reviews = useAppSelector(getFilmReviews);
@@ -57,8 +58,8 @@ export default function MoviePage({activeTab} : MoviePageProps) : JSX.Element {
   }
 
   if (film === null || !id) {
-    if (isUploadError) {
-      return <FilmLoadingErrorBlock />;
+    if (isLoadError) {
+      return <FilmErrorBlock />;
     }
     return <NotFoundPage />;
   }

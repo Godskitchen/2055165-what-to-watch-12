@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Helmet } from 'react-helmet-async';
 import FilmsList from '../../components/film-list/film-list';
 import GenresList from '../../components/genres-list/genres-list';
@@ -9,11 +8,11 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import ShowMoreButton from '../../components/show-more-button/show-more-button';
 import LoadingSpinner from '../loading-spinner/loading-spinner';
 import { Fragment, useEffect } from 'react';
-import { checkAuthAction, fetchFilmsAction } from '../../store/api-actions';
-import { getFilmsDataLoadingStatus, getFilmsList, getUploadErrorStatus} from '../../store/app-data/app-data-selectors';
+import { fetchFilmsAction } from '../../store/api-actions';
+import { getFilmsDataLoadingStatus, getFilmsList, getLoadErrorStatus} from '../../store/app-data/app-data-selectors';
 import { getActiveFilterGenre, getFilmsCountOnPage } from '../../store/main-process/main-process-selectors';
 import PromoFilm from '../../components/promo-film/promo-film';
-import FilmListLoadingErrorBlock from '../../components/filmlist-loading-error-block/filmlist-loading-error-block';
+import FilmListErrorBlock from '../../components/filmlist-error-block/filmlist-error-block';
 
 const MAX_GENRES_COUNT = 10;
 
@@ -22,11 +21,10 @@ export default function MainPage () : JSX.Element {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(checkAuthAction());
     dispatch(fetchFilmsAction());
   }, [dispatch]);
 
-  const isUploadError = useAppSelector(getUploadErrorStatus);
+  const isLoadError = useAppSelector(getLoadErrorStatus);
   const activeGenre = useAppSelector(getActiveFilterGenre);
   const filmsList = useAppSelector(getFilmsList);
   const maxFilmsCountOnPage = useAppSelector(getFilmsCountOnPage);
@@ -56,8 +54,8 @@ export default function MainPage () : JSX.Element {
           {
             isFilmsDataLoading
               ? <LoadingSpinner />
-              : ( (isUploadError && <FilmListLoadingErrorBlock />) ||
-                  (!isUploadError &&
+              : ( (isLoadError && <FilmListErrorBlock />) ||
+                  (!isLoadError &&
                   <Fragment>
                     <GenresList availableGenres={availableGenres} />
                     <FilmsList filmsList={showedFilmsOnPage} />
