@@ -10,7 +10,6 @@ export default function NotFoundPage() : JSX.Element {
       </Helmet>
       <header className="page-header user-page__head">
         <Logo classPath={CLASSPATH_LOGO_HEADER} />
-
       </header>
 
       <div className="user-page__content">

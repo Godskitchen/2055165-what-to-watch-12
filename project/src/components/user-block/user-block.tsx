@@ -7,7 +7,8 @@ import { MouseEvent } from 'react';
 export default function UserBlock() : JSX.Element {
 
   const dispatch = useAppDispatch();
-  const logOutClickHandler = (evt: MouseEvent<HTMLAnchorElement>) => {
+
+  const handleLogOutBtnClick = (evt: MouseEvent<HTMLAnchorElement>) => {
     evt.preventDefault();
     dispatch(logoutAction());
   };
@@ -21,7 +22,7 @@ export default function UserBlock() : JSX.Element {
         <Link
           to='/'
           className="user-block__link"
-          onClick={logOutClickHandler}
+          onClick={handleLogOutBtnClick}
         >
           Sign out
         </Link>

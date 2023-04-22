@@ -13,7 +13,7 @@ const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{2,8}$/;
 
 export default function LoginPage() : JSX.Element {
 
-  const isUIBlocking = useAppSelector(getDataUploadingStatus);
+  const dispatch = useAppDispatch();
 
   const [fieldErrors, setFieldErrors] = useState({
     loginField: 'Login must not be empty',
@@ -33,20 +33,26 @@ export default function LoginPage() : JSX.Element {
   });
 
   useEffect(() => {
-    if (fieldErrors.loginField || fieldErrors.passwordField) {
-      setIsFormValid(false);
-    } else {
-      setIsFormValid(true);
+    let isMounted = true;
+
+    if (isMounted) {
+      if (fieldErrors.loginField || fieldErrors.passwordField) {
+        setIsFormValid(false);
+      } else {
+        setIsFormValid(true);
+      }
     }
+
+    return () => {isMounted = false;};
   }, [fieldErrors.loginField, fieldErrors.passwordField]);
 
-  const loginBlurHandler = () => setIsFieldUsed({...isFieldUsed, loginField: true});
+  const isUIBlocking = useAppSelector(getDataUploadingStatus);
 
-  const passwordBlurHandler = () => setIsFieldUsed({...isFieldUsed, passwordField: true});
+  const handleLoginBlur = () => setIsFieldUsed({...isFieldUsed, loginField: true});
 
-  const dispatch = useAppDispatch();
+  const handlePasswordBlur = () => setIsFieldUsed({...isFieldUsed, passwordField: true});
 
-  const loginChangeHandler = ({target}: ChangeEvent<HTMLInputElement>) => {
+  const handleLoginChange = ({target}: ChangeEvent<HTMLInputElement>) => {
     setUserData({...userData, login: target.value});
     if (!loginEmailPattern.test(String(target.value).toLowerCase())) {
       setFieldErrors({...fieldErrors, loginField: 'Invalid Email'});
@@ -58,7 +64,7 @@ export default function LoginPage() : JSX.Element {
     }
   };
 
-  const passwordChangeHandler = ({target}: ChangeEvent<HTMLInputElement>) => {
+  const handlePasswordChange = ({target}: ChangeEvent<HTMLInputElement>) => {
     setUserData({...userData, password: target.value});
     if (!passwordPattern.test(String(target.value).toLowerCase())) {
       setFieldErrors({...fieldErrors, passwordField: 'Your password must contain at least one latin letter and number and contain less then 9 characters long'});
@@ -79,7 +85,7 @@ export default function LoginPage() : JSX.Element {
     }
   };
 
-  const submitHandler = (evt: FormEvent<HTMLFormElement>) => {
+  const handleAuthFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     onSubmit({
       login: userData.login,
@@ -99,7 +105,7 @@ export default function LoginPage() : JSX.Element {
       </header>
 
       <div className="sign-in user-page__content">
-        <form action="#" className="sign-in__form" onSubmit={submitHandler}>
+        <form action="#" className="sign-in__form" onSubmit={handleAuthFormSubmit}>
           {(isShowLoginError) && <div className='sign-in__message'><p>{fieldErrors.loginField}</p></div>}
           <div className="sign-in__fields">
             <div className={`sign-in__field ${isShowLoginError ? 'sign-in__field--error' : ''}`}>
@@ -110,8 +116,8 @@ export default function LoginPage() : JSX.Element {
                 value={userData.login}
                 name="user-email"
                 id="user-email"
-                onBlur={loginBlurHandler}
-                onChange={loginChangeHandler}
+                onBlur={handleLoginBlur}
+                onChange={handleLoginChange}
               />
               <label className="sign-in__label visually-hidden" htmlFor="user-email">Email address</label>
             </div>
@@ -124,8 +130,8 @@ export default function LoginPage() : JSX.Element {
                 value={userData.password}
                 name="user-password"
                 id="user-password"
-                onBlur={passwordBlurHandler}
-                onChange={passwordChangeHandler}
+                onBlur={handlePasswordBlur}
+                onChange={handlePasswordChange}
               />
               <label className="sign-in__label visually-hidden" htmlFor="user-password">Password</label>
             </div>

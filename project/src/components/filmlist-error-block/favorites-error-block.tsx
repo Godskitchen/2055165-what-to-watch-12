@@ -7,14 +7,14 @@ export default function FavoritesErrorBlock() : JSX.Element {
 
   const dispatch = useAppDispatch();
 
-  const retryButtonClickHandler = () => {
+  const handleRetryBtnClick = () => {
     dispatch(fetchFavoriteFilmsAction());
   };
 
   return (
     <div className='btn-container'>
       <div className='sign-in__message'><p>Failed to load favorite films. Please try again later</p></div>
-      <button className="try-again__btn" onClick={retryButtonClickHandler} >Try again</button>
+      <button className="try-again__btn" onClick={handleRetryBtnClick} >Try again</button>
     </div>
   );
 }

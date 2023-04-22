@@ -9,7 +9,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import UserBlock from '../../components/user-block/user-block';
 import BlockUI from '../../components/block-UI/block-UI';
 import { getCurrentFilm, getDataUploadingStatus, getFilmsDataLoadingStatus, getLoadErrorStatus } from '../../store/app-data/app-data-selectors';
-import LoadingSpinner from '../loading-spinner/loading-spinner';
+import LoadingSpinner from '../../components/loading-spinner/loading-spinner';
 import FilmErrorBlock from '../../components/film-error-block/film-error-block';
 
 const MIN_CHARS_COUNT = 50;
@@ -18,8 +18,6 @@ const MAX_CHARS_COUNT = 400;
 const DEFAULT_RATING_VALUE = '5';
 
 export default function AddReviewPage() : JSX.Element {
-
-  const isUIBlocking = useAppSelector(getDataUploadingStatus);
 
   const [textFieldError, setTextFieldError] = useState('Your review must not be empty');
   const [isTextFieldUsed, setIsTextFieldUsed] = useState(false);
@@ -53,6 +51,8 @@ export default function AddReviewPage() : JSX.Element {
     return () => {isMounted = false;};
   }, [textFieldError]);
 
+  const isUIBlocking = useAppSelector(getDataUploadingStatus);
+
   const film = useAppSelector(getCurrentFilm);
   const isLoadError = useAppSelector(getLoadErrorStatus);
   const isFilmsDataLoading = useAppSelector(getFilmsDataLoadingStatus);
@@ -76,11 +76,11 @@ export default function AddReviewPage() : JSX.Element {
     posterImage
   } = film;
 
-  const onRatingChangeHandler = ({target}: ChangeEvent<HTMLInputElement>) => {
+  const handleRatingChange = ({target}: ChangeEvent<HTMLInputElement>) => {
     setReviewData({...reviewData, rating: target.value});
   };
 
-  const onTextReviewChangeHandler = ({target}: ChangeEvent<HTMLTextAreaElement>) => {
+  const handleTextReviewChage = ({target}: ChangeEvent<HTMLTextAreaElement>) => {
     setReviewData({...reviewData, reviewText: target.value});
     if (target.value.length < MIN_CHARS_COUNT || target.value.length > MAX_CHARS_COUNT) {
       setTextFieldError(`Your review mustn't be less then ${MIN_CHARS_COUNT} and greater then ${MAX_CHARS_COUNT} characters`);
@@ -97,19 +97,19 @@ export default function AddReviewPage() : JSX.Element {
     const ratingValue = `${10 - index}`;
     return (
       <Fragment key={ratingValue}>
-        <input className="rating__input" id={`star-${ratingValue}`} type="radio" name="rating" value={`${ratingValue}`} onChange={onRatingChangeHandler} checked={reviewData.rating === `${ratingValue}`} />
+        <input className="rating__input" id={`star-${ratingValue}`} type="radio" name="rating" value={`${ratingValue}`} onChange={handleRatingChange} checked={reviewData.rating === `${ratingValue}`} />
         <label className="rating__label" htmlFor={`star-${ratingValue}`}>{`Rating ${ratingValue}`}</label>
       </Fragment>
     );
   });
 
-  const blurHandler = () => setIsTextFieldUsed(true);
+  const handleTextFieldBlur = () => setIsTextFieldUsed(true);
 
   const onSubmit = () => {
     dispatch(addReviewAction({rating: Number(reviewData.rating), comment: reviewData.reviewText, filmId: id}));
   };
 
-  const submitHandler = (evt: FormEvent<HTMLFormElement>) => {
+  const handleReviewFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     onSubmit();
   };
@@ -149,7 +149,7 @@ export default function AddReviewPage() : JSX.Element {
       </div>
 
       <div className="add-review">
-        <form action="#" className="add-review__form" onSubmit={submitHandler}>
+        <form action="#" className="add-review__form" onSubmit={handleReviewFormSubmit}>
           <div className="rating">
             <div className="rating__stars">
               {ratingStars}
@@ -158,8 +158,8 @@ export default function AddReviewPage() : JSX.Element {
 
           <div className="add-review__text" style={{backgroundColor: 'rgba(255, 255, 255, 0.35)'}}>
             <textarea
-              onBlur={blurHandler}
-              onChange={onTextReviewChangeHandler}
+              onBlur={handleTextFieldBlur}
+              onChange={handleTextReviewChage}
               className="add-review__textarea"
               value={reviewData.reviewText}
               name="review-text"

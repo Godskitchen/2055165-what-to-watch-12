@@ -13,20 +13,25 @@ export default function CardVideoPlayer({poster, videoLink, isActive} : CardVide
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {
-    const videoElement = videoRef.current;
-
-    if (videoElement === null) {
-      return;
-    }
-
+    let isMounted = true;
     let timeoutID: NodeJS.Timeout | null = null;
 
-    if (isActive) {
-      timeoutID = setTimeout(() => {videoElement.play();}, DELAY_BEFORE_PLAY);
-    } else {
-      videoElement.load();
+    if (isMounted) {
+      const videoElement = videoRef.current;
+
+      if (videoElement === null) {
+        return;
+      }
+
+      if (isActive) {
+        timeoutID = setTimeout(() => {videoElement.play();}, DELAY_BEFORE_PLAY);
+      } else {
+        videoElement.load();
+      }
     }
+
     return () => {
+      isMounted = false;
       if (timeoutID !== null) {
         clearTimeout(timeoutID);
       }

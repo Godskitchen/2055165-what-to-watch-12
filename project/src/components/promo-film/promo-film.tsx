@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import Logo from '../logo/logo';
 import { fetchPromoFilmAction } from '../../store/api-actions';
 import { getFilmsDataLoadingStatus, getPromoFilm } from '../../store/app-data/app-data-selectors';
-import LoadingSpinner from '../../pages/loading-spinner/loading-spinner';
+import LoadingSpinner from '../loading-spinner/loading-spinner';
 import UserBlock from '../user-block/user-block';
 import GuestBlock from '../guest-block/guest-block';
 import { getAuthorizationStatus } from '../../store/user-process/user-process-selectors';
@@ -15,12 +15,18 @@ export default function PromoFilm() : JSX.Element {
 
   const dispatch = useAppDispatch();
 
+  useEffect(() => {
+    let isMounted = true;
+
+    if (isMounted) {
+      dispatch(fetchPromoFilmAction());
+    }
+
+    return () => {isMounted = false;};
+  }, [dispatch]);
+
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const isAuthorized = authorizationStatus === AuthorizationStatus.Auth;
-
-  useEffect(() => {
-    dispatch(fetchPromoFilmAction());
-  }, [dispatch]);
 
   const promoFilm = useAppSelector(getPromoFilm);
   const isFilmsDataLoading = useAppSelector(getFilmsDataLoadingStatus);

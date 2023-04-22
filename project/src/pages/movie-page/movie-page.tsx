@@ -15,7 +15,7 @@ import { fetchFilmAction, fetchReviewsAction, fetchSimilarFilmsAction } from '..
 import { getRandomFilms } from '../../utils';
 import MyListButton from '../../components/my-list-button/my-list-button';
 import AddReviewButton from '../../components/add-review-button/add-review-button';
-import LoadingSpinner from '../loading-spinner/loading-spinner';
+import LoadingSpinner from '../../components/loading-spinner/loading-spinner';
 import { getAuthorizationStatus } from '../../store/user-process/user-process-selectors';
 import { getCurrentFilm, getFilmReviews, getFilmsDataLoadingStatus, getSimilarFilms, getLoadErrorStatus } from '../../store/app-data/app-data-selectors';
 import FilmErrorBlock from '../../components/film-error-block/film-error-block';
@@ -28,22 +28,25 @@ const SIMILAR_FILMS_COUNT = 4;
 
 export default function MoviePage({activeTab} : MoviePageProps) : JSX.Element {
 
-  const authorizationStatus = useAppSelector(getAuthorizationStatus);
-  const isFilmsDataLoading = useAppSelector(getFilmsDataLoadingStatus);
-
-  const isAuthorized = authorizationStatus === AuthorizationStatus.Auth;
-
   const {id} = useParams();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (id) {
+    let isMounted = true;
+
+    if (isMounted && id) {
       dispatch(fetchFilmAction(id));
       dispatch(fetchReviewsAction(id));
       dispatch(fetchSimilarFilmsAction(id));
     }
+
+    return () => {isMounted = false;};
   }, [id, dispatch]);
 
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const isFilmsDataLoading = useAppSelector(getFilmsDataLoadingStatus);
+
+  const isAuthorized = authorizationStatus === AuthorizationStatus.Auth;
 
   const isLoadError = useAppSelector(getLoadErrorStatus);
 

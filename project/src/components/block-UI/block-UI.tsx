@@ -1,4 +1,4 @@
-import LoadingSpinner from '../../pages/loading-spinner/loading-spinner';
+import LoadingSpinner from '../loading-spinner/loading-spinner';
 import './block-UI.css';
 
 export default function BlockUI() : JSX.Element {

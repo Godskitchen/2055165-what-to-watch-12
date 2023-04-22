@@ -11,7 +11,7 @@ import PlayerPage from '../../pages/player-page/player-page';
 import PrivateRoute from '../private-route/private-route';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getAuthCheckedStatus, getAuthorizationStatus } from '../../store/user-process/user-process-selectors';
-import LoadingSpinner from '../../pages/loading-spinner/loading-spinner';
+import LoadingSpinner from '../loading-spinner/loading-spinner';
 import { useEffect } from 'react';
 import { checkAuthAction } from '../../store/api-actions';
 
@@ -20,7 +20,13 @@ export default function App(): JSX.Element {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(checkAuthAction());
+    let isMounted = true;
+
+    if (isMounted) {
+      dispatch(checkAuthAction());
+    }
+
+    return () => {isMounted = false;};
   }, [dispatch]);
 
   const authorizationStatus = useAppSelector(getAuthorizationStatus);

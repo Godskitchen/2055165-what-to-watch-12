@@ -17,9 +17,13 @@ export default function MyListButton({isAuthorized, isFavorite, filmId}: MyListB
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (isAuthorized) {
+    let isMounted = true;
+
+    if (isMounted && isAuthorized) {
       dispatch(fetchFavoriteFilmsAction());
     }
+
+    return () => {isMounted = false;};
   }, [isAuthorized, dispatch]);
 
   const newStatus = isFavorite ? 0 : 1;
@@ -28,7 +32,7 @@ export default function MyListButton({isAuthorized, isFavorite, filmId}: MyListB
 
   const navigate = useNavigate();
 
-  const onClickHandler = () => {
+  const handleMyListBtnClick = () => {
     if (isAuthorized) {
       dispatch(setFilmStatusAction({filmId, status: newStatus, isPromo: `${promoId}` === filmId}));
     } else {
@@ -41,7 +45,7 @@ export default function MyListButton({isAuthorized, isFavorite, filmId}: MyListB
     <button
       className="btn btn--list film-card__button"
       type="button"
-      onClick={onClickHandler}
+      onClick={handleMyListBtnClick}
     >
       {
         isAuthorized ?

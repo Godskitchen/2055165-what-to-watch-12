@@ -6,7 +6,7 @@ import {CLASSPATH_LOGO_FOOTER, DEFAULT_FILTER } from '../../const';
 import { filterFilmsByGenre } from '../../utils';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import ShowMoreButton from '../../components/show-more-button/show-more-button';
-import LoadingSpinner from '../loading-spinner/loading-spinner';
+import LoadingSpinner from '../../components/loading-spinner/loading-spinner';
 import { Fragment, useEffect } from 'react';
 import { fetchFilmsAction } from '../../store/api-actions';
 import { getFilmsDataLoadingStatus, getFilmsList, getLoadErrorStatus} from '../../store/app-data/app-data-selectors';
@@ -16,12 +16,18 @@ import FilmListErrorBlock from '../../components/filmlist-error-block/filmlist-e
 
 const MAX_GENRES_COUNT = 10;
 
-export default function MainPage () : JSX.Element {
+export default function MainPage() : JSX.Element {
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchFilmsAction());
+    let isMounted = true;
+
+    if (isMounted) {
+      dispatch(fetchFilmsAction());
+    }
+
+    return () => {isMounted = false;};
   }, [dispatch]);
 
   const isLoadError = useAppSelector(getLoadErrorStatus);

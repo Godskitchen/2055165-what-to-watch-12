@@ -8,7 +8,7 @@ export default function FilmErrorBlock() : JSX.Element {
   const dispatch = useAppDispatch();
   const {id} = useParams();
 
-  const retryButtonClickHandler = () => {
+  const handleRetryBtnClick = () => {
     if (id) {
       dispatch(fetchFilmAction(id));
     }
@@ -17,7 +17,7 @@ export default function FilmErrorBlock() : JSX.Element {
   return (
     <div className='container'>
       <div className='sign-in__message'><p>Failed to load current film. Please try again later</p></div>
-      <button className="try-again__btn" onClick={retryButtonClickHandler} >Try again</button>
+      <button className="try-again__btn" onClick={handleRetryBtnClick} >Try again</button>
     </div>
   );
 }

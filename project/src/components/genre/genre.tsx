@@ -11,7 +11,7 @@ export default function Genre({filterName, isActive} : GenreProps) : JSX.Element
 
   const dispatch = useAppDispatch();
 
-  const onGenreClickHandler = () => {
+  const handleGenreClick = () => {
     dispatch(resetFilmsCountOnPage());
     dispatch(changeGenre(filterName));
   };
@@ -22,7 +22,7 @@ export default function Genre({filterName, isActive} : GenreProps) : JSX.Element
         to="#"
         className="catalog__genres-link"
         style={{ pointerEvents: isActive ? 'none' : 'auto' }}
-        onClick={onGenreClickHandler}
+        onClick={handleGenreClick}
       >
         {filterName}
       </Link>
