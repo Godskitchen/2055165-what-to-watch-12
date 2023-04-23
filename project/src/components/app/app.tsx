@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Route, Routes, Navigate } from 'react-router-dom';
 import {HelmetProvider} from 'react-helmet-async';
 import { AppRoute } from '../../const';
@@ -11,9 +12,9 @@ import PlayerPage from '../../pages/player-page/player-page';
 import PrivateRoute from '../private-route/private-route';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getAuthCheckedStatus, getAuthorizationStatus } from '../../store/user-process/user-process-selectors';
-import LoadingSpinner from '../loading-spinner/loading-spinner';
 import { useEffect } from 'react';
 import { checkAuthAction } from '../../store/api-actions';
+import LoadingScreen from '../loading-components/loading-screen/loading-screen';
 
 export default function App(): JSX.Element {
 
@@ -33,7 +34,7 @@ export default function App(): JSX.Element {
   const isAuthChecked = useAppSelector(getAuthCheckedStatus);
 
   if (!isAuthChecked) {
-    return <LoadingSpinner />;
+    return <LoadingScreen />;
   }
 
   return (

@@ -1,9 +1,9 @@
-import { useAppDispatch } from '../../hooks';
-import './flimlist-error-block.css';
-import { fetchFilmsAction } from '../../store/api-actions';
+import { useAppDispatch } from '../../../hooks';
+import '../error-components.css';
+import { fetchFilmsAction } from '../../../store/api-actions';
 
 
-export default function FilmListErrorBlock() : JSX.Element {
+export default function FilmsErrorBlock() : JSX.Element {
 
   const dispatch = useAppDispatch();
 
@@ -12,7 +12,7 @@ export default function FilmListErrorBlock() : JSX.Element {
   };
 
   return (
-    <div className='btn-container'>
+    <div className='block-container'>
       <div className='sign-in__message'><p>Failed to load available films. Please try again later</p></div>
       <button className="try-again__btn" onClick={handleRetryBtnClick} >Try again</button>
     </div>

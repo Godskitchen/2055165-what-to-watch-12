@@ -4,12 +4,12 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import Logo from '../logo/logo';
 import { fetchPromoFilmAction } from '../../store/api-actions';
 import { getFilmsDataLoadingStatus, getPromoFilm } from '../../store/app-data/app-data-selectors';
-import LoadingSpinner from '../loading-spinner/loading-spinner';
 import UserBlock from '../user-block/user-block';
 import GuestBlock from '../guest-block/guest-block';
 import { getAuthorizationStatus } from '../../store/user-process/user-process-selectors';
 import PlayerButton from '../player-button/player-button';
 import MyListButton from '../my-list-button/my-list-button';
+import LoadingBlock from '../loading-components/loading-block/loading-block';
 
 export default function PromoFilm() : JSX.Element {
 
@@ -32,7 +32,11 @@ export default function PromoFilm() : JSX.Element {
   const isFilmsDataLoading = useAppSelector(getFilmsDataLoadingStatus);
 
   if (promoFilm === undefined || isFilmsDataLoading) {
-    return <LoadingSpinner />;
+    return (
+      <section className="film-card">
+        <LoadingBlock />;
+      </section>
+    );
   }
 
   if (promoFilm === null) {

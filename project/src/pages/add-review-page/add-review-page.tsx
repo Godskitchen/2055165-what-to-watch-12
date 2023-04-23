@@ -9,8 +9,8 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import UserBlock from '../../components/user-block/user-block';
 import BlockUI from '../../components/block-UI/block-UI';
 import { getCurrentFilm, getDataUploadingStatus, getFilmsDataLoadingStatus, getLoadErrorStatus } from '../../store/app-data/app-data-selectors';
-import LoadingSpinner from '../../components/loading-spinner/loading-spinner';
-import FilmErrorBlock from '../../components/film-error-block/film-error-block';
+import ErrorScreen from '../../components/error-components/error-screen/error-screen';
+import LoadingScreen from '../../components/loading-components/loading-screen/loading-screen';
 
 const MIN_CHARS_COUNT = 50;
 const MAX_CHARS_COUNT = 400;
@@ -59,12 +59,12 @@ export default function AddReviewPage() : JSX.Element {
 
 
   if (film === undefined || isFilmsDataLoading) {
-    return <LoadingSpinner />;
+    return <LoadingScreen />;
   }
 
   if (film === null || !id) {
     if (isLoadError) {
-      return <FilmErrorBlock />;
+      return <ErrorScreen />;
     }
     return <NotFoundPage />;
   }

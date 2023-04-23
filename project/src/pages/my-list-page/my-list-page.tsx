@@ -8,8 +8,8 @@ import { fetchFavoriteFilmsAction } from '../../store/api-actions';
 import UserBlock from '../../components/user-block/user-block';
 import { getFavoritesFilms } from '../../store/user-process/user-process-selectors';
 import { getFilmsDataLoadingStatus, getLoadErrorStatus } from '../../store/app-data/app-data-selectors';
-import LoadingSpinner from '../../components/loading-spinner/loading-spinner';
-import FavoritesErrorBlock from '../../components/filmlist-error-block/favorites-error-block';
+import FavoritesErrorBlock from '../../components/error-components/error-block/favorites-error-block';
+import LoadingBlock from '../../components/loading-components/loading-block/loading-block';
 
 export default function MyListPage() : JSX.Element {
 
@@ -45,7 +45,7 @@ export default function MyListPage() : JSX.Element {
         <h2 className="catalog__title visually-hidden">Catalog</h2>
         {
           isFilmsDataLoading
-            ? <LoadingSpinner />
+            ? <LoadingBlock />
             : ( (isLoadError && <FavoritesErrorBlock />) ||
               (!isLoadError && <FilmsList filmsList={favoriteList} /> ))
         }

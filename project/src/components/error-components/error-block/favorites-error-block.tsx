@@ -1,7 +1,6 @@
-import { useAppDispatch } from '../../hooks';
-import './flimlist-error-block.css';
-import { fetchFavoriteFilmsAction } from '../../store/api-actions';
-
+import { useAppDispatch } from '../../../hooks';
+import '../error-components.css';
+import { fetchFavoriteFilmsAction } from '../../../store/api-actions';
 
 export default function FavoritesErrorBlock() : JSX.Element {
 

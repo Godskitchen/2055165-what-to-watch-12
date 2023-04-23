@@ -1,9 +1,10 @@
 import { useParams } from 'react-router-dom';
-import { useAppDispatch } from '../../hooks';
-import { fetchFilmAction } from '../../store/api-actions';
-import './film-error-block.css';
+import { useAppDispatch } from '../../../hooks';
+import { fetchFilmAction } from '../../../store/api-actions';
+import '../error-components.css';
 
-export default function FilmErrorBlock() : JSX.Element {
+
+export default function ErrorScreen() : JSX.Element {
 
   const dispatch = useAppDispatch();
   const {id} = useParams();

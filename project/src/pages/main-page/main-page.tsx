@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Helmet } from 'react-helmet-async';
 import FilmsList from '../../components/film-list/film-list';
 import GenresList from '../../components/genres-list/genres-list';
@@ -6,13 +7,13 @@ import {CLASSPATH_LOGO_FOOTER, DEFAULT_FILTER } from '../../const';
 import { filterFilmsByGenre } from '../../utils';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import ShowMoreButton from '../../components/show-more-button/show-more-button';
-import LoadingSpinner from '../../components/loading-spinner/loading-spinner';
 import { Fragment, useEffect } from 'react';
 import { fetchFilmsAction } from '../../store/api-actions';
 import { getFilmsDataLoadingStatus, getFilmsList, getLoadErrorStatus} from '../../store/app-data/app-data-selectors';
 import { getActiveFilterGenre, getFilmsCountOnPage } from '../../store/main-process/main-process-selectors';
 import PromoFilm from '../../components/promo-film/promo-film';
-import FilmListErrorBlock from '../../components/filmlist-error-block/filmlist-error-block';
+import FilmsErrorBlock from '../../components/error-components/error-block/filmlist-error-block';
+import LoadingBlock from '../../components/loading-components/loading-block/loading-block';
 
 const MAX_GENRES_COUNT = 10;
 
@@ -59,8 +60,8 @@ export default function MainPage() : JSX.Element {
           <h2 className="catalog__title visually-hidden">Catalog</h2>
           {
             isFilmsDataLoading
-              ? <LoadingSpinner />
-              : ( (isLoadError && <FilmListErrorBlock />) ||
+              ? <LoadingBlock />
+              : ( (isLoadError && <FilmsErrorBlock />) ||
                   (!isLoadError &&
                   <Fragment>
                     <GenresList availableGenres={availableGenres} />

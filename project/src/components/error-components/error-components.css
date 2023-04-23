@@ -15,10 +15,20 @@
   .try-again__btn:hover {
     border: 1px solid rgba(217, 205, 141, 0.7); }
 
-  .btn-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: inherit;
-    flex-direction: column;
-  }
+.block-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: inherit;
+  flex-direction: column;
+}
+
+.screen-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: inherit;
+  flex-direction: column;
+  height: 100vh;
+  background-image: linear-gradient(-180deg,#180202 0%,#000 100%);
+}

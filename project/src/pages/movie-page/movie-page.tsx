@@ -15,10 +15,10 @@ import { fetchFilmAction, fetchReviewsAction, fetchSimilarFilmsAction } from '..
 import { getRandomFilms } from '../../utils';
 import MyListButton from '../../components/my-list-button/my-list-button';
 import AddReviewButton from '../../components/add-review-button/add-review-button';
-import LoadingSpinner from '../../components/loading-spinner/loading-spinner';
 import { getAuthorizationStatus } from '../../store/user-process/user-process-selectors';
 import { getCurrentFilm, getFilmReviews, getFilmsDataLoadingStatus, getSimilarFilms, getLoadErrorStatus } from '../../store/app-data/app-data-selectors';
-import FilmErrorBlock from '../../components/film-error-block/film-error-block';
+import ErrorScreen from '../../components/error-components/error-screen/error-screen';
+import LoadingScreen from '../../components/loading-components/loading-screen/loading-screen';
 
 type MoviePageProps = {
   activeTab: typeof tabNames[number];
@@ -57,12 +57,12 @@ export default function MoviePage({activeTab} : MoviePageProps) : JSX.Element {
   const similarFilms = getRandomFilms(similarFilmsList, SIMILAR_FILMS_COUNT);
 
   if (film === undefined || isFilmsDataLoading) {
-    return <LoadingSpinner />;
+    return <LoadingScreen />;
   }
 
   if (film === null || !id) {
     if (isLoadError) {
-      return <FilmErrorBlock />;
+      return <ErrorScreen />;
     }
     return <NotFoundPage />;
   }
