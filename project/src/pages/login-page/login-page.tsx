@@ -79,6 +79,8 @@ export default function LoginPage() : JSX.Element {
   const isShowLoginError = isFieldUsed.loginField && fieldErrors.loginField;
   const isShowPasswordError = isFieldUsed.passwordField && fieldErrors.passwordField;
 
+  const isShowErrorField = isShowLoginError || isShowPasswordError;
+
   const onSubmit = (authData: AuthData) => {
     if (isFormValid) {
       dispatch(loginAction(authData));
@@ -106,7 +108,13 @@ export default function LoginPage() : JSX.Element {
 
       <div className="sign-in user-page__content">
         <form action="#" className="sign-in__form" onSubmit={handleAuthFormSubmit}>
-          {(isShowLoginError) && <div className='sign-in__message'><p>{fieldErrors.loginField}</p></div>}
+          {
+            isShowErrorField &&
+            <div className='sign-in__message'>
+              {(isShowLoginError) && <p>{fieldErrors.loginField}</p>}
+              {(isShowPasswordError) && <p>{fieldErrors.passwordField}</p>}
+            </div>
+          }
           <div className="sign-in__fields">
             <div className={`sign-in__field ${isShowLoginError ? 'sign-in__field--error' : ''}`}>
               <input
@@ -135,7 +143,6 @@ export default function LoginPage() : JSX.Element {
               />
               <label className="sign-in__label visually-hidden" htmlFor="user-password">Password</label>
             </div>
-            {(isShowPasswordError) && <div className='sign-in__message'><p>{fieldErrors.passwordField}</p></div>}
           </div>
           <div className="sign-in__submit">
             <button
