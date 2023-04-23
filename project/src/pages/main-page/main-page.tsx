@@ -1,49 +1,42 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Helmet } from 'react-helmet-async';
 import FilmsList from '../../components/film-list/film-list';
 import GenresList from '../../components/genres-list/genres-list';
 import Logo from '../../components/logo/logo';
-import PlayerButton from '../../components/player-button/player-button';
-import {CLASSPATH_LOGO_FOOTER, CLASSPATH_LOGO_HEADER, DEFAULT_FILTER, AuthorizationStatus } from '../../const';
+import {CLASSPATH_LOGO_FOOTER, DEFAULT_FILTER } from '../../const';
 import { filterFilmsByGenre } from '../../utils';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import ShowMoreButton from '../../components/show-more-button/show-more-button';
-import LoadingSpinner from '../loading-spinner/loading-spinner';
 import { Fragment, useEffect } from 'react';
-import { fetchFavoriteFilmsAction, fetchFilmsAction, fetchPromoFilmAction } from '../../store/api-actions';
-import UserBlock from '../../components/user-block/user-block';
-import GuestBlock from '../../components/guest-block/guest-block';
-import MyListButton from '../../components/my-list-button/my-list-button';
+import { fetchFilmsAction } from '../../store/api-actions';
+import { getFilmsDataLoadingStatus, getFilmsList, getLoadErrorStatus} from '../../store/app-data/app-data-selectors';
+import { getActiveFilterGenre, getFilmsCountOnPage } from '../../store/main-process/main-process-selectors';
+import PromoFilm from '../../components/promo-film/promo-film';
+import FilmsErrorBlock from '../../components/error-components/error-block/filmlist-error-block';
+import LoadingBlock from '../../components/loading-components/loading-block/loading-block';
 
 const MAX_GENRES_COUNT = 10;
 
-export default function MainPage () : JSX.Element {
+export default function MainPage() : JSX.Element {
 
   const dispatch = useAppDispatch();
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const isAuthorized = authorizationStatus === AuthorizationStatus.Auth;
 
   useEffect(() => {
-    dispatch(fetchFilmsAction());
-    dispatch(fetchPromoFilmAction());
+    let isMounted = true;
+
+    if (isMounted) {
+      dispatch(fetchFilmsAction());
+    }
+
+    return () => {isMounted = false;};
   }, [dispatch]);
 
-  useEffect(() => {
-    if (isAuthorized) {
-      dispatch(fetchFavoriteFilmsAction());
-    }
-  }, [isAuthorized, dispatch]);
+  const isLoadError = useAppSelector(getLoadErrorStatus);
+  const activeGenre = useAppSelector(getActiveFilterGenre);
+  const filmsList = useAppSelector(getFilmsList);
+  const maxFilmsCountOnPage = useAppSelector(getFilmsCountOnPage);
 
-  const promoFilm = useAppSelector((state) => state.promoFilm);
-
-  const {id, name, posterImage, backgroundImage, genre: promoGenre, released, isFavorite} = promoFilm;
-
-  const activeGenre = useAppSelector((state) => state.activeGenre);
-  const filmsList = useAppSelector((state) => state.filmsList);
-  const maxFilmsCountOnPage = useAppSelector((state) => state.filmsCountOnPage);
-
-  const isFilmsDataLoading = useAppSelector((state) => state.isFilmsDataLoadingStatus);
-
-  const favoritesFilmsCount = useAppSelector((state) => state.userFavoriteFilms.length);
+  const isFilmsDataLoading = useAppSelector(getFilmsDataLoadingStatus);
 
   const filters = new Set<string>().add(DEFAULT_FILTER);
   filmsList.forEach(({genre}) => filters.add(genre));
@@ -55,61 +48,26 @@ export default function MainPage () : JSX.Element {
   const isShowButton = allFilmsByGenre.length > showedFilmsOnPage.length;
 
   return (
-    <>
+    <Fragment>
       <Helmet>
         <title>What to Watch. Главная</title>
       </Helmet>
-      <section className="film-card">
-        <div className="film-card__bg">
-          <img src={backgroundImage} alt={name} />
-        </div>
 
-        <h1 className="visually-hidden">WTW</h1>
-
-        <header className="page-header film-card__head">
-          <Logo classPath={CLASSPATH_LOGO_HEADER} />
-          {
-            isAuthorized
-              ? <UserBlock />
-              : <GuestBlock />
-          }
-        </header>
-
-        <div className="film-card__wrap">
-          <div className="film-card__info">
-            <div className="film-card__poster">
-              <img src={posterImage} alt={`${name} poster`} width="218" height="327" />
-            </div>
-
-            <div className="film-card__desc">
-              <h2 className="film-card__title">{name}</h2>
-              <p className="film-card__meta">
-                <span className="film-card__genre">{promoGenre}</span>
-                <span className="film-card__year">{released}</span>
-              </p>
-
-              <div className="film-card__buttons">
-                <PlayerButton filmId={`${id}`} />
-                <MyListButton isAuthorized={isAuthorized} isFavorite={isFavorite} filmsCount={favoritesFilmsCount} filmId={`${id}`} />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <PromoFilm />
 
       <div className="page-content">
-        <section className="catalog">
+        <section className="catalog" style={{minHeight: '485px'}}>
           <h2 className="catalog__title visually-hidden">Catalog</h2>
-
           {
-            !isFilmsDataLoading
-              ? (
-                <Fragment>
-                  <GenresList activeGenre={activeGenre} availableGenres={availableGenres} />
-                  <FilmsList filmsList={showedFilmsOnPage} />
-                  {isShowButton ? <ShowMoreButton /> : ''}
-                </Fragment>
-              ) : <LoadingSpinner />
+            isFilmsDataLoading
+              ? <LoadingBlock />
+              : ( (isLoadError && <FilmsErrorBlock />) ||
+                  (!isLoadError &&
+                  <Fragment>
+                    <GenresList availableGenres={availableGenres} />
+                    <FilmsList filmsList={showedFilmsOnPage} />
+                    {isShowButton ? <ShowMoreButton /> : ''}
+                  </Fragment>) )
           }
         </section>
 
@@ -121,6 +79,6 @@ export default function MainPage () : JSX.Element {
           </div>
         </footer>
       </div>
-    </>
+    </Fragment>
   );
 }

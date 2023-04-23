@@ -1,0 +1,34 @@
+.try-again__btn {
+  display: block;
+  width: 450px;
+  padding: 24px 40px;
+  background: none;
+  border: 1px solid rgba(217, 205, 141, 0.41);
+  border-radius: 8px;
+  -webkit-transition: border-color 0.2s;
+  transition: border-color 0.2s;
+  font-size: 30px;
+  line-height: 44px;
+  text-align: center;
+  color: #D9CD8D;
+  cursor: pointer; }
+  .try-again__btn:hover {
+    border: 1px solid rgba(217, 205, 141, 0.7); }
+
+.block-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: inherit;
+  flex-direction: column;
+}
+
+.screen-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: inherit;
+  flex-direction: column;
+  height: 100vh;
+  background-image: linear-gradient(-180deg,#180202 0%,#000 100%);
+}

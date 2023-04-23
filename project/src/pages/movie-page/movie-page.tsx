@@ -10,58 +10,60 @@ import FilmsList from '../../components/film-list/film-list';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import UserBlock from '../../components/user-block/user-block';
 import GuestBlock from '../../components/guest-block/guest-block';
-import { useEffect } from 'react';
-import { fetchFavoriteFilmsAction, fetchFilmAction, fetchReviewsAction, fetchSimilarFilmsAction } from '../../store/api-actions';
+import { Fragment, useEffect } from 'react';
+import { fetchFilmAction, fetchReviewsAction, fetchSimilarFilmsAction } from '../../store/api-actions';
 import { getRandomFilms } from '../../utils';
 import MyListButton from '../../components/my-list-button/my-list-button';
 import AddReviewButton from '../../components/add-review-button/add-review-button';
-import LoadingSpinner from '../loading-spinner/loading-spinner';
+import { getAuthorizationStatus } from '../../store/user-process/user-process-selectors';
+import { getCurrentFilm, getFilmReviews, getFilmsDataLoadingStatus, getSimilarFilms, getLoadErrorStatus } from '../../store/app-data/app-data-selectors';
+import ErrorScreen from '../../components/error-components/error-screen/error-screen';
+import LoadingScreen from '../../components/loading-components/loading-screen/loading-screen';
 
 type MoviePageProps = {
   activeTab: typeof tabNames[number];
 }
 
+const SIMILAR_FILMS_COUNT = 4;
+
 export default function MoviePage({activeTab} : MoviePageProps) : JSX.Element {
-
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const isFilmsDataLoading = useAppSelector((state) => state.isFilmsDataLoadingStatus);
-
-  const isAuthorized = authorizationStatus === AuthorizationStatus.Auth;
 
   const {id} = useParams();
   const dispatch = useAppDispatch();
 
-  const SIMILAR_FILMS_COUNT = 4;
-
   useEffect(() => {
-    if (id) {
+    let isMounted = true;
+
+    if (isMounted && id) {
       dispatch(fetchFilmAction(id));
       dispatch(fetchReviewsAction(id));
       dispatch(fetchSimilarFilmsAction(id));
     }
+
+    return () => {isMounted = false;};
   }, [id, dispatch]);
 
-  useEffect(() => {
-    if (isAuthorized) {
-      dispatch(fetchFavoriteFilmsAction());
-    }
-  }, [isAuthorized, dispatch]);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const isFilmsDataLoading = useAppSelector(getFilmsDataLoadingStatus);
 
-  const film = useAppSelector((state) => state.currentFilm);
-  const reviews = useAppSelector((state) => state.filmReviews);
-  const similarFilmsList = useAppSelector((state) => state.similarFilms);
+  const isAuthorized = authorizationStatus === AuthorizationStatus.Auth;
 
-  const favoritesFilmsCount = useAppSelector((state) => state.userFavoriteFilms.length);
+  const isLoadError = useAppSelector(getLoadErrorStatus);
 
+  const film = useAppSelector(getCurrentFilm);
+  const reviews = useAppSelector(getFilmReviews);
+  const similarFilmsList = useAppSelector(getSimilarFilms);
 
   const similarFilms = getRandomFilms(similarFilmsList, SIMILAR_FILMS_COUNT);
 
   if (film === undefined || isFilmsDataLoading) {
-    return <LoadingSpinner />;
+    return <LoadingScreen />;
   }
 
-
   if (film === null || !id) {
+    if (isLoadError) {
+      return <ErrorScreen />;
+    }
     return <NotFoundPage />;
   }
 
@@ -76,7 +78,7 @@ export default function MoviePage({activeTab} : MoviePageProps) : JSX.Element {
   } = film;
 
   return (
-    <>
+    <Fragment>
       <Helmet>
         <title>What to Watch. Описание фильма</title>
       </Helmet>
@@ -107,7 +109,7 @@ export default function MoviePage({activeTab} : MoviePageProps) : JSX.Element {
 
               <div className="film-card__buttons">
                 <PlayerButton filmId={id}/>
-                <MyListButton isAuthorized={isAuthorized} isFavorite={isFavorite} filmsCount={favoritesFilmsCount} filmId={id}/>
+                <MyListButton isAuthorized={isAuthorized} isFavorite={isFavorite} filmId={id}/>
                 {isAuthorized ? <AddReviewButton filmsId={id} /> : ''}
               </div>
             </div>
@@ -122,7 +124,6 @@ export default function MoviePage({activeTab} : MoviePageProps) : JSX.Element {
 
             <div className="film-card__desc">
               <TabsNavigation activeTab={activeTab} id={id} />
-
               <Tabs activeTab={activeTab} film={film} reviewsList={reviews} />
             </div>
           </div>
@@ -144,7 +145,7 @@ export default function MoviePage({activeTab} : MoviePageProps) : JSX.Element {
           </div>
         </footer>
       </div>
-    </>
+    </Fragment>
   );
 }
 

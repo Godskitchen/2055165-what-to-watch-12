@@ -1,27 +1,42 @@
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { setFilmStatusAction } from '../../store/api-actions';
+import { checkAuthAction, fetchFavoriteFilmsAction, setFilmStatusAction } from '../../store/api-actions';
 import { AppRoute } from '../../const';
+import { getPromoFilmId } from '../../store/app-data/app-data-selectors';
+import { getFavoritesFilmsCount } from '../../store/user-process/user-process-selectors';
+import { useEffect } from 'react';
 
 type MyListBtnProps = {
   isAuthorized: boolean;
   isFavorite: boolean;
-  filmsCount: number;
   filmId: string;
 }
 
-export default function MyListButton({isAuthorized, isFavorite, filmsCount, filmId}: MyListBtnProps) : JSX.Element {
+export default function MyListButton({isAuthorized, isFavorite, filmId}: MyListBtnProps) : JSX.Element {
 
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    let isMounted = true;
+
+    if (isMounted && isAuthorized) {
+      dispatch(fetchFavoriteFilmsAction());
+    }
+
+    return () => {isMounted = false;};
+  }, [isAuthorized, dispatch]);
+
   const newStatus = isFavorite ? 0 : 1;
-  const promoId = useAppSelector((state) => state.promoFilm.id);
+  const promoId = useAppSelector(getPromoFilmId);
+  const favoritesFilmsCount = useAppSelector(getFavoritesFilmsCount);
 
   const navigate = useNavigate();
 
-  const onClickHandler = () => {
+  const handleMyListBtnClick = () => {
     if (isAuthorized) {
       dispatch(setFilmStatusAction({filmId, status: newStatus, isPromo: `${promoId}` === filmId}));
     } else {
+      dispatch(checkAuthAction());
       navigate(AppRoute.Login);
     }
   };
@@ -30,7 +45,7 @@ export default function MyListButton({isAuthorized, isFavorite, filmsCount, film
     <button
       className="btn btn--list film-card__button"
       type="button"
-      onClick={onClickHandler}
+      onClick={handleMyListBtnClick}
     >
       {
         isAuthorized ?
@@ -39,7 +54,7 @@ export default function MyListButton({isAuthorized, isFavorite, filmsCount, film
           </svg> : ''
       }
       <span style={{marginLeft: !isAuthorized ? '10px' : ''}}>My list</span>
-      <span className={`film-card__count ${!isAuthorized ? 'visually-hidden' : ''}`}>{filmsCount}</span>
+      <span className={`film-card__count ${!isAuthorized ? 'visually-hidden' : ''}`}>{favoritesFilmsCount}</span>
     </button>
   );
 }

@@ -13,8 +13,11 @@ type FilmCardProps = {
 
 export default function FilmCard({id, name, previewImage, previewVideoLink, isActive, onCardEnter, onCardLeave} : FilmCardProps) : JSX.Element {
 
+  const handleCardMouseEnter = () => onCardEnter();
+  const handleCardMouseLeave = () => onCardLeave();
+
   return (
-    <article className="small-film-card catalog__films-card" onMouseEnter={onCardEnter} onMouseLeave={onCardLeave}>
+    <article className="small-film-card catalog__films-card" onMouseEnter={handleCardMouseEnter} onMouseLeave={handleCardMouseLeave}>
       <Link className="small-film-card__link" to={`/films/${id}`}>
         <div className="small-film-card__image">
           <CardVideoPlayer poster={previewImage} videoLink={previewVideoLink} isActive={isActive} />

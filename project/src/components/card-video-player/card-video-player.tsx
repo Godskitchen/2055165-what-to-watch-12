@@ -6,25 +6,32 @@ type CardVideoPlayerProps = {
   isActive: boolean;
 }
 
+const DELAY_BEFORE_PLAY = 1000;
+
 export default function CardVideoPlayer({poster, videoLink, isActive} : CardVideoPlayerProps) : JSX.Element {
 
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {
-    const videoElement = videoRef.current;
-
-    if (videoElement === null) {
-      return;
-    }
-
+    let isMounted = true;
     let timeoutID: NodeJS.Timeout | null = null;
 
-    if (isActive) {
-      timeoutID = setTimeout(() => {videoElement.play();}, 1000);
-    } else {
-      videoElement.load();
+    if (isMounted) {
+      const videoElement = videoRef.current;
+
+      if (videoElement === null) {
+        return;
+      }
+
+      if (isActive) {
+        timeoutID = setTimeout(() => {videoElement.play();}, DELAY_BEFORE_PLAY);
+      } else {
+        videoElement.load();
+      }
     }
+
     return () => {
+      isMounted = false;
       if (timeoutID !== null) {
         clearTimeout(timeoutID);
       }

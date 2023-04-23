@@ -1,6 +1,10 @@
 import { Fragment } from 'react';
 import { Films } from './types/film';
 import { FilmRatingLevel } from './const';
+import dayjs from 'dayjs';
+import duration from 'dayjs/plugin/duration';
+
+dayjs.extend(duration);
 
 
 const getRandomIntNumber = (min: number, max: number) : number | typeof NaN => {
@@ -68,4 +72,9 @@ export function getFilmRatingLevel(rating: number) : string {
   } else {
     return FilmRatingLevel.Awesome;
   }
+}
+
+export function formatTime(timeleft: number) : string {
+  const dur = dayjs.duration(timeleft, 'seconds');
+  return dur.format(`[-]${dur.hours() === 0 ? '' : 'HH[:]'}${dur.minutes() === 0 ? '' : 'mm[:]'}ss`);
 }
