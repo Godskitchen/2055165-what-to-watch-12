@@ -146,7 +146,7 @@ export default function LoginPage() : JSX.Element {
                 color: !isFormValid ? 'rgb(70, 70, 70)' : '',
                 pointerEvents: !isFormValid ? 'none' : 'auto'
               }}
-              disabled={!isFormValid}
+              disabled={!isFormValid || isUIBlocking}
             >
               Sign in
             </button>

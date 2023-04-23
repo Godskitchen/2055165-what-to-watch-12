@@ -97,7 +97,15 @@ export default function AddReviewPage() : JSX.Element {
     const ratingValue = `${10 - index}`;
     return (
       <Fragment key={ratingValue}>
-        <input className="rating__input" id={`star-${ratingValue}`} type="radio" name="rating" value={`${ratingValue}`} onChange={handleRatingChange} checked={reviewData.rating === `${ratingValue}`} />
+        <input
+          className="rating__input"
+          id={`star-${ratingValue}`}
+          type="radio"
+          name="rating"
+          value={`${ratingValue}`}
+          onChange={handleRatingChange}
+          checked={reviewData.rating === `${ratingValue}`}
+        />
         <label className="rating__label" htmlFor={`star-${ratingValue}`}>{`Rating ${ratingValue}`}</label>
       </Fragment>
     );
@@ -172,7 +180,7 @@ export default function AddReviewPage() : JSX.Element {
               <button
                 className="add-review__btn"
                 type="submit"
-                disabled={!isFormValid}
+                disabled={!isFormValid || isUIBlocking}
               >
                 Post
               </button>
