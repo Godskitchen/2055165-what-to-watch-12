@@ -3,11 +3,12 @@ import thunk, {ThunkDispatch} from 'redux-thunk';
 import MockAdapter from 'axios-mock-adapter';
 import {configureMockStore} from '@jedmao/redux-mock-store';
 import {createAPI} from '../services/serverApi';
-import {addReviewAction, checkAuthAction, fetchFavoriteFilmsAction, fetchFilmAction, fetchFilmsAction, fetchPromoFilmAction, fetchReviewsAction, fetchSimilarFilmsAction, setFilmStatusAction,} from './api-actions';
+import {addReviewAction, checkAuthAction, fetchFavoriteFilmsAction, fetchFilmAction, fetchFilmsAction, fetchPromoFilmAction, fetchReviewsAction, fetchSimilarFilmsAction, loginAction, logoutAction, setFilmStatusAction,} from './api-actions';
 import {APIRoute} from '../const';
 import {State} from '../types/state';
 import { fakeMovies, fakeReviews, fakeUser } from '../utils/mocks';
 import { redirectToRoute } from './action';
+import { AuthData } from '../types/user-data';
 
 
 describe('Async actions', () => {
@@ -59,6 +60,78 @@ describe('Async actions', () => {
       ]);
     });
   });
+
+  describe('loginAction tests', () => {
+    it('should dispatch RequriedAuthorization and RedirectToRoute when POST /login', async () => {
+      const fakeLoginData: AuthData = {login: 'test@test.ru', password: '123456a'};
+
+      mockAPI
+        .onPost(APIRoute.Login)
+        .reply(200, {...fakeUser, token: 'secret'});
+
+
+      const store = mockStore();
+      Storage.prototype.setItem = jest.fn();
+
+      await store.dispatch(loginAction(fakeLoginData));
+
+      const actions = store.getActions().map(({type}) => type);
+
+      expect(actions).toEqual([
+        loginAction.pending.type,
+        redirectToRoute.type,
+        loginAction.fulfilled.type
+      ]);
+
+      expect(Storage.prototype.setItem).toBeCalledTimes(1);
+      expect(Storage.prototype.setItem).toBeCalledWith('wtw-token', 'secret');
+    });
+
+    it('should rejected authorization when POST /login with bad request', async () => {
+      const fakeLoginData: AuthData = {login: 'wrongname', password: '12'};
+
+      mockAPI
+        .onPost(APIRoute.Login)
+        .reply(400);
+
+
+      const store = mockStore();
+
+      await store.dispatch(loginAction(fakeLoginData));
+
+      const actions = store.getActions().map(({type}) => type);
+
+      expect(actions).toEqual([
+        loginAction.pending.type,
+        loginAction.rejected.type
+      ]);
+    });
+  });
+
+  describe('logoutAction tests', () => {
+    it('should dispatch Logout and RedirectToRoute when Delete /logout', async () => {
+      mockAPI
+        .onDelete(APIRoute.Logout)
+        .reply(204);
+
+      const store = mockStore();
+      Storage.prototype.removeItem = jest.fn();
+
+      await store.dispatch(logoutAction());
+
+      const actions = store.getActions().map(({type}) => type);
+
+      expect(actions).toEqual([
+        logoutAction.pending.type,
+        redirectToRoute.type,
+        logoutAction.fulfilled.type
+      ]);
+
+      expect(Storage.prototype.removeItem).toBeCalledTimes(1);
+      expect(Storage.prototype.removeItem).toBeCalledWith('wtw-token');
+    });
+  });
+
 
   describe('fetchFilmsAction tests', () => {
     it('should dispatch available films when GET /films', async () => {
