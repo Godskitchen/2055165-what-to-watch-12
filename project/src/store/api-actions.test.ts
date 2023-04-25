@@ -3,10 +3,11 @@ import thunk, {ThunkDispatch} from 'redux-thunk';
 import MockAdapter from 'axios-mock-adapter';
 import {configureMockStore} from '@jedmao/redux-mock-store';
 import {createAPI} from '../services/serverApi';
-import {checkAuthAction, fetchFavoriteFilmsAction, fetchFilmAction, fetchFilmsAction, fetchPromoFilmAction, fetchReviewsAction, fetchSimilarFilmsAction, setFilmStatusAction,} from './api-actions';
+import {addReviewAction, checkAuthAction, fetchFavoriteFilmsAction, fetchFilmAction, fetchFilmsAction, fetchPromoFilmAction, fetchReviewsAction, fetchSimilarFilmsAction, setFilmStatusAction,} from './api-actions';
 import {APIRoute} from '../const';
 import {State} from '../types/state';
 import { fakeMovies, fakeReviews, fakeUser } from '../utils/mocks';
+import { redirectToRoute } from './action';
 
 
 describe('Async actions', () => {
@@ -266,9 +267,9 @@ describe('Async actions', () => {
     });
   });
 
-  describe('setFilmStatusAction', () => {
+  describe('setFilmStatusAction test', () => {
 
-    it('should change favorite status of current film and promo film if they are equal when GET /favorite/{filmId}/{status}', async () => {
+    it('should change favorite status of current film and promo film if they are equal when POST /favorite/{filmId}/{status}', async () => {
 
       const filmsList = [...fakeMovies];
       const film = filmsList[7];
@@ -281,18 +282,17 @@ describe('Async actions', () => {
 
       const returnedFilm = {...film, isFavorite: !film.isFavorite};
 
-      // const headers = {
-      //   'x-token' : 'secret-token'
-      // };
-
       mockAPI
         .onPost(`/favorite/${filmId}/${newFavoriteStatus}`)
         .reply(200, returnedFilm);
 
+      mockAPI
+        .onGet(APIRoute.FavoriteFilms)
+        .reply(200, filmsList);
+
       expect(store.getActions()).toEqual([]);
 
-      await store.dispatch(setFilmStatusAction({filmId: `${filmId}`, status: newFavoriteStatus, isPromo: film === promoFilm}));
-      await store.dispatch(fetchFavoriteFilmsAction());
+      await store.dispatch(setFilmStatusAction({filmId: `${filmId}`, status: newFavoriteStatus, isPromo: filmId === promoFilm.id}));
 
       const actions = store.getActions().map(({type}) => type);
 
@@ -304,44 +304,119 @@ describe('Async actions', () => {
       ]);
     });
 
+    it('should rejected when POST /favorite/{filmId}/{status} if user wasn\'t authorized', async () => {
+
+      const filmsList = [...fakeMovies];
+      const film = filmsList[7];
+      const promoFilm = filmsList[6];
+
+      const filmId = film.id;
+      const newFavoriteStatus = film.isFavorite ? 0 : 1;
+
+      const store = mockStore();
+
+      mockAPI
+        .onPost(`/favorite/${filmId}/${newFavoriteStatus}`)
+        .reply(401, {error: 'You are not logged in or you do not have permission to this page.'});
+
+      expect(store.getActions()).toEqual([]);
+
+      await store.dispatch(setFilmStatusAction({filmId: `${filmId}`, status: newFavoriteStatus, isPromo: filmId === promoFilm.id}));
+
+      const actions = store.getActions().map(({type}) => type);
+
+      expect(actions).toEqual([
+        setFilmStatusAction.pending.type,
+        setFilmStatusAction.rejected.type,
+      ]);
+    });
   });
 
-  it('should change favorite status of current film and promo film if they are equal when GET /favorite/{filmId}/{status}', async () => {
+  describe('addReviewAction test', () => {
 
-    const filmsList = [...fakeMovies];
-    const film = filmsList[7];
-    const promoFilm = filmsList[7];
+    it('should dispatch updated reviews and RedirectToRoute when POST /comments/{filmId}', async () => {
+      const film = [...fakeMovies][5];
+      const filmId = film.id;
 
-    const filmId = film.id;
-    const newFavoriteStatus = film.isFavorite ? 0 : 1;
+      const fakeReview = {
+        comment: 'fake comment',
+        rating: 5
+      };
 
-    const store = mockStore();
+      const returnedReviews = [...fakeReviews];
 
-    const returnedFilm = {...film, isFavorite: !film.isFavorite};
+      const store = mockStore();
 
-    // const headers = {
-    //   'x-token' : 'secret-token'
-    // };
+      mockAPI
+        .onPost(`/comments/${filmId}`)
+        .reply(200, returnedReviews);
 
-    mockAPI
-      .onPost(`/favorite/${filmId}/${newFavoriteStatus}`)
-      .reply(200, returnedFilm);
+      expect(store.getActions()).toEqual([]);
 
-    expect(store.getActions()).toEqual([]);
+      await store.dispatch(addReviewAction({filmId: `${filmId}`, comment: fakeReview.comment, rating: fakeReview.rating}));
 
-    await store.dispatch(setFilmStatusAction({filmId: `${filmId}`, status: newFavoriteStatus, isPromo: film === promoFilm}));
-    await store.dispatch(fetchFavoriteFilmsAction());
+      const actions = store.getActions().map(({type}) => type);
 
-    const actions = store.getActions().map(({type}) => type);
+      expect(actions).toEqual([
+        addReviewAction.pending.type,
+        redirectToRoute.type,
+        addReviewAction.fulfilled.type
+      ]);
+    });
 
-    expect(actions).toEqual([
-      setFilmStatusAction.pending.type,
-      fetchFavoriteFilmsAction.pending.type,
-      fetchFavoriteFilmsAction.fulfilled.type,
-      setFilmStatusAction.fulfilled.type,
-    ]);
+    it('should rejected when POST /comments/{filmId} if film wasn\'t found', async () => {
+      const nonExistingId = '999';
+
+      const fakeReview = {
+        comment: 'fake comment',
+        rating: 5
+      };
+
+      const store = mockStore();
+
+      mockAPI
+        .onPost(`/comments/${nonExistingId}`)
+        .reply(400, {error: `Film id ${nonExistingId} does not exist`});
+
+      expect(store.getActions()).toEqual([]);
+
+      await store.dispatch(addReviewAction({filmId: `${nonExistingId}`, comment: fakeReview.comment, rating: fakeReview.rating}));
+
+      const actions = store.getActions().map(({type}) => type);
+
+      expect(actions).toEqual([
+        addReviewAction.pending.type,
+        addReviewAction.rejected.type
+      ]);
+    });
+
+    it('should rejected when POST /comments/{filmId} if user wasn\'t authorized', async () => {
+      const film = [...fakeMovies][5];
+      const filmId = film.id;
+
+      const fakeReview = {
+        comment: 'fake comment',
+        rating: 5
+      };
+
+      const store = mockStore();
+
+      mockAPI
+        .onPost(`/comments/${filmId}`)
+        .reply(401, {error: 'You are not logged in or you do not have permission to this page.'});
+
+      expect(store.getActions()).toEqual([]);
+
+      await store.dispatch(addReviewAction({filmId: `${filmId}`, comment: fakeReview.comment, rating: fakeReview.rating}));
+
+      const actions = store.getActions().map(({type}) => type);
+
+      expect(actions).toEqual([
+        addReviewAction.pending.type,
+        addReviewAction.rejected.type
+      ]);
+    });
   });
-
 });
 
 
