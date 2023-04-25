@@ -3,7 +3,7 @@ import thunk, {ThunkDispatch} from 'redux-thunk';
 import MockAdapter from 'axios-mock-adapter';
 import {configureMockStore} from '@jedmao/redux-mock-store';
 import {createAPI} from '../services/serverApi';
-import {checkAuthAction, fetchFavoriteFilmsAction, fetchFilmAction, fetchFilmsAction, fetchPromoFilmAction, fetchReviewsAction, fetchSimilarFilmsAction,} from './api-actions';
+import {checkAuthAction, fetchFavoriteFilmsAction, fetchFilmAction, fetchFilmsAction, fetchPromoFilmAction, fetchReviewsAction, fetchSimilarFilmsAction, setFilmStatusAction,} from './api-actions';
 import {APIRoute} from '../const';
 import {State} from '../types/state';
 import { fakeMovies, fakeReviews, fakeUser } from '../utils/mocks';
@@ -268,44 +268,79 @@ describe('Async actions', () => {
 
   describe('setFilmStatusAction', () => {
 
-    // it('should change favorite status of current film and promo film if they are equal when GET /favorite/{filmId}/{status}', async () => {
+    it('should change favorite status of current film and promo film if they are equal when GET /favorite/{filmId}/{status}', async () => {
 
-    //   const filmsList = [...fakeMovies];
-    //   const film = filmsList[7];
-    //   const promoFilm = filmsList[7];
+      const filmsList = [...fakeMovies];
+      const film = filmsList[7];
+      const promoFilm = filmsList[7];
 
-    //   const filmId = film.id;
-    //   const newFavoriteStatus = film.isFavorite ? 0 : 1;
+      const filmId = film.id;
+      const newFavoriteStatus = film.isFavorite ? 0 : 1;
 
-    //   const store = mockStore();
+      const store = mockStore();
 
-    //   const returnedFilm = {...film, isFavorite: !film.isFavorite};
+      const returnedFilm = {...film, isFavorite: !film.isFavorite};
 
-    //   // const headers = {
-    //   //   'x-token' : 'secret-token'
-    //   // };
+      // const headers = {
+      //   'x-token' : 'secret-token'
+      // };
 
-    //   mockAPI
-    //     .onPost(`/favorite/${filmId}/${newFavoriteStatus}`)
-    //     .reply(200, returnedFilm);
+      mockAPI
+        .onPost(`/favorite/${filmId}/${newFavoriteStatus}`)
+        .reply(200, returnedFilm);
 
-    //   expect(store.getActions()).toEqual([]);
+      expect(store.getActions()).toEqual([]);
 
-    //   await store.dispatch(setFilmStatusAction({filmId: `${filmId}`, status: newFavoriteStatus, isPromo: film === promoFilm}));
-    //   await store.dispatch(fetchFavoriteFilmsAction());
+      await store.dispatch(setFilmStatusAction({filmId: `${filmId}`, status: newFavoriteStatus, isPromo: film === promoFilm}));
+      await store.dispatch(fetchFavoriteFilmsAction());
 
-    //   const actions = store.getActions().map(({type}) => type);
+      const actions = store.getActions().map(({type}) => type);
 
-    //   expect(actions).toEqual([
-    //     setFilmStatusAction.pending.type,
-    //     fetchFavoriteFilmsAction.pending.type,
-    //     fetchFavoriteFilmsAction.fulfilled.type,
-    //     setFilmStatusAction.fulfilled.type,
-    //   ]);
-    // });
+      expect(actions).toEqual([
+        setFilmStatusAction.pending.type,
+        fetchFavoriteFilmsAction.pending.type,
+        fetchFavoriteFilmsAction.fulfilled.type,
+        setFilmStatusAction.fulfilled.type,
+      ]);
+    });
 
   });
 
+  it('should change favorite status of current film and promo film if they are equal when GET /favorite/{filmId}/{status}', async () => {
+
+    const filmsList = [...fakeMovies];
+    const film = filmsList[7];
+    const promoFilm = filmsList[7];
+
+    const filmId = film.id;
+    const newFavoriteStatus = film.isFavorite ? 0 : 1;
+
+    const store = mockStore();
+
+    const returnedFilm = {...film, isFavorite: !film.isFavorite};
+
+    // const headers = {
+    //   'x-token' : 'secret-token'
+    // };
+
+    mockAPI
+      .onPost(`/favorite/${filmId}/${newFavoriteStatus}`)
+      .reply(200, returnedFilm);
+
+    expect(store.getActions()).toEqual([]);
+
+    await store.dispatch(setFilmStatusAction({filmId: `${filmId}`, status: newFavoriteStatus, isPromo: film === promoFilm}));
+    await store.dispatch(fetchFavoriteFilmsAction());
+
+    const actions = store.getActions().map(({type}) => type);
+
+    expect(actions).toEqual([
+      setFilmStatusAction.pending.type,
+      fetchFavoriteFilmsAction.pending.type,
+      fetchFavoriteFilmsAction.fulfilled.type,
+      setFilmStatusAction.fulfilled.type,
+    ]);
+  });
 
 });
 
