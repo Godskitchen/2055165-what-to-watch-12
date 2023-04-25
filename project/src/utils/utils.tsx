@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
-import { Films } from './types/film';
-import { FilmRatingLevel } from './const';
+import { Films } from '../types/film';
+import { FilmRatingLevel } from '../const';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 

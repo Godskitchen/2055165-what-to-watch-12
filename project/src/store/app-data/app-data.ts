@@ -4,7 +4,9 @@ import { SliceNameSpace } from '../../const';
 import { addReviewAction, fetchFavoriteFilmsAction, fetchFilmAction, fetchFilmsAction, fetchPromoFilmAction, fetchReviewsAction, fetchSimilarFilmsAction, loginAction, setFilmStatusAction } from '../api-actions';
 
 const initialState: AppData = {
-  isFilmsDataLoadingStatus: false,
+  isFilmsLoadingStatus: false,
+  isPromoFilmLoadingStatus: false,
+  isFavoriteFilmsLoadingStatus: false,
   isDataUploadingStatus: false,
   hasLoadingError: false,
   promoFilm: undefined,
@@ -30,39 +32,39 @@ export const appData = createSlice({
         state.isDataUploadingStatus = false;
       })
       .addCase(fetchFilmsAction.pending, (state) => {
-        state.isFilmsDataLoadingStatus = true;
+        state.isFilmsLoadingStatus = true;
       })
       .addCase(fetchFilmsAction.fulfilled, (state, action) => {
-        state.isFilmsDataLoadingStatus = false;
+        state.isFilmsLoadingStatus = false;
         state.filmsList = action.payload;
         state.hasLoadingError = false;
       })
       .addCase(fetchFilmsAction.rejected, (state) => {
-        state.isFilmsDataLoadingStatus = false;
+        state.isFilmsLoadingStatus = false;
         state.filmsList = [];
         state.hasLoadingError = true;
       })
       .addCase(fetchPromoFilmAction.pending, (state) => {
-        state.isFilmsDataLoadingStatus = true;
+        state.isPromoFilmLoadingStatus = true;
       })
       .addCase(fetchPromoFilmAction.fulfilled, (state, action) => {
         state.promoFilm = action.payload;
-        state.isFilmsDataLoadingStatus = false;
+        state.isPromoFilmLoadingStatus = false;
       })
       .addCase(fetchPromoFilmAction.rejected, (state) => {
         state.promoFilm = null;
-        state.isFilmsDataLoadingStatus = false;
+        state.isPromoFilmLoadingStatus = false;
       })
       .addCase(fetchFilmAction.pending, (state) => {
-        state.isFilmsDataLoadingStatus = true;
+        state.isFilmsLoadingStatus = true;
       })
       .addCase(fetchFilmAction.fulfilled, (state, action) => {
-        state.isFilmsDataLoadingStatus = false;
+        state.isFilmsLoadingStatus = false;
         state.currentFilm = action.payload;
         state.hasLoadingError = false;
       })
       .addCase(fetchFilmAction.rejected, (state) => {
-        state.isFilmsDataLoadingStatus = false;
+        state.isFilmsLoadingStatus = false;
         state.currentFilm = null;
         state.hasLoadingError = true;
       })
@@ -96,15 +98,15 @@ export const appData = createSlice({
         state.isDataUploadingStatus = false;
       })
       .addCase(fetchFavoriteFilmsAction.fulfilled, (state) => {
-        state.isDataUploadingStatus = false;
+        state.isFavoriteFilmsLoadingStatus = false;
         state.hasLoadingError = false;
       })
       .addCase(fetchFavoriteFilmsAction.rejected, (state) => {
-        state.isDataUploadingStatus = false;
+        state.isFavoriteFilmsLoadingStatus = false;
         state.hasLoadingError = true;
       })
       .addCase(fetchFavoriteFilmsAction.pending, (state) => {
-        state.isDataUploadingStatus = true;
+        state.isFavoriteFilmsLoadingStatus = true;
       });
   }
 });

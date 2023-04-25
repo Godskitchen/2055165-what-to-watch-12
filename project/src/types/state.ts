@@ -10,7 +10,9 @@ export type UserProcess = {
 };
 
 export type AppData = {
-  isFilmsDataLoadingStatus: boolean;
+  isFilmsLoadingStatus: boolean;
+  isFavoriteFilmsLoadingStatus: boolean;
+  isPromoFilmLoadingStatus: boolean;
   isDataUploadingStatus: boolean;
   hasLoadingError: boolean;
   promoFilm: Film | null | undefined;

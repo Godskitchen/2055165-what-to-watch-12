@@ -1,11 +1,11 @@
 import { useAppDispatch } from '../../hooks';
-import { showMoreFilms } from '../../store/main-process/main-process';
+import { showMoreFilmsAction } from '../../store/main-process/main-process';
 
 
 export default function ShowMoreButton() : JSX.Element {
 
   const dispatch = useAppDispatch();
-  const handleShowMoreBtnClick = () => dispatch(showMoreFilms());
+  const handleShowMoreBtnClick = () => dispatch(showMoreFilmsAction());
 
   return (
     <div className="catalog__more">

@@ -3,7 +3,7 @@ import { AuthorizationStatus, CLASSPATH_LOGO_HEADER } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import Logo from '../logo/logo';
 import { fetchPromoFilmAction } from '../../store/api-actions';
-import { getFilmsDataLoadingStatus, getPromoFilm } from '../../store/app-data/app-data-selectors';
+import { getPromoFilm, getPromoFilmLoadingStatus } from '../../store/app-data/app-data-selectors';
 import UserBlock from '../user-block/user-block';
 import GuestBlock from '../guest-block/guest-block';
 import { getAuthorizationStatus } from '../../store/user-process/user-process-selectors';
@@ -29,9 +29,10 @@ export default function PromoFilm() : JSX.Element {
   const isAuthorized = authorizationStatus === AuthorizationStatus.Auth;
 
   const promoFilm = useAppSelector(getPromoFilm);
-  const isFilmsDataLoading = useAppSelector(getFilmsDataLoadingStatus);
+  const isPromoFilmLoading = useAppSelector(getPromoFilmLoadingStatus);
 
-  if (promoFilm === undefined || isFilmsDataLoading) {
+
+  if (promoFilm === undefined || isPromoFilmLoading) {
     return (
       <section className="film-card">
         <LoadingBlock />;

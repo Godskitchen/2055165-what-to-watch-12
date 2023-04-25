@@ -13,7 +13,10 @@ export const getCurrentFilm = (state: State): Film | null | undefined => state[S
 export const getFilmReviews = (state: State): Reviews => state[SliceNameSpace.Data].filmReviews;
 export const getSimilarFilms = (state: State): Films => state[SliceNameSpace.Data].similarFilms;
 
-export const getFilmsDataLoadingStatus = (state: State): boolean => state[SliceNameSpace.Data].isFilmsDataLoadingStatus;
+export const getFilmsLoadingStatus = (state: State): boolean => state[SliceNameSpace.Data].isFilmsLoadingStatus;
+export const getFavoriteFilmsLoadingStatus = (state: State): boolean => state[SliceNameSpace.Data].isFavoriteFilmsLoadingStatus;
+export const getPromoFilmLoadingStatus = (state: State): boolean => state[SliceNameSpace.Data].isPromoFilmLoadingStatus;
+
 export const getDataUploadingStatus = (state: State): boolean => state[SliceNameSpace.Data].isDataUploadingStatus;
 
 export const getLoadErrorStatus = (state: State): boolean => state[SliceNameSpace.Data].hasLoadingError;
