@@ -14,21 +14,21 @@ export const mainProcess = createSlice({
   name: SliceNameSpace.Main,
   initialState,
   reducers: {
-    changeGenre: (state, action: PayloadAction<string>) => {
+    changeFilterGenreAction: (state, action: PayloadAction<string>) => {
       state.activeGenre = action.payload;
     },
-    resetFilterGenre: (state) => {
+    resetFilterGenreAction: (state) => {
       state.activeGenre = DEFAULT_FILTER;
     },
-    showMoreFilms: (state) => {
+    showMoreFilmsAction: (state) => {
       state.filmsCountOnPage = state.filmsCountOnPage + FILMS_COUNT_PER_LOAD;
     },
-    resetFilmsCountOnPage: (state) => {
+    resetFilmsCountOnPageAction: (state) => {
       state.filmsCountOnPage = INITIAL_FILMS_COUNT_ON_PAGE;
     },
   }
 });
 
-export const {changeGenre, resetFilterGenre, resetFilmsCountOnPage, showMoreFilms} = mainProcess.actions;
+export const {changeFilterGenreAction, resetFilterGenreAction, resetFilmsCountOnPageAction, showMoreFilmsAction} = mainProcess.actions;
 
 

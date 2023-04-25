@@ -12,11 +12,11 @@ import UserBlock from '../../components/user-block/user-block';
 import GuestBlock from '../../components/guest-block/guest-block';
 import { Fragment, useEffect } from 'react';
 import { fetchFilmAction, fetchReviewsAction, fetchSimilarFilmsAction } from '../../store/api-actions';
-import { getRandomFilms } from '../../utils';
+import { getRandomFilms } from '../../utils/utils';
 import MyListButton from '../../components/my-list-button/my-list-button';
 import AddReviewButton from '../../components/add-review-button/add-review-button';
 import { getAuthorizationStatus } from '../../store/user-process/user-process-selectors';
-import { getCurrentFilm, getFilmReviews, getFilmsDataLoadingStatus, getSimilarFilms, getLoadErrorStatus } from '../../store/app-data/app-data-selectors';
+import { getCurrentFilm, getFilmReviews, getFilmsLoadingStatus, getSimilarFilms, getLoadErrorStatus } from '../../store/app-data/app-data-selectors';
 import ErrorScreen from '../../components/error-components/error-screen/error-screen';
 import LoadingScreen from '../../components/loading-components/loading-screen/loading-screen';
 
@@ -44,7 +44,7 @@ export default function MoviePage({activeTab} : MoviePageProps) : JSX.Element {
   }, [id, dispatch]);
 
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
-  const isFilmsDataLoading = useAppSelector(getFilmsDataLoadingStatus);
+  const isFilmsLoading = useAppSelector(getFilmsLoadingStatus);
 
   const isAuthorized = authorizationStatus === AuthorizationStatus.Auth;
 
@@ -56,7 +56,7 @@ export default function MoviePage({activeTab} : MoviePageProps) : JSX.Element {
 
   const similarFilms = getRandomFilms(similarFilmsList, SIMILAR_FILMS_COUNT);
 
-  if (film === undefined || isFilmsDataLoading) {
+  if (film === undefined || isFilmsLoading) {
     return <LoadingScreen />;
   }
 

@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 import { fetchFavoriteFilmsAction } from '../../store/api-actions';
 import UserBlock from '../../components/user-block/user-block';
 import { getFavoritesFilms } from '../../store/user-process/user-process-selectors';
-import { getFilmsDataLoadingStatus, getLoadErrorStatus } from '../../store/app-data/app-data-selectors';
+import { getLoadErrorStatus, getPromoFilmLoadingStatus } from '../../store/app-data/app-data-selectors';
 import FavoritesErrorBlock from '../../components/error-components/error-block/favorites-error-block';
 import LoadingBlock from '../../components/loading-components/loading-block/loading-block';
 
@@ -25,7 +25,7 @@ export default function MyListPage() : JSX.Element {
     return () => {isMounted = false;};
   }, [dispatch]);
 
-  const isFilmsDataLoading = useAppSelector(getFilmsDataLoadingStatus);
+  const isFilmsDataLoading = useAppSelector(getPromoFilmLoadingStatus);
   const isLoadError = useAppSelector(getLoadErrorStatus);
   const favoriteList = useAppSelector(getFavoritesFilms);
 

@@ -1,15 +1,14 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Helmet } from 'react-helmet-async';
 import FilmsList from '../../components/film-list/film-list';
 import GenresList from '../../components/genres-list/genres-list';
 import Logo from '../../components/logo/logo';
 import {CLASSPATH_LOGO_FOOTER, DEFAULT_FILTER } from '../../const';
-import { filterFilmsByGenre } from '../../utils';
+import { filterFilmsByGenre } from '../../utils/utils';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import ShowMoreButton from '../../components/show-more-button/show-more-button';
 import { Fragment, useEffect } from 'react';
 import { fetchFilmsAction } from '../../store/api-actions';
-import { getFilmsDataLoadingStatus, getFilmsList, getLoadErrorStatus} from '../../store/app-data/app-data-selectors';
+import { getFilmsLoadingStatus, getFilmsList, getLoadErrorStatus } from '../../store/app-data/app-data-selectors';
 import { getActiveFilterGenre, getFilmsCountOnPage } from '../../store/main-process/main-process-selectors';
 import PromoFilm from '../../components/promo-film/promo-film';
 import FilmsErrorBlock from '../../components/error-components/error-block/filmlist-error-block';
@@ -36,7 +35,7 @@ export default function MainPage() : JSX.Element {
   const filmsList = useAppSelector(getFilmsList);
   const maxFilmsCountOnPage = useAppSelector(getFilmsCountOnPage);
 
-  const isFilmsDataLoading = useAppSelector(getFilmsDataLoadingStatus);
+  const isFilmsLoading = useAppSelector(getFilmsLoadingStatus);
 
   const filters = new Set<string>().add(DEFAULT_FILTER);
   filmsList.forEach(({genre}) => filters.add(genre));
@@ -59,7 +58,7 @@ export default function MainPage() : JSX.Element {
         <section className="catalog" style={{minHeight: '485px'}}>
           <h2 className="catalog__title visually-hidden">Catalog</h2>
           {
-            isFilmsDataLoading
+            isFilmsLoading
               ? <LoadingBlock />
               : ( (isLoadError && <FilmsErrorBlock />) ||
                   (!isLoadError &&
