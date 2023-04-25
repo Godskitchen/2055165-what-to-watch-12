@@ -79,7 +79,7 @@ export const fetchFavoriteFilmsAction = createAsyncThunk<Films, undefined,
 {
   extra: AxiosInstance;
 }>(
-  'user/fetchUseFavoriteFilms',
+  'user/fetchUserFavoriteFilms',
   async(_arg, { extra: serverApi}) => {
     try {
       const {data} = await serverApi.get<Films>(APIRoute.FavoriteFilms);
