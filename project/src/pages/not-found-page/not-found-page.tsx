@@ -1,8 +1,16 @@
 import { Helmet } from 'react-helmet-async';
 import Logo from '../../components/logo/logo';
-import { CLASSPATH_LOGO_FOOTER, CLASSPATH_LOGO_HEADER } from '../../const';
+import { AppRoute, CLASSPATH_LOGO_FOOTER, CLASSPATH_LOGO_HEADER } from '../../const';
+import { useNavigate } from 'react-router-dom';
 
 export default function NotFoundPage() : JSX.Element {
+
+  const navigate = useNavigate();
+
+  const handleNavigateBtnClick = () => {
+    navigate(AppRoute.Main);
+  };
+
   return (
     <div className="user-page">
       <Helmet>
@@ -12,9 +20,12 @@ export default function NotFoundPage() : JSX.Element {
         <Logo classPath={CLASSPATH_LOGO_HEADER} />
       </header>
 
-      <div className="user-page__content">
+
+      <div className='block-container' style={{minHeight: '750px'}}>
         <h1 className="not-found-message">Page Not Found</h1>
+        <button className="try-again__btn" onClick={handleNavigateBtnClick} >Вернуться на главную</button>
       </div>
+
 
       <footer className="page-footer">
         <Logo classPath={CLASSPATH_LOGO_FOOTER} />

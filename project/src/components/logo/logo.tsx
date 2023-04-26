@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { useAppDispatch } from '../../hooks';
-import { fetchFilmsAction } from '../../store/api-actions';
 import { resetFilterGenreAction, resetFilmsCountOnPageAction } from '../../store/main-process/main-process';
 
 type LogoProps = {
@@ -15,7 +14,6 @@ export default function Logo({classPath} : LogoProps) : JSX.Element {
   const handleLogoClick = () => {
     dispatch(resetFilterGenreAction());
     dispatch(resetFilmsCountOnPageAction());
-    dispatch(fetchFilmsAction());
   };
 
   return (

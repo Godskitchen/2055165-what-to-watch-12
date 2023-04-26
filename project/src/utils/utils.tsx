@@ -76,5 +76,5 @@ export function getFilmRatingLevel(rating: number) : string {
 
 export function formatTime(timeleft: number) : string {
   const dur = dayjs.duration(timeleft, 'seconds');
-  return dur.format(`[-]${dur.hours() === 0 ? '' : 'HH[:]'}${dur.minutes() === 0 ? '' : 'mm[:]'}ss`);
+  return dur.format(`[-]${dur.hours() === 0 ? '' : 'HH[:]'}mm[:]ss`);
 }

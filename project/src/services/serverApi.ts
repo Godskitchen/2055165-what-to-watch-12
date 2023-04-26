@@ -3,6 +3,11 @@ import { getToken } from './authToken';
 import { StatusCodes } from 'http-status-codes';
 import {toast} from 'react-toastify';
 
+
+export interface CustomAxiosRequestConfig extends AxiosRequestConfig {
+  ignoreAuthError?: boolean;
+}
+
 const SERVER_URL = 'https://12.react.pages.academy/wtw';
 const REQUEST_TIMEOUT = 5000;
 
@@ -34,8 +39,13 @@ export const createAPI = (): AxiosInstance => {
 
   api.interceptors.response.use(
     (response) => response,
-    (error: AxiosError<{error: string}>) => {
-      if (error.response && shouldDisplayError(error.response)) {
+    (error: AxiosError<{ error: string }>) => {
+      const config = error.config as CustomAxiosRequestConfig;
+      if (
+        error.response &&
+        shouldDisplayError(error.response) &&
+        !config.ignoreAuthError
+      ) {
         toast.warn(error.response.data.error);
       }
 
