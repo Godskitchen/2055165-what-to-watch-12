@@ -7,6 +7,7 @@ import { AxiosInstance } from 'axios';
 import { AuthData, UserData, UserInfo } from '../types/user-data';
 import { dropToken, saveToken } from '../services/authToken';
 import { toast } from 'react-toastify';
+import { CustomAxiosRequestConfig } from '../services/serverApi';
 
 export const fetchFilmsAction = createAsyncThunk<Films, undefined, {extra: AxiosInstance}>(
   'data/fetchFilms',
@@ -134,6 +135,20 @@ export const checkAuthAction = createAsyncThunk<UserInfo, undefined,
   'user/checkAuth',
   async (_arg, {extra: serverApi}) => {
     const {data} = await serverApi.get<UserData>(APIRoute.Login);
+    const {token, ...userInfo} = data;
+    return userInfo;
+  },
+);
+
+export const checkFirstAuthAction = createAsyncThunk<UserInfo, undefined,
+{
+  extra: AxiosInstance;
+}>(
+  'user/checkFirstAuth',
+  async (_arg, {extra: serverApi}) => {
+    const {data} = await serverApi.get<UserData>(APIRoute.Login, {
+      ignoreAuthError: true,
+    } as CustomAxiosRequestConfig);
     const {token, ...userInfo} = data;
     return userInfo;
   },

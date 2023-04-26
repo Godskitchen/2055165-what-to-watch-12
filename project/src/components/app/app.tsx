@@ -13,7 +13,7 @@ import PrivateRoute from '../private-route/private-route';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getAuthCheckedStatus, getAuthorizationStatus } from '../../store/user-process/user-process-selectors';
 import { useEffect } from 'react';
-import { checkAuthAction } from '../../store/api-actions';
+import { checkFirstAuthAction } from '../../store/api-actions';
 import LoadingScreen from '../loading-components/loading-screen/loading-screen';
 
 export default function App(): JSX.Element {
@@ -24,7 +24,7 @@ export default function App(): JSX.Element {
     let isMounted = true;
 
     if (isMounted) {
-      dispatch(checkAuthAction());
+      dispatch(checkFirstAuthAction());
     }
 
     return () => {isMounted = false;};

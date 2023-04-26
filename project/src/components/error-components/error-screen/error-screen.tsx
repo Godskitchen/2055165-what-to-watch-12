@@ -16,7 +16,7 @@ export default function ErrorScreen() : JSX.Element {
   };
 
   return (
-    <div className='container'>
+    <div className='screen-container'>
       <div className='sign-in__message'><p>Failed to load current film. Please try again later</p></div>
       <button className="try-again__btn" onClick={handleRetryBtnClick} >Try again</button>
     </div>

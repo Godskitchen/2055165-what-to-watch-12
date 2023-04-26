@@ -8,7 +8,7 @@ type barProps = {
 export default function ProgressBar({currentTime, duration} : barProps) : JSX.Element {
 
   const timeLeft = formatTime(duration - currentTime);
-  const percentage = (currentTime / duration) * 100;
+  const percentage = duration > 0 ? (currentTime / duration) * 100 : 0;
 
   return (
     <div className="player__controls-row">
