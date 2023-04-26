@@ -8,7 +8,7 @@ import { Provider } from 'react-redux';
 
 
 const mockStore = configureMockStore();
-describe('Component: NotFoundScreen', () => {
+describe('Component: NotFoundPage', () => {
   it('should render correctly', () => {
     const history = createMemoryHistory();
 
