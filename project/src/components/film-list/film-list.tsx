@@ -11,7 +11,7 @@ export default function FilmsList({filmsList} : FilmListProps) : JSX.Element {
   const [activeCardId, setActiveCardId] = useState(0);
 
   return (
-    <div className="catalog__films-list">
+    <div className="catalog__films-list" data-testid='filmslist'>
       {filmsList.map(({id, name, previewImage, previewVideoLink}) =>
         (
           <FilmCard

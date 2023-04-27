@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
 import Logo from '../../components/logo/logo';
@@ -36,12 +37,23 @@ export default function MoviePage({activeTab} : MoviePageProps) : JSX.Element {
 
     if (isMounted && id) {
       dispatch(fetchFilmAction(id));
+    }
+
+    return () => {isMounted = false;};
+  }, [id, dispatch]);
+
+  const film = useAppSelector(getCurrentFilm);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    if (isMounted && id && film) {
       dispatch(fetchReviewsAction(id));
       dispatch(fetchSimilarFilmsAction(id));
     }
 
     return () => {isMounted = false;};
-  }, [id, dispatch]);
+  }, [id, dispatch, film]);
 
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const isFilmsLoading = useAppSelector(getFilmsLoadingStatus);
@@ -50,7 +62,6 @@ export default function MoviePage({activeTab} : MoviePageProps) : JSX.Element {
 
   const isLoadError = useAppSelector(getLoadErrorStatus);
 
-  const film = useAppSelector(getCurrentFilm);
   const reviews = useAppSelector(getFilmReviews);
   const similarFilmsList = useAppSelector(getSimilarFilms);
 
@@ -110,7 +121,7 @@ export default function MoviePage({activeTab} : MoviePageProps) : JSX.Element {
               <div className="film-card__buttons">
                 <PlayerButton filmId={id}/>
                 <MyListButton isAuthorized={isAuthorized} isFavorite={isFavorite} filmId={id}/>
-                {isAuthorized ? <AddReviewButton filmsId={id} /> : ''}
+                {isAuthorized ? <AddReviewButton filmId={id} /> : ''}
               </div>
             </div>
           </div>

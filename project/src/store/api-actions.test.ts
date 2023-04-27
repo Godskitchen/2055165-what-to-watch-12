@@ -3,7 +3,7 @@ import thunk, {ThunkDispatch} from 'redux-thunk';
 import MockAdapter from 'axios-mock-adapter';
 import {configureMockStore} from '@jedmao/redux-mock-store';
 import {createAPI} from '../services/serverApi';
-import {addReviewAction, checkAuthAction, fetchFavoriteFilmsAction, fetchFilmAction, fetchFilmsAction, fetchPromoFilmAction, fetchReviewsAction, fetchSimilarFilmsAction, loginAction, logoutAction, setFilmStatusAction,} from './api-actions';
+import {addReviewAction, checkAuthAction, checkFirstAuthAction, fetchFavoriteFilmsAction, fetchFilmAction, fetchFilmsAction, fetchPromoFilmAction, fetchReviewsAction, fetchSimilarFilmsAction, loginAction, logoutAction, setFilmStatusAction,} from './api-actions';
 import {APIRoute} from '../const';
 import {State} from '../types/state';
 import { fakeMovies, fakeReviews, fakeUser } from '../utils/mocks';
@@ -57,6 +57,45 @@ describe('Async actions', () => {
       expect(actions).toEqual([
         checkAuthAction.pending.type,
         checkAuthAction.rejected.type
+      ]);
+    });
+  });
+
+  describe('checkFirstAuthAction tests', () => {
+    it('should authorization status is «auth» when server returns 200', async () => {
+      const store = mockStore();
+      const userData = {...fakeUser, token: 'secret'};
+
+      mockAPI
+        .onGet(APIRoute.Login)
+        .reply(200, userData);
+
+      expect(store.getActions()).toEqual([]);
+
+      await store.dispatch(checkFirstAuthAction());
+      const actions = store.getActions().map(({type}) => type);
+
+      expect(actions).toEqual([
+        checkFirstAuthAction.pending.type,
+        checkFirstAuthAction.fulfilled.type
+      ]);
+    });
+
+    it('should authorization status is «no-auth» when server returns 401', async () => {
+      const store = mockStore();
+
+      mockAPI
+        .onGet(APIRoute.Login)
+        .reply(401, {error: 'You are not logged in or you do not have permission to this page.'});
+
+      expect(store.getActions()).toEqual([]);
+
+      await store.dispatch(checkFirstAuthAction());
+      const actions = store.getActions().map(({type}) => type);
+
+      expect(actions).toEqual([
+        checkFirstAuthAction.pending.type,
+        checkFirstAuthAction.rejected.type
       ]);
     });
   });
