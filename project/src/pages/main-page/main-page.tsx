@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import ShowMoreButton from '../../components/show-more-button/show-more-button';
 import { Fragment, useEffect } from 'react';
 import { fetchFilmsAction } from '../../store/api-actions';
-import { getFilmsLoadingStatus, getFilmsList, getLoadErrorStatus } from '../../store/app-data/app-data-selectors';
+import { getFilmsLoadingStatus, getFilmsList, getNetworkError } from '../../store/app-data/app-data-selectors';
 import { getActiveFilterGenre, getFilmsCountOnPage } from '../../store/main-process/main-process-selectors';
 import PromoFilm from '../../components/promo-film/promo-film';
 import FilmsErrorBlock from '../../components/error-components/error-block/filmlist-error-block';
@@ -30,7 +30,7 @@ export default function MainPage() : JSX.Element {
     return () => {isMounted = false;};
   }, [dispatch]);
 
-  const isLoadError = useAppSelector(getLoadErrorStatus);
+  const isNetworkError = useAppSelector(getNetworkError);
   const activeGenre = useAppSelector(getActiveFilterGenre);
   const filmsList = useAppSelector(getFilmsList);
   const maxFilmsCountOnPage = useAppSelector(getFilmsCountOnPage);
@@ -60,8 +60,8 @@ export default function MainPage() : JSX.Element {
           {
             isFilmsLoading
               ? <LoadingBlock />
-              : ( (isLoadError && <FilmsErrorBlock />) ||
-                  (!isLoadError &&
+              : ( (isNetworkError && <FilmsErrorBlock />) ||
+                  (!isNetworkError &&
                   <Fragment>
                     <GenresList availableGenres={availableGenres} />
                     <FilmsList filmsList={showedFilmsOnPage} />

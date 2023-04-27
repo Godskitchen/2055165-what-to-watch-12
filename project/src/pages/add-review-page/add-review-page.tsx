@@ -8,7 +8,7 @@ import { addReviewAction, fetchFilmAction } from '../../store/api-actions';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import UserBlock from '../../components/user-block/user-block';
 import BlockUI from '../../components/block-UI/block-UI';
-import { getCurrentFilm, getDataUploadingStatus, getFilmsLoadingStatus, getLoadErrorStatus } from '../../store/app-data/app-data-selectors';
+import { getCurrentFilm, getDataUploadingStatus, getFilmsLoadingStatus, getNetworkError } from '../../store/app-data/app-data-selectors';
 import ErrorScreen from '../../components/error-components/error-screen/error-screen';
 import LoadingScreen from '../../components/loading-components/loading-screen/loading-screen';
 
@@ -54,7 +54,7 @@ export default function AddReviewPage() : JSX.Element {
   const isUIBlocking = useAppSelector(getDataUploadingStatus);
 
   const film = useAppSelector(getCurrentFilm);
-  const isLoadError = useAppSelector(getLoadErrorStatus);
+  const isNetowkError = useAppSelector(getNetworkError);
   const isFilmsDataLoading = useAppSelector(getFilmsLoadingStatus);
 
 
@@ -63,7 +63,7 @@ export default function AddReviewPage() : JSX.Element {
   }
 
   if (film === null || !id) {
-    if (isLoadError) {
+    if (isNetowkError) {
       return <ErrorScreen />;
     }
     return <NotFoundPage />;

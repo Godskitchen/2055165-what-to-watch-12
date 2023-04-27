@@ -17,7 +17,7 @@ import { getRandomFilms } from '../../utils/utils';
 import MyListButton from '../../components/my-list-button/my-list-button';
 import AddReviewButton from '../../components/add-review-button/add-review-button';
 import { getAuthorizationStatus } from '../../store/user-process/user-process-selectors';
-import { getCurrentFilm, getFilmReviews, getFilmsLoadingStatus, getSimilarFilms, getLoadErrorStatus } from '../../store/app-data/app-data-selectors';
+import { getCurrentFilm, getFilmReviews, getFilmsLoadingStatus, getSimilarFilms, getNetworkError } from '../../store/app-data/app-data-selectors';
 import ErrorScreen from '../../components/error-components/error-screen/error-screen';
 import LoadingScreen from '../../components/loading-components/loading-screen/loading-screen';
 
@@ -60,7 +60,7 @@ export default function MoviePage({activeTab} : MoviePageProps) : JSX.Element {
 
   const isAuthorized = authorizationStatus === AuthorizationStatus.Auth;
 
-  const isLoadError = useAppSelector(getLoadErrorStatus);
+  const isNetworkError = useAppSelector(getNetworkError);
 
   const reviews = useAppSelector(getFilmReviews);
   const similarFilmsList = useAppSelector(getSimilarFilms);
@@ -72,7 +72,7 @@ export default function MoviePage({activeTab} : MoviePageProps) : JSX.Element {
   }
 
   if (film === null || !id) {
-    if (isLoadError) {
+    if (isNetworkError) {
       return <ErrorScreen />;
     }
     return <NotFoundPage />;
