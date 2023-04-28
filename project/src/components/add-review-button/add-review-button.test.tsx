@@ -1,4 +1,4 @@
-import {render, screen } from '@testing-library/react';
+import {act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {createMemoryHistory} from 'history';
 import AddReviewButton from './add-review-button';
@@ -41,7 +41,7 @@ describe('Component: AddReviewButton', () => {
 
     expect(screen.queryByText(/This is add review page/i)).not.toBeInTheDocument();
 
-    await userEvent.click(screen.getByRole('link'));
+    await act(async () => await userEvent.click(screen.getByRole('link')));
 
     expect(screen.getByText(/This is add review page/i)).toBeInTheDocument();
   });

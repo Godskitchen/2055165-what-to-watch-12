@@ -12,6 +12,7 @@ beforeAll(() => {
 });
 
 describe('Component: FilmsList', () => {
+
   it('should render correctly', () => {
     render(
       <MemoryRouter>
@@ -20,7 +21,7 @@ describe('Component: FilmsList', () => {
     );
 
     expect(screen.getByTestId('filmslist')).toBeInTheDocument();
+    expect(screen.getAllByRole('article')).toHaveClass('small-film-card');
   });
 });
-
 

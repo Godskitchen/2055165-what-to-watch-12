@@ -1,7 +1,9 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, act } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import FilmCard from './film-card';
+import { createMemoryHistory } from 'history';
+import userEvent from '@testing-library/user-event';
 
 const mockFilm = {
   id: 1,
@@ -62,5 +64,40 @@ describe('Component: FilmCard', () => {
     //user hovers mouse off card
     fireEvent.mouseLeave(filmCard);
     expect(onCardLeave).toHaveBeenCalledTimes(1);
+  });
+
+  it('should navigate to film page by click on link', async () => {
+    const history = createMemoryHistory();
+    history.push('/fake');
+
+    render(
+      <MemoryRouter>
+        <Routes>
+          <Route
+            path={`/films/${mockFilm.id}`}
+            element={<h1>This is movie page</h1>}
+          />
+          <Route
+            path='*'
+            element={
+              <FilmCard
+                id={mockFilm.id}
+                name={mockFilm.name}
+                previewImage={mockFilm.previewImage}
+                previewVideoLink={mockFilm.previewVideoLink}
+                isActive={false}
+                onCardEnter={onCardEnter}
+                onCardLeave={onCardLeave}
+              />
+            }
+          />
+        </Routes>
+      </MemoryRouter>);
+
+    expect(screen.queryByText(/This is movie page/i)).not.toBeInTheDocument();
+
+    await act(async () => await userEvent.click(screen.getByRole('link')));
+
+    expect(screen.getByText(/This is movie page/i)).toBeInTheDocument();
   });
 });
