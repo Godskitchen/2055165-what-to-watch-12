@@ -52,6 +52,5 @@ export const userProcess = createSlice({
         state.userFavoriteFilms = [];
       });
   },
-
 });
 

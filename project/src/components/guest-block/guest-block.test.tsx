@@ -1,49 +1,48 @@
 import {act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {createMemoryHistory} from 'history';
-import AddReviewButton from './add-review-button';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import GuestBlock from './guest-block';
+import { AppRoute } from '../../const';
 
 
-describe('Component: AddReviewButton', () => {
+describe('Component GuestBlock', () => {
   const history = createMemoryHistory();
-  const testFilmId = '1';
-
   it('should render correctly', () => {
 
     render(
       <MemoryRouter>
-        <AddReviewButton filmId={testFilmId} />
+        <GuestBlock />
       </MemoryRouter>
     );
 
     expect(screen.getByRole('link')).toBeInTheDocument();
-    const reviewBtn = screen.getByTestId('add-review-btn');
-    expect(reviewBtn.textContent).toEqual('Add review');
+    const signInBtn = screen.getByTestId('sign-in-btn');
+    expect(signInBtn.textContent).toEqual('Sign in');
   });
 
-  it('should redirect to add review page url when user clicked to link', async () => {
+  it('should redirect to login page url when user clicked to link', async () => {
     history.push('/fake');
 
     render(
       <MemoryRouter>
         <Routes>
           <Route
-            path={`/films/${testFilmId}/review`}
-            element={<h1>This is add review page</h1>}
+            path={AppRoute.Login}
+            element={<h1>This is login page</h1>}
           />
           <Route
             path='*'
-            element={<AddReviewButton filmId={testFilmId} />}
+            element={<GuestBlock />}
           />
         </Routes>
       </MemoryRouter>
     );
 
-    expect(screen.queryByText(/This is add review page/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/This is login page/i)).not.toBeInTheDocument();
 
     await act(async () => await userEvent.click(screen.getByRole('link')));
 
-    expect(screen.getByText(/This is add review page/i)).toBeInTheDocument();
+    expect(screen.getByText(/This is login page/i)).toBeInTheDocument();
   });
 });

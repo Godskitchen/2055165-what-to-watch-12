@@ -44,6 +44,7 @@ export default function CardVideoPlayer({poster, videoLink, isActive} : CardVide
       poster={poster}
       style={{width:'280px', height: 'inherit', objectFit: 'cover'}}
       ref={videoRef}
+      data-testid='video'
     />
   );
 }

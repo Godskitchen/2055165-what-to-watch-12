@@ -1,15 +1,13 @@
-import { render, screen } from '@testing-library/react';
-// import thunk from 'redux-thunk';
-import '@testing-library/jest-dom/extend-expect';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import Genre from './genre';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { Provider } from 'react-redux';
-// import userEvent from '@testing-library/user-event';
-// import { State } from '../../types/state';
-// import { Action, AnyAction, Dispatch } from '@reduxjs/toolkit';
-// import { resetFilmsCountOnPageAction } from '../../store/main-process/main-process';
-// import { changeFilterGenreAction } from '../../store/main-process/main-process';
+import { Action } from 'redux';
+import { State } from '../../types/state';
+import { AnyAction, Dispatch } from '@reduxjs/toolkit';
+import { changeFilterGenreAction, resetFilmsCountOnPageAction } from '../../store/main-process/main-process';
+
 
 const mockStore = configureMockStore();
 
@@ -68,42 +66,29 @@ describe('Component: Genre', () => {
     expect(screen.getByRole('listitem')).not.toHaveClass('catalog__genres-item--active');
   });
 
-  // it('triggers onClick event on genre button and makes it active', () => {
-  //   const middlewares = [thunk];
+  it('triggers onClick event on genre and makes it active', () => {
 
-  //   const mStore = configureMockStore<
-  //   State,
-  //   Action<string>,
-  //   Dispatch<AnyAction>
-  // >(middlewares);
+    const configStore = configureMockStore<State, Action<string>, Dispatch<AnyAction>>();
+    const store = configStore();
+    render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <Genre
+            filterName={genreData.filterName}
+            isActive={false}
+          />
+        </MemoryRouter>
+      </Provider>
+    );
 
-  //   const store = mStore();
+    const genreButton = screen.getByRole('link', {name: genreData.filterName});
+    fireEvent.click(genreButton);
+    const actions = store.getActions().map(({type}) => type);
 
-  //   render(
-  //     <Provider store={store}>
-  //       <MemoryRouter>
-  //         <Genre
-  //           filterName={genreData.filterName}
-  //           isActive={genreData.isActive}
-  //         />
-  //       </MemoryRouter>
-  //     </Provider>
-  //   );
+    expect(actions).toEqual([
+      resetFilmsCountOnPageAction.type,
+      changeFilterGenreAction.type
+    ]);
 
-  //   const genreButton = screen.getByRole('link', {name: genreData.filterName });
-
-  //   userEvent.click(genreButton);
-
-  //   const actions = store.getActions().map(({type}) => type);
-
-  //   expect(actions).toEqual([
-  //     resetFilmsCountOnPageAction.type,
-  //     changeFilterGenreAction.type
-  //   ]);
-
-  //   // expect(mockDispatch).toHaveBeenCalledWith(resetFilmsCountOnPageAction());
-  //   // expect(mockDispatch).toHaveBeenCalledWith(changeFilterGenreAction(genreData.filterName));
-
-
-  // });
+  });
 });

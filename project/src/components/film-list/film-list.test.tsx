@@ -1,5 +1,4 @@
 import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';
 import { MemoryRouter } from 'react-router-dom';
 import FilmsList from './film-list';
 import { fakeMovies } from '../../utils/mocks';
@@ -21,7 +20,7 @@ describe('Component: FilmsList', () => {
     );
 
     expect(screen.getByTestId('filmslist')).toBeInTheDocument();
-    expect(screen.getAllByRole('article')).toHaveClass('small-film-card');
+    expect(screen.getAllByRole('article')[0]).toHaveClass('small-film-card');
   });
 });
 
