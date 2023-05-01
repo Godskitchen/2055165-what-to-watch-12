@@ -50,11 +50,11 @@ export default function MyListButton({isAuthorized, isFavorite, filmId}: MyListB
       {
         isAuthorized ?
           <svg viewBox="0 0 19 20" width="19" height="20">
-            <use xlinkHref={isFavorite ? '#in-list' : '#add'}></use>
+            <use xlinkHref={isFavorite ? '#in-list' : '#add'} data-testid='in-out-symbol'></use>
           </svg> : ''
       }
       <span style={{marginLeft: !isAuthorized ? '10px' : ''}}>My list</span>
-      <span className={`film-card__count ${!isAuthorized ? 'visually-hidden' : ''}`}>{favoritesFilmsCount}</span>
+      <span className={`film-card__count ${!isAuthorized ? 'visually-hidden' : ''}`} data-testid='fav-films-counter'>{favoritesFilmsCount}</span>
     </button>
   );
 }

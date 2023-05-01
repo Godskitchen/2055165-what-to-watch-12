@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Route, Routes, Navigate } from 'react-router-dom';
 import {HelmetProvider} from 'react-helmet-async';
 import { AppRoute } from '../../const';

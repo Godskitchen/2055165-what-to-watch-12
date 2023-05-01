@@ -25,7 +25,7 @@ export default function ReviewList({reviewsList} : ReviewListProps) : JSX.Elemen
   }
 
   return (
-    <div className="film-card__reviews film-card__row">
+    <div className="film-card__reviews film-card__row" data-testid='reviews-list'>
       <div className="film-card__reviews-col">
         {reviewsList.slice(0, Math.ceil(reviewsList.length / 2)).map((review) =>
           <Review key={review.id} review={review}/>

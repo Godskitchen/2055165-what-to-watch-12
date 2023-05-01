@@ -11,7 +11,7 @@ import { fetchFilmsAction } from '../../store/api-actions';
 import { getFilmsLoadingStatus, getFilmsList, getNetworkError } from '../../store/app-data/app-data-selectors';
 import { getActiveFilterGenre, getFilmsCountOnPage } from '../../store/main-process/main-process-selectors';
 import PromoFilm from '../../components/promo-film/promo-film';
-import FilmsErrorBlock from '../../components/error-components/error-block/filmlist-error-block';
+import FilmsErrorBlock from '../../components/error-components/error-block/films-error-block';
 import LoadingBlock from '../../components/loading-components/loading-block/loading-block';
 
 const MAX_GENRES_COUNT = 10;

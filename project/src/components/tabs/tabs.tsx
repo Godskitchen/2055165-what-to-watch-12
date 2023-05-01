@@ -25,7 +25,7 @@ export default function Tabs({activeTab, film, reviewsList} : TabProps) : JSX.El
     case 'Overview': {
       return (
         <>
-          <div className="film-rating">
+          <div className="film-rating" data-testid='film-rating'>
             <div className="film-rating__score">{`${rating.toFixed(1)}`.replace('.', ',')}</div>
             <p className="film-rating__meta">
               <span className="film-rating__level">{getFilmRatingLevel(parseFloat(rating.toFixed(1)))}</span>
@@ -34,18 +34,17 @@ export default function Tabs({activeTab, film, reviewsList} : TabProps) : JSX.El
           </div>
 
           <div className="film-card__text">
-            <p>{description}</p>
+            <p data-testid='description'>{description}</p>
 
-            <p className="film-card__director"><strong>Director: {director}</strong></p>
+            <p className="film-card__director" data-testid='overview-director'><strong>Director: {director}</strong></p>
 
-            <p className="film-card__starring"><strong>Starring: {starring.join(', ')} and other</strong></p>
+            <p className="film-card__starring" data-testid='overview-starring'><strong>Starring: {starring.join(', ')} and other</strong></p>
           </div>
         </>
       );
     }
 
     case 'Details' : {
-
       const hours = Math.floor(runTime / 60);
       const totalTime = `${hours ? `${hours}h` : ''} ${runTime % 60}m`;
 
@@ -54,10 +53,10 @@ export default function Tabs({activeTab, film, reviewsList} : TabProps) : JSX.El
           <div className="film-card__text-col">
             <p className="film-card__details-item">
               <strong className="film-card__details-name">Director</strong>
-              <span className="film-card__details-value">{director}</span>
+              <span className="film-card__details-value" data-testid='details-director'>{director}</span>
             </p>
             <p className="film-card__details-item">
-              <strong className="film-card__details-name">Starring</strong>
+              <strong className="film-card__details-name" data-testid='details-starring'>Starring</strong>
               <span className="film-card__details-value">
                 {addNewlinesInList(starring)}
               </span>
@@ -66,16 +65,16 @@ export default function Tabs({activeTab, film, reviewsList} : TabProps) : JSX.El
 
           <div className="film-card__text-col">
             <p className="film-card__details-item">
-              <strong className="film-card__details-name">Run Time</strong>
+              <strong className="film-card__details-name" data-testid='details-runtime'>Run Time</strong>
               <span className="film-card__details-value">{totalTime}</span>
             </p>
             <p className="film-card__details-item">
               <strong className="film-card__details-name">Genre</strong>
-              <span className="film-card__details-value">{genre}</span>
+              <span className="film-card__details-value" data-testid='details-genre'>{genre}</span>
             </p>
             <p className="film-card__details-item">
               <strong className="film-card__details-name">Released</strong>
-              <span className="film-card__details-value">{released}</span>
+              <span className="film-card__details-value" data-testid='details-year'>{released}</span>
             </p>
           </div>
         </div>

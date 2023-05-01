@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import {render, screen } from '@testing-library/react';
+import {render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter} from 'react-router-dom';
 import UserBlock from './user-block';
@@ -13,10 +12,9 @@ import thunk, {ThunkDispatch} from 'redux-thunk';
 import { Action } from 'redux';
 import { logoutAction } from '../../store/api-actions';
 import { redirectToRoute } from '../../store/action';
-import { redirect } from '../../store/middlewares/redirect';
 
 const api = createAPI();
-const middlewares = [thunk.withExtraArgument(api), redirect];
+const middlewares = [thunk.withExtraArgument(api)];
 
 const mockStore = configureMockStore<
   State,
@@ -65,14 +63,15 @@ describe('Component UserBlock', () => {
     const signOutbtn = screen.getByRole('link', {name: 'Sign out'});
     await userEvent.click(signOutbtn);
 
-    const actions = store.getActions().map(({type}) => type);
+    await waitFor(() => {
+      const actions = store.getActions().map(({type}) => type);
 
-    expect(actions).toEqual([
-      logoutAction.pending.type,
-      // redirectToRoute.type,
-      // logoutAction.fulfilled.type
-    ]);
-
+      expect(actions).toEqual([
+        logoutAction.pending.type,
+        redirectToRoute.type,
+        logoutAction.fulfilled.type
+      ]);
+    });
   });
 });
 
