@@ -1,7 +1,7 @@
 import {render, screen, waitFor, fireEvent } from '@testing-library/react';
 import { MemoryRouter} from 'react-router-dom';
 import UserBlock from './user-block';
-import { SliceNameSpace } from '../../const';
+import { APIRoute, SliceNameSpace } from '../../const';
 import {fakeUser} from '../../utils/mocks';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { Provider } from 'react-redux';
@@ -11,8 +11,10 @@ import thunk, {ThunkDispatch} from 'redux-thunk';
 import { Action } from 'redux';
 import { logoutAction } from '../../store/api-actions';
 import { redirectToRoute } from '../../store/action';
+import MockAdapter from 'axios-mock-adapter';
 
 const api = createAPI();
+const mockAPI = new MockAdapter(api);
 const middlewares = [thunk.withExtraArgument(api)];
 
 const mockStore = configureMockStore<
@@ -50,6 +52,10 @@ describe('Component UserBlock', () => {
   });
 
   it('should dispatch logoutAction when user clicked to link', async () => {
+
+    mockAPI
+      .onDelete(APIRoute.Logout)
+      .reply(200, 'ok');
 
     render(
       <Provider store={store}>
