@@ -29,7 +29,7 @@ describe('Component: CardVideoPlayer', () => {
     expect(screen.getByTestId('video')).toHaveAttribute('poster', mockPlayer.poster);
   });
 
-  it('should start playing video if pros isActive equals true', () => {
+  it('should start playing video if prop. isActive equals true', () => {
     jest.useFakeTimers();
     const DELAY_BEFORE_PLAY = 1000;
     const { rerender } = render(<CardVideoPlayer {...mockPlayer} />);

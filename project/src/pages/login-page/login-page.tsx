@@ -110,7 +110,7 @@ export default function LoginPage() : JSX.Element {
         <form action="#" className="sign-in__form" onSubmit={handleAuthFormSubmit}>
           {
             isShowErrorField &&
-            <div className='sign-in__message'>
+            <div className="sign-in__message" data-testid="error-validation-block">
               {(isShowLoginError) && <p>{fieldErrors.loginField}</p>}
               {(isShowPasswordError) && <p>{fieldErrors.passwordField}</p>}
             </div>

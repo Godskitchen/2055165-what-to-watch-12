@@ -158,7 +158,7 @@ export default function AddReviewPage() : JSX.Element {
 
       <div className="add-review">
         <form action="#" className="add-review__form" onSubmit={handleReviewFormSubmit}>
-          <div className="rating">
+          <div className="rating" data-testid="rating">
             <div className="rating__stars">
               {ratingStars}
             </div>
@@ -187,7 +187,7 @@ export default function AddReviewPage() : JSX.Element {
             </div>
 
           </div>
-          {(isTextFieldUsed && textFieldError) && <div style={{color: 'red'}}>{textFieldError}</div>}
+          {(isTextFieldUsed && textFieldError) && <div style={{color: 'red'}} data-testid="valid-error">{textFieldError}</div>}
         </form>
       </div>
 

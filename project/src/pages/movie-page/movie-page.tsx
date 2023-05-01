@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
 import Logo from '../../components/logo/logo';
@@ -96,7 +95,7 @@ export default function MoviePage({activeTab} : MoviePageProps) : JSX.Element {
       <section className="film-card film-card--full" style={{backgroundColor: `${backgroundColor}`}}>
         <div className="film-card__hero">
           <div className="film-card__bg">
-            <img src={backgroundImage} alt={name} />
+            <img src={backgroundImage} alt={name} data-testid="moviepage-bgimage"/>
           </div>
 
           <h1 className="visually-hidden">WTW</h1>
@@ -112,10 +111,10 @@ export default function MoviePage({activeTab} : MoviePageProps) : JSX.Element {
 
           <div className="film-card__wrap">
             <div className="film-card__desc">
-              <h2 className="film-card__title">{name}</h2>
+              <h2 className="film-card__title" data-testid="moviepage-title">{name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{genre}</span>
-                <span className="film-card__year">{released}</span>
+                <span className="film-card__genre" data-testid="moviepage-genre">{genre}</span>
+                <span className="film-card__year" data-testid="moviepage-year">{released}</span>
               </p>
 
               <div className="film-card__buttons">
