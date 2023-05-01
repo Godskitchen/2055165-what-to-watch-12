@@ -31,6 +31,8 @@ describe('Component ErrorScreen', () => {
   const mockId = '2';
 
   it('should renders correctly', () => {
+    jest.spyOn(Router, 'useParams').mockReturnValue({ id: mockId });
+
 
     render(
       <Provider store={store}>

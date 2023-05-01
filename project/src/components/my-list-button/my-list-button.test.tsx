@@ -1,9 +1,9 @@
-import {render, screen, waitFor } from '@testing-library/react';
+import {act, render, screen, waitFor } from '@testing-library/react';
 import HistoryRouter from '../history-router/history-router';
 import MyListButton from './my-list-button';
 import { APIRoute, AppRoute, SliceNameSpace } from '../../const';
 import {fakeMovies } from '../../utils/mocks';
-import { configureMockStore } from '@jedmao/redux-mock-store';
+import { MockStoreEnhanced, configureMockStore } from '@jedmao/redux-mock-store';
 import { Provider } from 'react-redux';
 import { createAPI } from '../../services/serverApi';
 import { State } from '../../types/state';
@@ -40,7 +40,9 @@ describe('Component MyListButton', () => {
     }
   };
 
-  const store = mockStore(initialState);
+  let store: MockStoreEnhanced<State, Action<string>, ThunkDispatch<State, typeof api, Action>>;
+
+  beforeEach(() => {store = mockStore(initialState);});
 
   describe('render tests', () => {
     it('should render favorite films count on button if user has authorized', () => {
@@ -192,7 +194,7 @@ describe('Component MyListButton', () => {
 
       const addToFavBtn = screen.getByRole('button');
 
-      await userEvent.click(addToFavBtn);
+      await act(async () => await userEvent.click(addToFavBtn));
 
       await waitFor(() => {
         actions = store.getActions().map(({type}) => type);

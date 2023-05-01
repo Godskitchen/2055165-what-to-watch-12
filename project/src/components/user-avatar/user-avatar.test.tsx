@@ -1,4 +1,4 @@
-import {render, screen } from '@testing-library/react';
+import {act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {createMemoryHistory} from 'history';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
@@ -59,7 +59,7 @@ describe('Component UserAVatar', () => {
 
     expect(screen.queryByText(/This is my list page/i)).not.toBeInTheDocument();
 
-    await userEvent.click(screen.getByRole('link'));
+    await act(async () => await userEvent.click(screen.getByRole('link')));
 
     expect(screen.getByText(/This is my list page/i)).toBeInTheDocument();
   });
