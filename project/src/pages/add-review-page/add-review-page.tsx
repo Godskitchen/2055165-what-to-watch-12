@@ -54,7 +54,7 @@ export default function AddReviewPage() : JSX.Element {
   const isUIBlocking = useAppSelector(getDataUploadingStatus);
 
   const film = useAppSelector(getCurrentFilm);
-  const isNetowkError = useAppSelector(getNetworkError);
+  const isNetworkError = useAppSelector(getNetworkError);
   const isFilmsDataLoading = useAppSelector(getFilmsLoadingStatus);
 
 
@@ -63,7 +63,7 @@ export default function AddReviewPage() : JSX.Element {
   }
 
   if (film === null || !id) {
-    if (isNetowkError) {
+    if (isNetworkError) {
       return <ErrorScreen />;
     }
     return <NotFoundPage />;
