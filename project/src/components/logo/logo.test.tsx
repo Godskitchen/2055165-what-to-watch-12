@@ -1,5 +1,4 @@
-import {act, render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter, Route, Routes} from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { configureMockStore } from '@jedmao/redux-mock-store';
@@ -36,7 +35,7 @@ describe('Component Logo', () => {
     expect(screen.getByRole('link')).toHaveAttribute('href', AppRoute.Main);
   });
 
-  it('should dispatch resetFilterGenreAction and resetFilmsCountOnPageAction when user clicked to link', async () => {
+  it('should dispatch resetFilterGenreAction and resetFilmsCountOnPageAction when user clicked to link', () => {
 
     render(
       <Provider store={store}>
@@ -47,7 +46,7 @@ describe('Component Logo', () => {
     );
 
     const logoBtn = screen.getByRole('link');
-    await act(async () => await userEvent.click(logoBtn));
+    fireEvent.click(logoBtn);
 
     const actions = store.getActions().map(({type}) => type);
 
@@ -57,7 +56,7 @@ describe('Component Logo', () => {
     ]);
   });
 
-  it ('should redirect to main page when user clicked to link', async () => {
+  it ('should redirect to main page when user clicked to link', () => {
     history.push('/fake');
 
     render(
@@ -80,7 +79,7 @@ describe('Component Logo', () => {
     expect(screen.queryByText(/This is main page/i)).not.toBeInTheDocument();
 
     const logoBtn = screen.getByRole('link');
-    await act(async () => await userEvent.click(logoBtn));
+    fireEvent.click(logoBtn);
 
     expect(screen.getByText(/This is main page/i)).toBeInTheDocument();
   });

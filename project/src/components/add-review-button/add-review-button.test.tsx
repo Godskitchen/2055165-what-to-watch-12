@@ -1,6 +1,4 @@
-import '@testing-library/jest-dom';
-import {act, render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import {render, screen, fireEvent } from '@testing-library/react';
 import {createMemoryHistory} from 'history';
 import AddReviewButton from './add-review-button';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
@@ -23,7 +21,7 @@ describe('Component: AddReviewButton', () => {
     expect(reviewBtn.textContent).toEqual('Add review');
   });
 
-  it('should redirect to add review page url when user clicked to link', async () => {
+  it('should redirect to add review page url when user clicked to link', () => {
     history.push('/fake');
 
     render(
@@ -43,7 +41,7 @@ describe('Component: AddReviewButton', () => {
 
     expect(screen.queryByText(/This is add review page/i)).not.toBeInTheDocument();
 
-    await act(async () => await userEvent.click(screen.getByRole('link')));
+    fireEvent.click(screen.getByRole('link'));
 
     expect(screen.getByText(/This is add review page/i)).toBeInTheDocument();
   });

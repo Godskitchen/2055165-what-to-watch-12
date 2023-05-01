@@ -1,5 +1,4 @@
-import {render, screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import {render, screen, waitFor, fireEvent } from '@testing-library/react';
 import { MemoryRouter} from 'react-router-dom';
 import UserBlock from './user-block';
 import { SliceNameSpace } from '../../const';
@@ -61,7 +60,7 @@ describe('Component UserBlock', () => {
     );
 
     const signOutbtn = screen.getByRole('link', {name: 'Sign out'});
-    await userEvent.click(signOutbtn);
+    fireEvent.click(signOutbtn);
 
     await waitFor(() => {
       const actions = store.getActions().map(({type}) => type);

@@ -1,9 +1,8 @@
-import {render, screen } from '@testing-library/react';
+import {render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import ShowMoreButton from './show-more-button';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { Provider } from 'react-redux';
-import userEvent from '@testing-library/user-event';
 import { State } from '../../types/state';
 import { Action, Dispatch } from '@reduxjs/toolkit';
 import { showMoreFilmsAction } from '../../store/main-process/main-process';
@@ -29,7 +28,7 @@ describe('Component ShowMoreButton', () => {
     expect(screen.getByRole('button')).toHaveTextContent('Show more');
   });
 
-  it('should dispatch showMoreFilmsAction when user clicked on button', async () => {
+  it('should dispatch showMoreFilmsAction when user clicked on button', () => {
 
     render(
       <Provider store={store}>
@@ -40,7 +39,7 @@ describe('Component ShowMoreButton', () => {
     );
 
     const showMoreBtn = screen.getByRole('button');
-    await userEvent.click(showMoreBtn);
+    fireEvent.click(showMoreBtn);
 
     const actions = store.getActions().map(({type}) => type);
 

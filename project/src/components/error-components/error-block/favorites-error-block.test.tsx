@@ -1,4 +1,4 @@
-import {render, screen, waitFor } from '@testing-library/react';
+import {render, screen, waitFor, fireEvent } from '@testing-library/react';
 import FavoritesErrorBlock from './favorites-error-block';
 import { APIRoute } from '../../../const';
 import { configureMockStore } from '@jedmao/redux-mock-store';
@@ -7,7 +7,6 @@ import { createAPI } from '../../../services/serverApi';
 import { State } from '../../../types/state';
 import thunk, {ThunkDispatch} from 'redux-thunk';
 import { Action } from 'redux';
-import userEvent from '@testing-library/user-event';
 import { fetchFavoriteFilmsAction } from '../../../store/api-actions';
 import MockAdapter from 'axios-mock-adapter';
 import { MemoryRouter } from 'react-router-dom';
@@ -54,7 +53,7 @@ describe('Component FavoritesErrorBlock', () => {
     );
 
     const tryAgainBtn = screen.getByRole('button');
-    await userEvent.click(tryAgainBtn);
+    fireEvent.click(tryAgainBtn);
 
     await waitFor(() => {
       const actions = store.getActions().map(({type}) => type);

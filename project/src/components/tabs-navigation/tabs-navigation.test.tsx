@@ -1,8 +1,7 @@
-import { act, render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import TabsNavigation from './tabs-navigation';
 import { tabNames } from '../../const';
-import userEvent from '@testing-library/user-event';
 
 
 describe('Component:TabsNavigation', () => {
@@ -20,7 +19,7 @@ describe('Component:TabsNavigation', () => {
     expect(screen.getByTestId('active-tab')).toHaveTextContent(activeTab);
   });
 
-  it('should change active tab by click on inactive tab', async () => {
+  it('should change active tab by click on inactive tab', () => {
     render(
       <MemoryRouter>
         <TabsNavigation activeTab={activeTab} id={id}/>
@@ -29,7 +28,7 @@ describe('Component:TabsNavigation', () => {
 
     const inactiveTab = screen.getAllByTestId('inactive-tab')[0];
     expect(inactiveTab).toHaveTextContent(tabNames[1]);
-    await act(async () => await userEvent.click(inactiveTab));
+    fireEvent.click(inactiveTab);
 
     //became active
     expect(inactiveTab).toHaveClass('active');

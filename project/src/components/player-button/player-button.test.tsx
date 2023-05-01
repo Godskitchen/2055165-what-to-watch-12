@@ -1,5 +1,4 @@
-import {act, render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import {render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter, Route, Routes} from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import HistoryRouter from '../history-router/history-router';
@@ -20,7 +19,7 @@ describe('Component PlayerButton', () => {
     expect(screen.getByText('Play')).toBeInTheDocument();
   });
 
-  it ('should redirect to player page when user clicked to link', async () => {
+  it ('should redirect to player page when user clicked to link', () => {
     history.push('/fake');
 
     render(
@@ -41,7 +40,7 @@ describe('Component PlayerButton', () => {
     expect(screen.queryByText(/This is player page/i)).not.toBeInTheDocument();
 
     const playerBtn = screen.getByRole('button');
-    await act(async () => await userEvent.click(playerBtn));
+    fireEvent.click(playerBtn);
 
     expect(screen.getByText(/This is player page/i)).toBeInTheDocument();
   });

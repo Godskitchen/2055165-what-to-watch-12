@@ -1,9 +1,8 @@
-import { render, screen, fireEvent, act } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import FilmCard from './film-card';
 import { createMemoryHistory } from 'history';
-import userEvent from '@testing-library/user-event';
 
 const mockFilm = {
   id: 1,
@@ -66,7 +65,7 @@ describe('Component: FilmCard', () => {
     expect(onCardLeave).toHaveBeenCalledTimes(1);
   });
 
-  it('should navigate to film page by click on link', async () => {
+  it('should navigate to film page by click on link', () => {
     const history = createMemoryHistory();
     history.push('/fake');
 
@@ -96,7 +95,7 @@ describe('Component: FilmCard', () => {
 
     expect(screen.queryByText(/This is movie page/i)).not.toBeInTheDocument();
 
-    await act(async () => await userEvent.click(screen.getByRole('link')));
+    fireEvent.click(screen.getByRole('link'));
 
     expect(screen.getByText(/This is movie page/i)).toBeInTheDocument();
   });

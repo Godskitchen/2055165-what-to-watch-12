@@ -1,5 +1,4 @@
-import {act, render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import {render, screen, fireEvent } from '@testing-library/react';
 import {createMemoryHistory} from 'history';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import GuestBlock from './guest-block';
@@ -21,7 +20,7 @@ describe('Component GuestBlock', () => {
     expect(signInBtn.textContent).toEqual('Sign in');
   });
 
-  it('should redirect to login page url when user clicked to link', async () => {
+  it('should redirect to login page url when user clicked to link', () => {
     history.push('/fake');
 
     render(
@@ -41,7 +40,7 @@ describe('Component GuestBlock', () => {
 
     expect(screen.queryByText(/This is login page/i)).not.toBeInTheDocument();
 
-    await act(async () => await userEvent.click(screen.getByRole('link')));
+    fireEvent.click(screen.getByRole('link'));
 
     expect(screen.getByText(/This is login page/i)).toBeInTheDocument();
   });

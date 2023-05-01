@@ -1,5 +1,4 @@
-import {act, render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import {render, screen, fireEvent } from '@testing-library/react';
 import {createMemoryHistory} from 'history';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import UserAvatar from './user-avatar';
@@ -37,7 +36,7 @@ describe('Component UserAVatar', () => {
     expect(screen.getByAltText('User avatar')).toHaveAttribute('src', userInfo.avatarUrl);
   });
 
-  it('should redirect to my-list page url when user clicked to link', async () => {
+  it('should redirect to my-list page url when user clicked to link', () => {
     history.push('/fake');
 
     render(
@@ -59,7 +58,7 @@ describe('Component UserAVatar', () => {
 
     expect(screen.queryByText(/This is my list page/i)).not.toBeInTheDocument();
 
-    await act(async () => await userEvent.click(screen.getByRole('link')));
+    fireEvent.click(screen.getByRole('link'));
 
     expect(screen.getByText(/This is my list page/i)).toBeInTheDocument();
   });

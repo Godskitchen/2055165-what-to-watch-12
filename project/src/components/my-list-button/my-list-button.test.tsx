@@ -1,5 +1,4 @@
-import '@testing-library/jest-dom';
-import {act, render, screen, waitFor } from '@testing-library/react';
+import {render, screen, waitFor, fireEvent } from '@testing-library/react';
 import HistoryRouter from '../history-router/history-router';
 import MyListButton from './my-list-button';
 import { APIRoute, AppRoute, SliceNameSpace } from '../../const';
@@ -11,7 +10,6 @@ import { State } from '../../types/state';
 import thunk, {ThunkDispatch} from 'redux-thunk';
 import { Action } from 'redux';
 import { createMemoryHistory } from 'history';
-import userEvent from '@testing-library/user-event';
 import { checkAuthAction, fetchFavoriteFilmsAction, setFilmStatusAction } from '../../store/api-actions';
 import MockAdapter from 'axios-mock-adapter';
 import { Route, Routes } from 'react-router-dom';
@@ -142,7 +140,7 @@ describe('Component MyListButton', () => {
 
       const addToFavBtn = screen.getByRole('button');
 
-      await userEvent.click(addToFavBtn);
+      fireEvent.click(addToFavBtn);
 
       await waitFor(() => {
         const actions = store.getActions().map(({type}) => type);
@@ -195,7 +193,7 @@ describe('Component MyListButton', () => {
 
       const addToFavBtn = screen.getByRole('button');
 
-      await act(async () => await userEvent.click(addToFavBtn));
+      fireEvent.click(addToFavBtn);
 
       await waitFor(() => {
         actions = store.getActions().map(({type}) => type);
