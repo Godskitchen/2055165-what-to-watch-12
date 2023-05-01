@@ -14,7 +14,7 @@ export type AppData = {
   isFavoriteFilmsLoadingStatus: boolean;
   isPromoFilmLoadingStatus: boolean;
   isDataUploadingStatus: boolean;
-  hasLoadingError: boolean;
+  loadingError: string;
   promoFilm: Film | null | undefined;
   filmsList: Films;
   currentFilm: Film | null | undefined;

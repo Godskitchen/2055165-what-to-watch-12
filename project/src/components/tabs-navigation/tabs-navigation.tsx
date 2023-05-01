@@ -13,6 +13,7 @@ export default function TabsNavigation({activeTab, id}: TabsListProps) : JSX.Ele
         to={`/films/${id}/${value.toLowerCase()}`}
         className='film-nav__link'
         style={({isActive}) => ({ pointerEvents: isActive ? 'none' : 'auto' })}
+        data-testid={`${activeTab === value ? 'active-tab' : 'inactive-tab'}`}
       >
         {value}
       </NavLink>
@@ -20,7 +21,7 @@ export default function TabsNavigation({activeTab, id}: TabsListProps) : JSX.Ele
   ));
 
   return (
-    <nav className="film-nav film-card__nav">
+    <nav className="film-nav film-card__nav" data-testid='tabs-navigation'>
       <ul className="film-nav__list">
         {tabs}
       </ul>

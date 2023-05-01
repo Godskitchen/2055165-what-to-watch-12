@@ -2,6 +2,7 @@ import { AppData } from '../../types/state';
 import { addReviewAction, fetchFavoriteFilmsAction, fetchFilmAction, fetchFilmsAction, fetchPromoFilmAction, fetchReviewsAction, fetchSimilarFilmsAction, loginAction, setFilmStatusAction } from '../api-actions';
 import { appData } from './app-data';
 import { fakeMovies, fakeReviews } from '../../utils/mocks';
+import { LoadError } from '../../const';
 
 const filmsList = [...fakeMovies];
 const reviewsList = [...fakeReviews];
@@ -11,7 +12,7 @@ const initialState: AppData = {
   isPromoFilmLoadingStatus: false,
   isFavoriteFilmsLoadingStatus: false,
   isDataUploadingStatus: false,
-  hasLoadingError: false,
+  loadingError: '',
   promoFilm: undefined,
   filmsList: [],
   currentFilm: undefined,
@@ -57,17 +58,17 @@ describe('Reducer app-data', () => {
 
     it('should update available films list if fetchFilmsAction fulfilled', () => {
       expect(appData.reducer(testState, { type: fetchFilmsAction.fulfilled.type, payload: filmsList }))
-        .toEqual({...testState, isFilmsLoadingStatus: false, hasLoadingError: false, filmsList: filmsList});
+        .toEqual({...testState, isFilmsLoadingStatus: false, loadingError: '', filmsList: filmsList});
     });
 
-    it('should set hasLoadingError flag and reset available films list if fetchFilmsAction rejected', () => {
+    it('should set loadingError flag and reset available films list if fetchFilmsAction rejected', () => {
 
       const state: AppData = {
         isFilmsLoadingStatus: false,
         isPromoFilmLoadingStatus: false,
         isFavoriteFilmsLoadingStatus: false,
         isDataUploadingStatus: false,
-        hasLoadingError: false,
+        loadingError:'',
         promoFilm: undefined,
         filmsList: filmsList,
         currentFilm: undefined,
@@ -75,8 +76,11 @@ describe('Reducer app-data', () => {
         similarFilms: [],
       };
 
-      expect(appData.reducer(state, { type: fetchFilmsAction.rejected.type }))
-        .toEqual({...state, isFilmsLoadingStatus: false, hasLoadingError: true, filmsList: []});
+      expect(appData.reducer(state, { type: fetchFilmsAction.rejected.type, error: {code: LoadError.NetworkError } }))
+        .toEqual({...state, isFilmsLoadingStatus: false, loadingError: LoadError.NetworkError, filmsList: []});
+
+      expect(appData.reducer(state, { type: fetchFilmsAction.rejected.type, error: {code: 'Some_bad_request' } }))
+        .toEqual({...state, isFilmsLoadingStatus: false, loadingError: LoadError.BadRequest, filmsList: []});
     });
   });
 
@@ -113,12 +117,15 @@ describe('Reducer app-data', () => {
 
     it('should update current film if fetchFilmAction fulfilled', () => {
       expect(appData.reducer(testState, { type: fetchFilmAction.fulfilled.type, payload: filmsList[5] }))
-        .toEqual({...testState, isFilmsLoadingStatus: false, currentFilm: filmsList[5], hasLoadingError: false});
+        .toEqual({...testState, isFilmsLoadingStatus: false, currentFilm: filmsList[5], loadingError: ''});
     });
 
-    it('should set hasLoadingError flag and set to null current film if fetchFilmAction rejected', () => {
-      expect(appData.reducer(testState, { type: fetchFilmAction.rejected.type }))
-        .toEqual({...testState, isFilmsLoadingStatus: false, currentFilm: null, hasLoadingError: true});
+    it('should set loadingError flag and set to null current film if fetchFilmAction rejected', () => {
+      expect(appData.reducer(testState, { type: fetchFilmAction.rejected.type, error: {code: LoadError.NetworkError }}))
+        .toEqual({...testState, isFilmsLoadingStatus: false, currentFilm: null, loadingError: LoadError.NetworkError});
+
+      expect(appData.reducer(testState, { type: fetchFilmAction.rejected.type, error: {code: 'Some_bad_request' }}))
+        .toEqual({...testState, isFilmsLoadingStatus: false, currentFilm: null, loadingError: LoadError.BadRequest});
     });
   });
 
@@ -139,7 +146,7 @@ describe('Reducer app-data', () => {
         isPromoFilmLoadingStatus: false,
         isFavoriteFilmsLoadingStatus: false,
         isDataUploadingStatus: false,
-        hasLoadingError: false,
+        loadingError:'',
         promoFilm: undefined,
         filmsList: filmsList,
         currentFilm: undefined,
@@ -167,7 +174,7 @@ describe('Reducer app-data', () => {
         isPromoFilmLoadingStatus: false,
         isFavoriteFilmsLoadingStatus: false,
         isDataUploadingStatus: false,
-        hasLoadingError: false,
+        loadingError:'',
         promoFilm: undefined,
         filmsList: [],
         currentFilm: undefined,
@@ -189,7 +196,7 @@ describe('Reducer app-data', () => {
         isPromoFilmLoadingStatus: false,
         isFavoriteFilmsLoadingStatus: false,
         isDataUploadingStatus: false,
-        hasLoadingError: false,
+        loadingError:'',
         promoFilm: filmsList[1],
         filmsList: [],
         currentFilm: filmsList[1],
@@ -212,7 +219,7 @@ describe('Reducer app-data', () => {
         isPromoFilmLoadingStatus: false,
         isFavoriteFilmsLoadingStatus: false,
         isDataUploadingStatus: false,
-        hasLoadingError: false,
+        loadingError:'',
         promoFilm: filmsList[1],
         filmsList: [],
         currentFilm: filmsList[2],
@@ -260,14 +267,17 @@ describe('Reducer app-data', () => {
         .toEqual({...testState, isFavoriteFilmsLoadingStatus: true});
     });
 
-    it('should disable films loading status and unset hasLoadingError flag if fetchFavoriteFilmsAction fulfilled', () => {
+    it('should disable films loading status and unset loadingError flag if fetchFavoriteFilmsAction fulfilled', () => {
       expect(appData.reducer(testState, { type: fetchFavoriteFilmsAction.fulfilled.type }))
-        .toEqual({...testState, isFavoriteFilmsLoadingStatus: false, hasLoadingError: false});
+        .toEqual({...testState, isFavoriteFilmsLoadingStatus: false, loadingError: ''});
     });
 
-    it('should disable films loading status and set hasLoadingError flag if fetchFavoriteFilmsAction rejected', () => {
-      expect(appData.reducer(testState, { type: fetchFavoriteFilmsAction.rejected.type }))
-        .toEqual({...testState, isFavoriteFilmsLoadingStatus: false, hasLoadingError: true});
+    it('should disable films loading status and set loadingError flag if fetchFavoriteFilmsAction rejected', () => {
+      expect(appData.reducer(testState, { type: fetchFavoriteFilmsAction.rejected.type, error: {code: LoadError.NetworkError}}))
+        .toEqual({...testState, isFavoriteFilmsLoadingStatus: false, loadingError: LoadError.NetworkError});
+
+      expect(appData.reducer(testState, { type: fetchFavoriteFilmsAction.rejected.type, error: {code: 'some_bad_request'}}))
+        .toEqual({...testState, isFavoriteFilmsLoadingStatus: false, loadingError: LoadError.BadRequest});
     });
   });
 });

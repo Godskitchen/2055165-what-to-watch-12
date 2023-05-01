@@ -10,13 +10,13 @@ export default function Review({review}: ReviewProps) : JSX.Element {
   const {comment, rating, user, date} = review;
 
   return (
-    <div className="review">
+    <div className="review" data-testid='review'>
       <blockquote className="review__quote">
-        <p className="review__text">{comment}</p>
+        <p className="review__text" data-testid='comment'>{comment}</p>
 
         <footer className="review__details">
-          <cite className="review__author">{user.name}</cite>
-          <time className="review__date" dateTime={dayjs(date).format('YYYY-MM-DD')}>{dayjs(date).format('MMMM DD, YYYY')}</time>
+          <cite className="review__author" data-testid='author'>{user.name}</cite>
+          <time className="review__date" data-testid='review-date' dateTime={dayjs(date).format('YYYY-MM-DD')}>{dayjs(date).format('MMMM DD, YYYY')}</time>
         </footer>
       </blockquote>
 

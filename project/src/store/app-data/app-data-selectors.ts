@@ -1,4 +1,4 @@
-import { SliceNameSpace } from '../../const';
+import { LoadError, SliceNameSpace } from '../../const';
 import { Film, Films, Reviews } from '../../types/film';
 import { State } from '../../types/state';
 
@@ -19,4 +19,4 @@ export const getPromoFilmLoadingStatus = (state: State): boolean => state[SliceN
 
 export const getDataUploadingStatus = (state: State): boolean => state[SliceNameSpace.Data].isDataUploadingStatus;
 
-export const getLoadErrorStatus = (state: State): boolean => state[SliceNameSpace.Data].hasLoadingError;
+export const getNetworkError = (state: State): boolean => state[SliceNameSpace.Data].loadingError === LoadError.NetworkError;

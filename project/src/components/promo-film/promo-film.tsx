@@ -60,7 +60,7 @@ export default function PromoFilm() : JSX.Element {
   return (
     <section className="film-card">
       <div className="film-card__bg">
-        <img src={backgroundImage} alt={name} />
+        <img src={backgroundImage} alt={name} data-testid='bg-image'/>
       </div>
 
       <h1 className="visually-hidden">WTW</h1>
@@ -81,10 +81,10 @@ export default function PromoFilm() : JSX.Element {
           </div>
 
           <div className="film-card__desc">
-            <h2 className="film-card__title">{name}</h2>
+            <h2 className="film-card__title" data-testid='title'>{name}</h2>
             <p className="film-card__meta">
-              <span className="film-card__genre">{promoGenre}</span>
-              <span className="film-card__year">{released}</span>
+              <span className="film-card__genre" data-testid='genre'>{promoGenre}</span>
+              <span className="film-card__year" data-testid='year'>{released}</span>
             </p>
 
             <div className="film-card__buttons">

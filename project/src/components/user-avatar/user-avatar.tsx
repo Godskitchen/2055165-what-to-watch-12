@@ -7,7 +7,7 @@ export default function UserAvatar() : JSX.Element {
   const {avatarUrl} = useAppSelector(getUserInfo);
 
   return (
-    <div className="user-block__avatar">
+    <div className="user-block__avatar" data-testid='user-avatar'>
       <Link to='/mylist'>
         <img src={avatarUrl} alt="User avatar" width="63" height="63" />
       </Link>

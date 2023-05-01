@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { AppData } from '../../types/state';
-import { SliceNameSpace } from '../../const';
+import { LoadError, SliceNameSpace } from '../../const';
 import { addReviewAction, fetchFavoriteFilmsAction, fetchFilmAction, fetchFilmsAction, fetchPromoFilmAction, fetchReviewsAction, fetchSimilarFilmsAction, loginAction, setFilmStatusAction } from '../api-actions';
 
 const initialState: AppData = {
@@ -8,7 +8,7 @@ const initialState: AppData = {
   isPromoFilmLoadingStatus: false,
   isFavoriteFilmsLoadingStatus: false,
   isDataUploadingStatus: false,
-  hasLoadingError: false,
+  loadingError: '',
   promoFilm: undefined,
   filmsList: [],
   currentFilm: undefined,
@@ -37,12 +37,14 @@ export const appData = createSlice({
       .addCase(fetchFilmsAction.fulfilled, (state, action) => {
         state.isFilmsLoadingStatus = false;
         state.filmsList = action.payload;
-        state.hasLoadingError = false;
+        state.loadingError = '';
       })
-      .addCase(fetchFilmsAction.rejected, (state) => {
+      .addCase(fetchFilmsAction.rejected, (state, action) => {
         state.isFilmsLoadingStatus = false;
         state.filmsList = [];
-        state.hasLoadingError = true;
+        state.loadingError = (action.error.code === LoadError.NetworkError)
+          ? LoadError.NetworkError
+          : LoadError.BadRequest;
       })
       .addCase(fetchPromoFilmAction.pending, (state) => {
         state.isPromoFilmLoadingStatus = true;
@@ -61,12 +63,14 @@ export const appData = createSlice({
       .addCase(fetchFilmAction.fulfilled, (state, action) => {
         state.isFilmsLoadingStatus = false;
         state.currentFilm = action.payload;
-        state.hasLoadingError = false;
+        state.loadingError = '';
       })
-      .addCase(fetchFilmAction.rejected, (state) => {
+      .addCase(fetchFilmAction.rejected, (state, action) => {
         state.isFilmsLoadingStatus = false;
         state.currentFilm = null;
-        state.hasLoadingError = true;
+        state.loadingError = (action.error.code === LoadError.NetworkError)
+          ? LoadError.NetworkError
+          : LoadError.BadRequest;
       })
       .addCase(fetchReviewsAction.fulfilled, (state, action) => {
         state.filmReviews = action.payload;
@@ -99,11 +103,13 @@ export const appData = createSlice({
       })
       .addCase(fetchFavoriteFilmsAction.fulfilled, (state) => {
         state.isFavoriteFilmsLoadingStatus = false;
-        state.hasLoadingError = false;
+        state.loadingError = '';
       })
-      .addCase(fetchFavoriteFilmsAction.rejected, (state) => {
+      .addCase(fetchFavoriteFilmsAction.rejected, (state, action) => {
         state.isFavoriteFilmsLoadingStatus = false;
-        state.hasLoadingError = true;
+        state.loadingError = (action.error.code === LoadError.NetworkError)
+          ? LoadError.NetworkError
+          : LoadError.BadRequest;
       })
       .addCase(fetchFavoriteFilmsAction.pending, (state) => {
         state.isFavoriteFilmsLoadingStatus = true;

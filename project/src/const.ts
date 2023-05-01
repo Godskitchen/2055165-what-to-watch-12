@@ -41,12 +41,17 @@ export const guestData = {
   email: '',
   id: 0,
   name: '',
-};
+} as const;
 
 export enum SliceNameSpace {
   Data = 'DATA',
   Main = 'MAIN',
   User = 'USER',
+}
+
+export enum LoadError {
+  NetworkError = 'ERR_NETWORK',
+  BadRequest = 'ERR_BAD_REQUEST'
 }
 
 

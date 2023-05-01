@@ -17,7 +17,7 @@ export default function Logo({classPath} : LogoProps) : JSX.Element {
   };
 
   return (
-    <div className="logo" onClick={handleLogoClick}>
+    <div className="logo" onClick={handleLogoClick} data-testid='logo'>
       <Link to={AppRoute.Main} className={classPath}>
         <span className="logo__letter logo__letter--1">W</span>
         <span className="logo__letter logo__letter--2">T</span>

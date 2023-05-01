@@ -4,8 +4,9 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { useEffect, useRef, useState } from 'react';
 import { fetchFilmAction } from '../../store/api-actions';
 import ProgressBar from '../../components/progress-bar/progress-bar';
-import { getCurrentFilm, getFilmsLoadingStatus } from '../../store/app-data/app-data-selectors';
+import { getCurrentFilm, getFilmsLoadingStatus, getNetworkError } from '../../store/app-data/app-data-selectors';
 import LoadingScreen from '../../components/loading-components/loading-screen/loading-screen';
+import ErrorScreen from '../../components/error-components/error-screen/error-screen';
 
 export default function PlayerPage() : JSX.Element {
 
@@ -30,6 +31,7 @@ export default function PlayerPage() : JSX.Element {
   },[id, dispatch]);
 
   const isFilmsLoading = useAppSelector(getFilmsLoadingStatus);
+  const isNetworkError = useAppSelector(getNetworkError);
 
   const film = useAppSelector(getCurrentFilm);
 
@@ -38,6 +40,9 @@ export default function PlayerPage() : JSX.Element {
   }
 
   if (film === null || !id) {
+    if (isNetworkError) {
+      return <ErrorScreen />;
+    }
     return <NotFoundPage />;
   }
 

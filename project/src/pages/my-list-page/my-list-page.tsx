@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 import { fetchFavoriteFilmsAction } from '../../store/api-actions';
 import UserBlock from '../../components/user-block/user-block';
 import { getFavoritesFilms } from '../../store/user-process/user-process-selectors';
-import { getLoadErrorStatus, getPromoFilmLoadingStatus } from '../../store/app-data/app-data-selectors';
+import { getNetworkError, getPromoFilmLoadingStatus } from '../../store/app-data/app-data-selectors';
 import FavoritesErrorBlock from '../../components/error-components/error-block/favorites-error-block';
 import LoadingBlock from '../../components/loading-components/loading-block/loading-block';
 
@@ -26,7 +26,7 @@ export default function MyListPage() : JSX.Element {
   }, [dispatch]);
 
   const isFilmsDataLoading = useAppSelector(getPromoFilmLoadingStatus);
-  const isLoadError = useAppSelector(getLoadErrorStatus);
+  const isNetworkError = useAppSelector(getNetworkError);
   const favoriteList = useAppSelector(getFavoritesFilms);
 
   return (
@@ -46,8 +46,8 @@ export default function MyListPage() : JSX.Element {
         {
           isFilmsDataLoading
             ? <LoadingBlock />
-            : ( (isLoadError && <FavoritesErrorBlock />) ||
-              (!isLoadError && <FilmsList filmsList={favoriteList} /> ))
+            : ( (isNetworkError && <FavoritesErrorBlock />) ||
+              (!isNetworkError && <FilmsList filmsList={favoriteList} /> ))
         }
       </section>
 

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
 import Logo from '../../components/logo/logo';
@@ -16,7 +17,7 @@ import { getRandomFilms } from '../../utils/utils';
 import MyListButton from '../../components/my-list-button/my-list-button';
 import AddReviewButton from '../../components/add-review-button/add-review-button';
 import { getAuthorizationStatus } from '../../store/user-process/user-process-selectors';
-import { getCurrentFilm, getFilmReviews, getFilmsLoadingStatus, getSimilarFilms, getLoadErrorStatus } from '../../store/app-data/app-data-selectors';
+import { getCurrentFilm, getFilmReviews, getFilmsLoadingStatus, getSimilarFilms, getNetworkError } from '../../store/app-data/app-data-selectors';
 import ErrorScreen from '../../components/error-components/error-screen/error-screen';
 import LoadingScreen from '../../components/loading-components/loading-screen/loading-screen';
 
@@ -36,21 +37,31 @@ export default function MoviePage({activeTab} : MoviePageProps) : JSX.Element {
 
     if (isMounted && id) {
       dispatch(fetchFilmAction(id));
+    }
+
+    return () => {isMounted = false;};
+  }, [id, dispatch]);
+
+  const film = useAppSelector(getCurrentFilm);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    if (isMounted && id && film) {
       dispatch(fetchReviewsAction(id));
       dispatch(fetchSimilarFilmsAction(id));
     }
 
     return () => {isMounted = false;};
-  }, [id, dispatch]);
+  }, [id, dispatch, film]);
 
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const isFilmsLoading = useAppSelector(getFilmsLoadingStatus);
 
   const isAuthorized = authorizationStatus === AuthorizationStatus.Auth;
 
-  const isLoadError = useAppSelector(getLoadErrorStatus);
+  const isNetworkError = useAppSelector(getNetworkError);
 
-  const film = useAppSelector(getCurrentFilm);
   const reviews = useAppSelector(getFilmReviews);
   const similarFilmsList = useAppSelector(getSimilarFilms);
 
@@ -61,7 +72,7 @@ export default function MoviePage({activeTab} : MoviePageProps) : JSX.Element {
   }
 
   if (film === null || !id) {
-    if (isLoadError) {
+    if (isNetworkError) {
       return <ErrorScreen />;
     }
     return <NotFoundPage />;
@@ -110,7 +121,7 @@ export default function MoviePage({activeTab} : MoviePageProps) : JSX.Element {
               <div className="film-card__buttons">
                 <PlayerButton filmId={id}/>
                 <MyListButton isAuthorized={isAuthorized} isFavorite={isFavorite} filmId={id}/>
-                {isAuthorized ? <AddReviewButton filmsId={id} /> : ''}
+                {isAuthorized ? <AddReviewButton filmId={id} /> : ''}
               </div>
             </div>
           </div>

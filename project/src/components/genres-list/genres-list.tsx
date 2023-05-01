@@ -11,7 +11,7 @@ export default function GenresList({availableGenres} : GenresListProps) : JSX.El
   const activeGenre = useAppSelector(getActiveFilterGenre);
 
   return (
-    <ul className="catalog__genres-list">
+    <ul className="catalog__genres-list" data-testid='genreslist'>
       {availableGenres.map((genre) =>
         (
           <Genre
