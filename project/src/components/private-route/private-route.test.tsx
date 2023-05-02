@@ -1,10 +1,10 @@
-import {Routes, Route} from 'react-router-dom';
-import {createMemoryHistory} from 'history';
-import {render, screen} from '@testing-library/react';
-import {Provider} from 'react-redux';
-import {configureMockStore} from '@jedmao/redux-mock-store';
+import { Routes, Route } from 'react-router-dom';
+import { createMemoryHistory } from 'history';
+import { render, screen } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import { configureMockStore } from '@jedmao/redux-mock-store';
 import HistoryRouter from '../history-router/history-router';
-import {AppRoute, AuthorizationStatus} from '../../const';
+import { AppRoute, AuthorizationStatus } from '../../const';
 import PrivateRoute from './private-route';
 
 const mockStore = configureMockStore();
@@ -47,7 +47,7 @@ describe('Component: PrivateRoute', () => {
 
   it('should render component for private route, when user authorized', () => {
     const store = mockStore({
-      USER: {authorizationStatus: AuthorizationStatus.Auth},
+      USER: { authorizationStatus: AuthorizationStatus.Auth },
     });
 
     render(

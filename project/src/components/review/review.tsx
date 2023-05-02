@@ -5,9 +5,9 @@ type ReviewProps = {
   review: ReviewType;
 }
 
-export default function Review({review}: ReviewProps) : JSX.Element {
+export default function Review({ review }: ReviewProps): JSX.Element {
 
-  const {comment, rating, user, date} = review;
+  const { comment, rating, user, date } = review;
 
   return (
     <div className="review" data-testid='review'>

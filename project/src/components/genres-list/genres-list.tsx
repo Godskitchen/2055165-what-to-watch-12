@@ -6,7 +6,7 @@ type GenresListProps = {
   availableGenres: string[];
 }
 
-export default function GenresList({availableGenres} : GenresListProps) : JSX.Element {
+export default function GenresList({ availableGenres }: GenresListProps): JSX.Element {
 
   const activeGenre = useAppSelector(getActiveFilterGenre);
 

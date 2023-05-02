@@ -2,9 +2,9 @@ import { Link } from 'react-router-dom';
 import { useAppSelector } from '../../hooks';
 import { getUserInfo } from '../../store/user-process/user-process-selectors';
 
-export default function UserAvatar() : JSX.Element {
+export default function UserAvatar(): JSX.Element {
 
-  const {avatarUrl} = useAppSelector(getUserInfo);
+  const { avatarUrl } = useAppSelector(getUserInfo);
 
   return (
     <div className="user-block__avatar" data-testid='user-avatar'>

@@ -6,13 +6,13 @@ type TabsListProps = {
   id: string;
 };
 
-export default function TabsNavigation({activeTab, id}: TabsListProps) : JSX.Element {
+export default function TabsNavigation({ activeTab, id }: TabsListProps): JSX.Element {
   const tabs = [...tabNames].map((value) => (
     <li key={value} className={`film-nav__item ${activeTab === value ? 'film-nav__item--active' : ''}`}>
       <NavLink
         to={`/films/${id}/${value.toLowerCase()}`}
         className='film-nav__link'
-        style={({isActive}) => ({ pointerEvents: isActive ? 'none' : 'auto' })}
+        style={({ isActive }) => ({ pointerEvents: isActive ? 'none' : 'auto' })}
         data-testid={`${activeTab === value ? 'active-tab' : 'inactive-tab'}`}
       >
         {value}

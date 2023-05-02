@@ -8,7 +8,7 @@ import { SliceNameSpace } from '../../const';
 const mockGenres = ['All genres', 'Comedy', 'Drama', 'Thriller'];
 
 const initialState = {
-  [SliceNameSpace.Main] : {
+  [SliceNameSpace.Main]: {
     activeGenre: 'All genres'
   }
 };
@@ -20,7 +20,7 @@ describe('Component: Genrelist', () => {
     render(
       <Provider store={mockStore}>
         <MemoryRouter>
-          <GenresList availableGenres={mockGenres}/>
+          <GenresList availableGenres={mockGenres} />
         </MemoryRouter>
       </Provider>
     );

@@ -30,7 +30,7 @@ describe('Component: Genre', () => {
       </Provider>
     );
 
-    const genreButton = screen.getByRole('link', {name: genreData.filterName });
+    const genreButton = screen.getByRole('link', { name: genreData.filterName });
     expect(genreButton).toBeInTheDocument();
   });
 
@@ -81,9 +81,9 @@ describe('Component: Genre', () => {
       </Provider>
     );
 
-    const genreButton = screen.getByRole('link', {name: genreData.filterName});
+    const genreButton = screen.getByRole('link', { name: genreData.filterName });
     fireEvent.click(genreButton);
-    const actions = store.getActions().map(({type}) => type);
+    const actions = store.getActions().map(({ type }) => type);
 
     expect(actions).toEqual([
       resetFilmsCountOnPageAction.type,

@@ -5,7 +5,7 @@ type barProps = {
   duration: number;
 }
 
-export default function ProgressBar({currentTime, duration} : barProps) : JSX.Element {
+export default function ProgressBar({ currentTime, duration }: barProps): JSX.Element {
 
   const timeLeft = formatTime(duration - currentTime);
   const percentage = duration > 0 ? (currentTime / duration) * 100 : 0;
@@ -14,7 +14,7 @@ export default function ProgressBar({currentTime, duration} : barProps) : JSX.El
     <div className="player__controls-row">
       <div className="player__time">
         <progress className="player__progress" value={percentage} max="100" data-testid='progress-bar'></progress>
-        <div className="player__toggler" style={{left: `${percentage}%`}}>Toggler</div>
+        <div className="player__toggler" style={{ left: `${percentage}%` }}>Toggler</div>
       </div>
       <div className="player__time-value">{timeLeft}</div>
     </div>

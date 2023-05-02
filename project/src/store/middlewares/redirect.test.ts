@@ -6,7 +6,7 @@ import { AppRoute } from '../../const';
 import { redirectToRoute } from '../action';
 
 const fakeHistory = {
-  location: {pathname: ''},
+  location: { pathname: '' },
   push(path: string) {
     this.location.pathname = path;
   },
@@ -34,7 +34,7 @@ describe('Middleware: redirect', () => {
   });
 
   it('shouldn\'t be redirect because bad action', () => {
-    store.dispatch({type: 'UNKNOWN_ACTION', payload: '/anyroute'});
+    store.dispatch({ type: 'UNKNOWN_ACTION', payload: '/anyroute' });
     expect(fakeHistory.location.pathname).not.toBe('/anyroute');
   });
 });

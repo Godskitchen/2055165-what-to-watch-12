@@ -3,7 +3,7 @@ import Logo from '../../components/logo/logo';
 import { AppRoute, CLASSPATH_LOGO_FOOTER, CLASSPATH_LOGO_HEADER } from '../../const';
 import { useNavigate } from 'react-router-dom';
 
-export default function NotFoundPage() : JSX.Element {
+export default function NotFoundPage(): JSX.Element {
 
   const navigate = useNavigate();
 
@@ -21,7 +21,7 @@ export default function NotFoundPage() : JSX.Element {
       </header>
 
 
-      <div className='block-container' style={{minHeight: '750px'}}>
+      <div className='block-container' style={{ minHeight: '750px' }}>
         <h1 className="not-found-message">Page Not Found</h1>
         <button className="try-again__btn" onClick={handleNavigateBtnClick} >Вернуться на главную</button>
       </div>

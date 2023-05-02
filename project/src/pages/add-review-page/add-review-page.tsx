@@ -17,15 +17,15 @@ const MAX_CHARS_COUNT = 400;
 
 const DEFAULT_RATING_VALUE = '5';
 
-export default function AddReviewPage() : JSX.Element {
+export default function AddReviewPage(): JSX.Element {
 
   const [textFieldError, setTextFieldError] = useState('Your review must not be empty');
   const [isTextFieldUsed, setIsTextFieldUsed] = useState(false);
   const [isFormValid, setIsFormValid] = useState(false);
 
-  const [reviewData, setReviewData] = useState({rating: DEFAULT_RATING_VALUE, reviewText: ''});
+  const [reviewData, setReviewData] = useState({ rating: DEFAULT_RATING_VALUE, reviewText: '' });
 
-  const {id} = useParams();
+  const { id } = useParams();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -35,7 +35,7 @@ export default function AddReviewPage() : JSX.Element {
       dispatch(fetchFilmAction(id));
     }
 
-    return () => {isMounted = false;};
+    return () => { isMounted = false; };
   }, [id, dispatch]);
 
   useEffect(() => {
@@ -48,7 +48,7 @@ export default function AddReviewPage() : JSX.Element {
         setIsFormValid(true);
       }
     }
-    return () => {isMounted = false;};
+    return () => { isMounted = false; };
   }, [textFieldError]);
 
   const isUIBlocking = useAppSelector(getDataUploadingStatus);
@@ -76,12 +76,12 @@ export default function AddReviewPage() : JSX.Element {
     posterImage
   } = film;
 
-  const handleRatingChange = ({target}: ChangeEvent<HTMLInputElement>) => {
-    setReviewData({...reviewData, rating: target.value});
+  const handleRatingChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
+    setReviewData({ ...reviewData, rating: target.value });
   };
 
-  const handleTextReviewChage = ({target}: ChangeEvent<HTMLTextAreaElement>) => {
-    setReviewData({...reviewData, reviewText: target.value});
+  const handleTextReviewChage = ({ target }: ChangeEvent<HTMLTextAreaElement>) => {
+    setReviewData({ ...reviewData, reviewText: target.value });
     if (target.value.length < MIN_CHARS_COUNT || target.value.length > MAX_CHARS_COUNT) {
       setTextFieldError(`Your review mustn't be less then ${MIN_CHARS_COUNT} and greater then ${MAX_CHARS_COUNT} characters`);
       if (!target.value) {
@@ -92,8 +92,7 @@ export default function AddReviewPage() : JSX.Element {
     }
   };
 
-  const ratingStars = new Array(10).fill('').map((_, index) =>
-  {
+  const ratingStars = new Array(10).fill('').map((_, index) => {
     const ratingValue = `${10 - index}`;
     return (
       <Fragment key={ratingValue}>
@@ -114,7 +113,7 @@ export default function AddReviewPage() : JSX.Element {
   const handleTextFieldBlur = () => setIsTextFieldUsed(true);
 
   const onSubmit = () => {
-    dispatch(addReviewAction({rating: Number(reviewData.rating), comment: reviewData.reviewText, filmId: id}));
+    dispatch(addReviewAction({ rating: Number(reviewData.rating), comment: reviewData.reviewText, filmId: id }));
   };
 
   const handleReviewFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
@@ -123,7 +122,7 @@ export default function AddReviewPage() : JSX.Element {
   };
 
   return (
-    <section className="film-card film-card--full" style={{backgroundColor: `${backgroundColor}`}}>
+    <section className="film-card film-card--full" style={{ backgroundColor: `${backgroundColor}` }}>
       <Helmet>
         <title>What to Watch. Ваша рецензия на фильм</title>
       </Helmet>
@@ -143,7 +142,7 @@ export default function AddReviewPage() : JSX.Element {
                 <Link to={`/films/${id}`} className="breadcrumbs__link">{name}</Link>
               </li>
               <li className="breadcrumbs__item">
-                <Link to='#' className="breadcrumbs__link" style={{pointerEvents: 'none'}}>Add review</Link>
+                <Link to='#' className="breadcrumbs__link" style={{ pointerEvents: 'none' }}>Add review</Link>
               </li>
             </ul>
           </nav>
@@ -158,13 +157,13 @@ export default function AddReviewPage() : JSX.Element {
 
       <div className="add-review">
         <form action="#" className="add-review__form" onSubmit={handleReviewFormSubmit}>
-          <div className="rating">
+          <div className="rating" data-testid="rating">
             <div className="rating__stars">
               {ratingStars}
             </div>
           </div>
 
-          <div className="add-review__text" style={{backgroundColor: 'rgba(255, 255, 255, 0.35)'}}>
+          <div className="add-review__text" style={{ backgroundColor: 'rgba(255, 255, 255, 0.35)' }}>
             <textarea
               onBlur={handleTextFieldBlur}
               onChange={handleTextReviewChage}
@@ -187,7 +186,7 @@ export default function AddReviewPage() : JSX.Element {
             </div>
 
           </div>
-          {(isTextFieldUsed && textFieldError) && <div style={{color: 'red'}}>{textFieldError}</div>}
+          {(isTextFieldUsed && textFieldError) && <div style={{ color: 'red' }} data-testid="valid-error">{textFieldError}</div>}
         </form>
       </div>
 

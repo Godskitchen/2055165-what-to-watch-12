@@ -11,7 +11,7 @@ type FilmCardProps = {
   onCardLeave(): void;
 }
 
-export default function FilmCard({id, name, previewImage, previewVideoLink, isActive, onCardEnter, onCardLeave} : FilmCardProps) : JSX.Element {
+export default function FilmCard({ id, name, previewImage, previewVideoLink, isActive, onCardEnter, onCardLeave }: FilmCardProps): JSX.Element {
 
   const handleCardMouseEnter = () => onCardEnter();
   const handleCardMouseLeave = () => onCardLeave();

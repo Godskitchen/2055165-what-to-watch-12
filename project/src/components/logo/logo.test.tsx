@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import { MemoryRouter, Route, Routes} from 'react-router-dom';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { Provider } from 'react-redux';
@@ -48,7 +48,7 @@ describe('Component Logo', () => {
     const logoBtn = screen.getByRole('link');
     fireEvent.click(logoBtn);
 
-    const actions = store.getActions().map(({type}) => type);
+    const actions = store.getActions().map(({ type }) => type);
 
     expect(actions).toEqual([
       resetFilterGenreAction.type,
@@ -56,7 +56,7 @@ describe('Component Logo', () => {
     ]);
   });
 
-  it ('should redirect to main page when user clicked to link', () => {
+  it('should redirect to main page when user clicked to link', () => {
     history.push('/fake');
 
     render(

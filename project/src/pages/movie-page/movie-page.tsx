@@ -1,9 +1,8 @@
-/* eslint-disable no-console */
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
 import Logo from '../../components/logo/logo';
 import PlayerButton from '../../components/player-button/player-button';
-import {AuthorizationStatus, CLASSPATH_LOGO_FOOTER, CLASSPATH_LOGO_HEADER, tabNames} from '../../const';
+import { AuthorizationStatus, CLASSPATH_LOGO_FOOTER, CLASSPATH_LOGO_HEADER, tabNames } from '../../const';
 import Tabs from '../../components/tabs/tabs';
 import NotFoundPage from '../not-found-page/not-found-page';
 import TabsNavigation from '../../components/tabs-navigation/tabs-navigation';
@@ -27,9 +26,9 @@ type MoviePageProps = {
 
 const SIMILAR_FILMS_COUNT = 4;
 
-export default function MoviePage({activeTab} : MoviePageProps) : JSX.Element {
+export default function MoviePage({ activeTab }: MoviePageProps): JSX.Element {
 
-  const {id} = useParams();
+  const { id } = useParams();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -39,7 +38,7 @@ export default function MoviePage({activeTab} : MoviePageProps) : JSX.Element {
       dispatch(fetchFilmAction(id));
     }
 
-    return () => {isMounted = false;};
+    return () => { isMounted = false; };
   }, [id, dispatch]);
 
   const film = useAppSelector(getCurrentFilm);
@@ -52,7 +51,7 @@ export default function MoviePage({activeTab} : MoviePageProps) : JSX.Element {
       dispatch(fetchSimilarFilmsAction(id));
     }
 
-    return () => {isMounted = false;};
+    return () => { isMounted = false; };
   }, [id, dispatch, film]);
 
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
@@ -93,10 +92,10 @@ export default function MoviePage({activeTab} : MoviePageProps) : JSX.Element {
       <Helmet>
         <title>What to Watch. Описание фильма</title>
       </Helmet>
-      <section className="film-card film-card--full" style={{backgroundColor: `${backgroundColor}`}}>
+      <section className="film-card film-card--full" style={{ backgroundColor: `${backgroundColor}` }}>
         <div className="film-card__hero">
           <div className="film-card__bg">
-            <img src={backgroundImage} alt={name} />
+            <img src={backgroundImage} alt={name} data-testid="moviepage-bgimage" />
           </div>
 
           <h1 className="visually-hidden">WTW</h1>
@@ -112,15 +111,15 @@ export default function MoviePage({activeTab} : MoviePageProps) : JSX.Element {
 
           <div className="film-card__wrap">
             <div className="film-card__desc">
-              <h2 className="film-card__title">{name}</h2>
+              <h2 className="film-card__title" data-testid="moviepage-title">{name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{genre}</span>
-                <span className="film-card__year">{released}</span>
+                <span className="film-card__genre" data-testid="moviepage-genre">{genre}</span>
+                <span className="film-card__year" data-testid="moviepage-year">{released}</span>
               </p>
 
               <div className="film-card__buttons">
-                <PlayerButton filmId={id}/>
-                <MyListButton isAuthorized={isAuthorized} isFavorite={isFavorite} filmId={id}/>
+                <PlayerButton filmId={id} />
+                <MyListButton isAuthorized={isAuthorized} isFavorite={isFavorite} filmId={id} />
                 {isAuthorized ? <AddReviewButton filmId={id} /> : ''}
               </div>
             </div>
@@ -149,7 +148,7 @@ export default function MoviePage({activeTab} : MoviePageProps) : JSX.Element {
         </section>
 
         <footer className="page-footer">
-          <Logo classPath = {CLASSPATH_LOGO_FOOTER} />
+          <Logo classPath={CLASSPATH_LOGO_FOOTER} />
 
           <div className="copyright">
             <p>© 2023 What to watch Ltd.</p>

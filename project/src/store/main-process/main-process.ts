@@ -29,6 +29,6 @@ export const mainProcess = createSlice({
   }
 });
 
-export const {changeFilterGenreAction, resetFilterGenreAction, resetFilmsCountOnPageAction, showMoreFilmsAction} = mainProcess.actions;
+export const { changeFilterGenreAction, resetFilterGenreAction, resetFilmsCountOnPageAction, showMoreFilmsAction } = mainProcess.actions;
 
 

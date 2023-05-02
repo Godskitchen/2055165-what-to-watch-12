@@ -12,7 +12,7 @@ type MyListBtnProps = {
   filmId: string;
 }
 
-export default function MyListButton({isAuthorized, isFavorite, filmId}: MyListBtnProps) : JSX.Element {
+export default function MyListButton({ isAuthorized, isFavorite, filmId }: MyListBtnProps): JSX.Element {
 
   const dispatch = useAppDispatch();
 
@@ -23,7 +23,7 @@ export default function MyListButton({isAuthorized, isFavorite, filmId}: MyListB
       dispatch(fetchFavoriteFilmsAction());
     }
 
-    return () => {isMounted = false;};
+    return () => { isMounted = false; };
   }, [isAuthorized, dispatch]);
 
   const newStatus = isFavorite ? 0 : 1;
@@ -34,7 +34,7 @@ export default function MyListButton({isAuthorized, isFavorite, filmId}: MyListB
 
   const handleMyListBtnClick = () => {
     if (isAuthorized) {
-      dispatch(setFilmStatusAction({filmId, status: newStatus, isPromo: `${promoId}` === filmId}));
+      dispatch(setFilmStatusAction({ filmId, status: newStatus, isPromo: `${promoId}` === filmId }));
     } else {
       dispatch(checkAuthAction());
       navigate(AppRoute.Login);
@@ -53,7 +53,7 @@ export default function MyListButton({isAuthorized, isFavorite, filmId}: MyListB
             <use xlinkHref={isFavorite ? '#in-list' : '#add'} data-testid='in-out-symbol'></use>
           </svg> : ''
       }
-      <span style={{marginLeft: !isAuthorized ? '10px' : ''}}>My list</span>
+      <span style={{ marginLeft: !isAuthorized ? '10px' : '' }}>My list</span>
       <span className={`film-card__count ${!isAuthorized ? 'visually-hidden' : ''}`} data-testid='fav-films-counter'>{favoritesFilmsCount}</span>
     </button>
   );

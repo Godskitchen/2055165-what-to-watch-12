@@ -15,7 +15,7 @@ describe('Component: FilmsList', () => {
   it('should render correctly', () => {
     render(
       <MemoryRouter>
-        <FilmsList filmsList={mockFilms}/>
+        <FilmsList filmsList={mockFilms} />
       </MemoryRouter>
     );
 

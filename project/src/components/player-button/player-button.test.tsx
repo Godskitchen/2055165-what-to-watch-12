@@ -1,5 +1,5 @@
-import {render, screen, fireEvent } from '@testing-library/react';
-import { MemoryRouter, Route, Routes} from 'react-router-dom';
+import { render, screen, fireEvent } from '@testing-library/react';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import HistoryRouter from '../history-router/history-router';
 import PlayerButton from './player-button';
@@ -19,7 +19,7 @@ describe('Component PlayerButton', () => {
     expect(screen.getByText('Play')).toBeInTheDocument();
   });
 
-  it ('should redirect to player page when user clicked to link', () => {
+  it('should redirect to player page when user clicked to link', () => {
     history.push('/fake');
 
     render(

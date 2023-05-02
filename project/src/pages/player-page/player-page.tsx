@@ -8,9 +8,9 @@ import { getCurrentFilm, getFilmsLoadingStatus, getNetworkError } from '../../st
 import LoadingScreen from '../../components/loading-components/loading-screen/loading-screen';
 import ErrorScreen from '../../components/error-components/error-screen/error-screen';
 
-export default function PlayerPage() : JSX.Element {
+export default function PlayerPage(): JSX.Element {
 
-  const {id} = useParams();
+  const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -27,8 +27,8 @@ export default function PlayerPage() : JSX.Element {
       dispatch(fetchFilmAction(id));
     }
 
-    return () => {isMounted = false;};
-  },[id, dispatch]);
+    return () => { isMounted = false; };
+  }, [id, dispatch]);
 
   const isFilmsLoading = useAppSelector(getFilmsLoadingStatus);
   const isNetworkError = useAppSelector(getNetworkError);
@@ -95,6 +95,7 @@ export default function PlayerPage() : JSX.Element {
         autoPlay
         className="player__video"
         poster={backgroundImage}
+        data-testid='video-element'
       />
 
       <button onClick={handleExitBtnClick} type="button" className="player__exit">Exit</button>
@@ -103,15 +104,15 @@ export default function PlayerPage() : JSX.Element {
         <ProgressBar currentTime={currentTime} duration={duration} />
 
         <div className="player__controls-row">
-          <button onClick={handlePlayBtnClick} type="button" className="player__play">
+          <button onClick={handlePlayBtnClick} type="button" className="player__play" data-testid="play-pause-btn">
             <svg viewBox="0 0 19 19" width="19" height="19">
               <use xlinkHref={isPlaying ? '#pause' : '#play-s'}></use>
             </svg>
-            <span>Play</span>
+            <span>{isPlaying ? 'Pause' : 'Play'}</span>
           </button>
           <div className="player__name">{name}</div>
 
-          <button onClick={handleFullScrBtnClick} type="button" className="player__full-screen">
+          <button onClick={handleFullScrBtnClick} type="button" className="player__full-screen" data-testid="fullscreen-btn">
             <svg viewBox="0 0 27 27" width="27" height="27">
               <use xlinkHref="#full-screen"></use>
             </svg>

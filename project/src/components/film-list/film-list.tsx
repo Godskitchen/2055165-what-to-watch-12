@@ -6,20 +6,20 @@ type FilmListProps = {
   filmsList: Films;
 }
 
-export default function FilmsList({filmsList} : FilmListProps) : JSX.Element {
+export default function FilmsList({ filmsList }: FilmListProps): JSX.Element {
 
   const [activeCardId, setActiveCardId] = useState(0);
 
   return (
     <div className="catalog__films-list" data-testid='filmslist'>
-      {filmsList.map(({id, name, previewImage, previewVideoLink}) =>
+      {filmsList.map(({ id, name, previewImage, previewVideoLink }) =>
         (
           <FilmCard
             key={id}
             id={id}
             name={name}
             previewImage={previewImage}
-            previewVideoLink = {previewVideoLink}
+            previewVideoLink={previewVideoLink}
             onCardEnter={() => setActiveCardId(id)}
             onCardLeave={() => setActiveCardId(0)}
             isActive={id === activeCardId}

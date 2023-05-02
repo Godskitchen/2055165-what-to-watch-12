@@ -1,5 +1,5 @@
 import { AuthorizationStatus } from '../const.js';
-import {store} from '../store/index.js';
+import { store } from '../store/index.js';
 import { Film, Films, Reviews } from './film.js';
 import { UserInfo } from './user-data.js';
 

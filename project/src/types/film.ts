@@ -21,7 +21,7 @@ export type Film = {
 export type Films = Film[];
 
 export type ReviewType = {
-  filmId : number;
+  filmId: number;
   comment: string;
   date: string;
   id: number;

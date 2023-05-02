@@ -2,7 +2,7 @@ import { useAppDispatch } from '../../hooks';
 import { showMoreFilmsAction } from '../../store/main-process/main-process';
 
 
-export default function ShowMoreButton() : JSX.Element {
+export default function ShowMoreButton(): JSX.Element {
 
   const dispatch = useAppDispatch();
   const handleShowMoreBtnClick = () => dispatch(showMoreFilmsAction());

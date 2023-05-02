@@ -7,11 +7,11 @@ import { useEffect } from 'react';
 import { fetchFavoriteFilmsAction } from '../../store/api-actions';
 import UserBlock from '../../components/user-block/user-block';
 import { getFavoritesFilms } from '../../store/user-process/user-process-selectors';
-import { getNetworkError, getPromoFilmLoadingStatus } from '../../store/app-data/app-data-selectors';
+import { getFavoriteFilmsLoadingStatus, getNetworkError } from '../../store/app-data/app-data-selectors';
 import FavoritesErrorBlock from '../../components/error-components/error-block/favorites-error-block';
 import LoadingBlock from '../../components/loading-components/loading-block/loading-block';
 
-export default function MyListPage() : JSX.Element {
+export default function MyListPage(): JSX.Element {
 
   const dispatch = useAppDispatch();
 
@@ -22,10 +22,10 @@ export default function MyListPage() : JSX.Element {
       dispatch(fetchFavoriteFilmsAction());
     }
 
-    return () => {isMounted = false;};
+    return () => { isMounted = false; };
   }, [dispatch]);
 
-  const isFilmsDataLoading = useAppSelector(getPromoFilmLoadingStatus);
+  const isFilmsLoading = useAppSelector(getFavoriteFilmsLoadingStatus);
   const isNetworkError = useAppSelector(getNetworkError);
   const favoriteList = useAppSelector(getFavoritesFilms);
 
@@ -37,22 +37,22 @@ export default function MyListPage() : JSX.Element {
       <header className="page-header user-page__head">
         <Logo classPath={CLASSPATH_LOGO_HEADER} />
 
-        <h1 className="page-title user-page__title">My list <span className="user-page__film-count">{favoriteList.length}</span></h1>
+        <h1 className="page-title user-page__title">My list <span className="user-page__film-count" data-testid="films-count">{favoriteList.length}</span></h1>
         <UserBlock />
       </header>
 
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
         {
-          isFilmsDataLoading
+          isFilmsLoading
             ? <LoadingBlock />
-            : ( (isNetworkError && <FavoritesErrorBlock />) ||
-              (!isNetworkError && <FilmsList filmsList={favoriteList} /> ))
+            : ((isNetworkError && <FavoritesErrorBlock />) ||
+              (!isNetworkError && <FilmsList filmsList={favoriteList} />))
         }
       </section>
 
       <footer className="page-footer">
-        <Logo classPath = {CLASSPATH_LOGO_FOOTER} />
+        <Logo classPath={CLASSPATH_LOGO_FOOTER} />
 
         <div className="copyright">
           <p>© 2023 What to watch Ltd.</p>

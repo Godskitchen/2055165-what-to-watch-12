@@ -1,5 +1,5 @@
 import { Route, Routes, Navigate } from 'react-router-dom';
-import {HelmetProvider} from 'react-helmet-async';
+import { HelmetProvider } from 'react-helmet-async';
 import { AppRoute } from '../../const';
 import MainPage from '../../pages/main-page/main-page';
 import LoginPage from '../../pages/login-page/login-page';
@@ -26,7 +26,7 @@ export default function App(): JSX.Element {
       dispatch(checkFirstAuthAction());
     }
 
-    return () => {isMounted = false;};
+    return () => { isMounted = false; };
   }, [dispatch]);
 
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
@@ -41,7 +41,7 @@ export default function App(): JSX.Element {
       <Routes>
         <Route
           path={AppRoute.Main}
-          element = {<MainPage />}
+          element={<MainPage />}
         />
         <Route
           path={AppRoute.Login}
@@ -55,7 +55,6 @@ export default function App(): JSX.Element {
             </PrivateRoute>
           }
         />
-
         <Route path='/films' element={<Navigate to={AppRoute.Main} replace />} />
         <Route path={AppRoute.Film} element={<Navigate to='overview' replace />} />;
         <Route
@@ -85,7 +84,7 @@ export default function App(): JSX.Element {
         />
         <Route
           path='*'
-          element = {<NotFoundPage />}
+          element={<NotFoundPage />}
         />
       </Routes>
     </HelmetProvider>

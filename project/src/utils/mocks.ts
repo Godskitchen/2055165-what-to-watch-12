@@ -211,7 +211,7 @@ export const fakeMovies: Films = [
     genre: 'Sci-Fi',
     released: 2018,
     isFavorite: false
-  },{
+  }, {
     id: 10,
     name: 'Upgrade',
     posterImage: '/mocks/posters/upgrade_s.jpg',

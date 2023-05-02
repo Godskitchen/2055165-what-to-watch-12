@@ -4,10 +4,10 @@ import { fetchFilmAction } from '../../../store/api-actions';
 import '../error-components.css';
 
 
-export default function ErrorScreen() : JSX.Element {
+export default function ErrorScreen(): JSX.Element {
 
   const dispatch = useAppDispatch();
-  const {id} = useParams();
+  const { id } = useParams();
 
   const handleRetryBtnClick = () => {
     if (id) {

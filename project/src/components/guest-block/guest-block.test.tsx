@@ -1,5 +1,5 @@
-import {render, screen, fireEvent } from '@testing-library/react';
-import {createMemoryHistory} from 'history';
+import { render, screen, fireEvent } from '@testing-library/react';
+import { createMemoryHistory } from 'history';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import GuestBlock from './guest-block';
 import { AppRoute } from '../../const';

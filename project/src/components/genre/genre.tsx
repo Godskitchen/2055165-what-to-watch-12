@@ -7,7 +7,7 @@ type GenreProps = {
   isActive: boolean;
 }
 
-export default function Genre({filterName, isActive} : GenreProps) : JSX.Element {
+export default function Genre({ filterName, isActive }: GenreProps): JSX.Element {
 
   const dispatch = useAppDispatch();
 

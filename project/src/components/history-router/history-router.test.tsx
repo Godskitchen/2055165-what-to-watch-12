@@ -12,7 +12,7 @@ describe('Custom history router work tests', () => {
   it('should correctly change the location', () => {
     const store = mockStore();
 
-    const {rerender} = render(
+    const { rerender } = render(
       <Provider store={store}>
         <HistoryRouter history={mockHistory}>
           <Routes>
