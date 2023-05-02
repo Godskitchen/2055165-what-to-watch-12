@@ -1,4 +1,4 @@
-import {render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import ReviewList from './review-list';
 import { fakeReviews } from '../../utils/mocks';
@@ -10,7 +10,7 @@ describe('Component ReviewList', () => {
 
     render(
       <MemoryRouter>
-        <ReviewList reviewsList={reviews}/>
+        <ReviewList reviewsList={reviews} />
       </MemoryRouter>
     );
 

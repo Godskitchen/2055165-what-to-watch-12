@@ -1,9 +1,9 @@
-import {render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { Provider } from 'react-redux';
 import { createAPI } from '../../services/serverApi';
 import { State } from '../../types/state';
-import thunk, {ThunkDispatch} from 'redux-thunk';
+import thunk, { ThunkDispatch } from 'redux-thunk';
 import { Action } from 'redux';
 import MoviePage from './movie-page';
 import { fakeMovies, fakeReviews, fakeUser } from '../../utils/mocks';
@@ -34,7 +34,7 @@ const similarFilms = [...fakeMovies.slice(0, 4)];
 const film = [...fakeMovies][5];
 const mockId = film.id;
 
-const user = {...fakeUser};
+const user = { ...fakeUser };
 const history = createBrowserHistory();
 
 const activeTab = tabNames[0];
@@ -79,7 +79,7 @@ describe('Page MoviePage', () => {
 
     //user block
     expect(screen.queryByTestId('sign-in-btn')).not.toBeInTheDocument();
-    expect(screen.getByRole('link', {name: 'Sign out'})).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Sign out' })).toBeInTheDocument();
     expect(screen.getByTestId('user-avatar')).toBeInTheDocument();
 
     expect(screen.getByTestId('moviepage-bgimage')).toHaveAttribute('src', film.backgroundImage);
@@ -116,7 +116,7 @@ describe('Page MoviePage', () => {
       [SliceNameSpace.User]: {
         authorizationStatus: AuthorizationStatus.NoAuth,
         userFavoriteFilms: [],
-        userInfo: {...guestData}
+        userInfo: { ...guestData }
       }
     };
 
@@ -134,7 +134,7 @@ describe('Page MoviePage', () => {
 
     //user block
     expect(screen.getByTestId('sign-in-btn')).toBeInTheDocument();
-    expect(screen.queryByRole('link', {name: 'Sign out'})).not.toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: 'Sign out' })).not.toBeInTheDocument();
     expect(screen.queryByTestId('user-avatar')).not.toBeInTheDocument();
 
     //add review button is not showed

@@ -1,4 +1,4 @@
-import {render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import ShowMoreButton from './show-more-button';
 import { configureMockStore } from '@jedmao/redux-mock-store';
@@ -41,7 +41,7 @@ describe('Component ShowMoreButton', () => {
     const showMoreBtn = screen.getByRole('button');
     fireEvent.click(showMoreBtn);
 
-    const actions = store.getActions().map(({type}) => type);
+    const actions = store.getActions().map(({ type }) => type);
 
     expect(actions).toEqual([
       showMoreFilmsAction.type,

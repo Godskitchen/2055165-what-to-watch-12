@@ -4,7 +4,7 @@ type PlayerButtonProps = {
   filmId: string;
 }
 
-export default function PlayerButton({filmId} : PlayerButtonProps) : JSX.Element {
+export default function PlayerButton({ filmId }: PlayerButtonProps): JSX.Element {
 
   const navigate = useNavigate();
   const handlePlayBtnClick = () => navigate(`/player/${filmId}`);

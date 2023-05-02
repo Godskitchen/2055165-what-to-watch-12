@@ -4,7 +4,7 @@ import { useAppDispatch } from '../../hooks';
 import { logoutAction } from '../../store/api-actions';
 import { MouseEvent } from 'react';
 
-export default function UserBlock() : JSX.Element {
+export default function UserBlock(): JSX.Element {
 
   const dispatch = useAppDispatch();
 

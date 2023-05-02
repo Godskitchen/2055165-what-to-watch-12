@@ -1,7 +1,7 @@
-import axios, {AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse} from 'axios';
+import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { getToken } from './authToken';
 import { StatusCodes } from 'http-status-codes';
-import {toast} from 'react-toastify';
+import { toast } from 'react-toastify';
 
 
 export interface CustomAxiosRequestConfig extends AxiosRequestConfig {

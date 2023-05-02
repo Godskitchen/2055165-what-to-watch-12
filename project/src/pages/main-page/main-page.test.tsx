@@ -1,9 +1,9 @@
-import {render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { Provider } from 'react-redux';
 import { createAPI } from '../../services/serverApi';
 import { State } from '../../types/state';
-import thunk, {ThunkDispatch} from 'redux-thunk';
+import thunk, { ThunkDispatch } from 'redux-thunk';
 import { Action } from 'redux';
 import MainPage from './main-page';
 import { fakeMovies, fakeUser } from '../../utils/mocks';
@@ -26,7 +26,7 @@ const favFilms: Films = [];
 const filmsList = [...fakeMovies];
 const promoFilm = [...fakeMovies][5];
 
-const user = {...fakeUser};
+const user = { ...fakeUser };
 const history = createBrowserHistory();
 
 describe('Page MainPage', () => {
@@ -71,7 +71,7 @@ describe('Page MainPage', () => {
 
     //user block
     expect(screen.queryByTestId('sign-in-btn')).not.toBeInTheDocument();
-    expect(screen.getByRole('link', {name: 'Sign out'})).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Sign out' })).toBeInTheDocument();
     expect(screen.getByTestId('user-avatar')).toBeInTheDocument();
 
     //promo film
@@ -86,7 +86,7 @@ describe('Page MainPage', () => {
     expect(screen.getByTestId('filmslist')).toBeInTheDocument();
 
     //available films count more then films showed on page, so the button was rendered
-    expect(screen.getByRole('button', {name: 'Show more'})).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Show more' })).toBeInTheDocument();
   });
 
   it('should render correctly, user has not authorized', () => {
@@ -102,7 +102,7 @@ describe('Page MainPage', () => {
       [SliceNameSpace.User]: {
         authorizationStatus: AuthorizationStatus.NoAuth,
         userFavoriteFilms: favFilms,
-        userInfo: {...guestData}
+        userInfo: { ...guestData }
       },
       [SliceNameSpace.Main]: {
         activeGenre: 'All genres',
@@ -124,10 +124,10 @@ describe('Page MainPage', () => {
 
     //guest block
     expect(screen.getByTestId('sign-in-btn')).toBeInTheDocument();
-    expect(screen.queryByRole('link', {name: 'Sign out'})).not.toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: 'Sign out' })).not.toBeInTheDocument();
     expect(screen.queryByTestId('user-avatar')).not.toBeInTheDocument();
 
     //available films count equals films showed on page, so the button was not rendered
-    expect(screen.queryByRole('button', {name: 'Show more'})).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Show more' })).not.toBeInTheDocument();
   });
 });

@@ -1,5 +1,5 @@
-import {render, screen, fireEvent } from '@testing-library/react';
-import {createMemoryHistory} from 'history';
+import { render, screen, fireEvent } from '@testing-library/react';
+import { createMemoryHistory } from 'history';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import UserAvatar from './user-avatar';
 import { AppRoute, SliceNameSpace } from '../../const';
@@ -13,10 +13,10 @@ const mockStore = configureMockStore();
 describe('Component UserAVatar', () => {
   const history = createMemoryHistory();
 
-  const userInfo = {...fakeUser};
+  const userInfo = { ...fakeUser };
 
   const initialState = {
-    [SliceNameSpace.User] : {
+    [SliceNameSpace.User]: {
       userInfo
     }
   };

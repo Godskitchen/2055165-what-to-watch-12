@@ -11,7 +11,7 @@ import { getFavoriteFilmsLoadingStatus, getNetworkError } from '../../store/app-
 import FavoritesErrorBlock from '../../components/error-components/error-block/favorites-error-block';
 import LoadingBlock from '../../components/loading-components/loading-block/loading-block';
 
-export default function MyListPage() : JSX.Element {
+export default function MyListPage(): JSX.Element {
 
   const dispatch = useAppDispatch();
 
@@ -22,7 +22,7 @@ export default function MyListPage() : JSX.Element {
       dispatch(fetchFavoriteFilmsAction());
     }
 
-    return () => {isMounted = false;};
+    return () => { isMounted = false; };
   }, [dispatch]);
 
   const isFilmsLoading = useAppSelector(getFavoriteFilmsLoadingStatus);
@@ -47,12 +47,12 @@ export default function MyListPage() : JSX.Element {
           isFilmsLoading
             ? <LoadingBlock />
             : ((isNetworkError && <FavoritesErrorBlock />) ||
-              (!isNetworkError && <FilmsList filmsList={favoriteList} /> ))
+              (!isNetworkError && <FilmsList filmsList={favoriteList} />))
         }
       </section>
 
       <footer className="page-footer">
-        <Logo classPath = {CLASSPATH_LOGO_FOOTER} />
+        <Logo classPath={CLASSPATH_LOGO_FOOTER} />
 
         <div className="copyright">
           <p>© 2023 What to watch Ltd.</p>

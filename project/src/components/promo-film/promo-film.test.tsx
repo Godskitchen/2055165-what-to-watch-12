@@ -1,19 +1,19 @@
-import {render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import PromoFilm from './promo-film';
 import { AuthorizationStatus, SliceNameSpace } from '../../const';
 import { fakeMovies, fakeUser } from '../../utils/mocks';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { Provider } from 'react-redux';
-import {Action} from 'redux';
+import { Action } from 'redux';
 import { State } from '../../types/state';
-import thunk, {ThunkDispatch} from 'redux-thunk';
+import thunk, { ThunkDispatch } from 'redux-thunk';
 import { createAPI } from '../../services/serverApi';
 
 const api = createAPI();
 const middlewares = [thunk.withExtraArgument(api)];
 const mockPromo = [...fakeMovies][4];
-const mockUser = {...fakeUser};
+const mockUser = { ...fakeUser };
 
 const mockStore = configureMockStore<
   State,
@@ -38,7 +38,7 @@ describe('Component: Promofilm', () => {
     const store = mockStore(initialState);
 
     render(
-      <Provider store = {store}>
+      <Provider store={store}>
         <MemoryRouter>
           <PromoFilm />
         </MemoryRouter>
@@ -46,7 +46,7 @@ describe('Component: Promofilm', () => {
     );
 
     expect(screen.queryByTestId('sign-in-btn')).not.toBeInTheDocument();
-    expect(screen.getByRole('link', {name: 'Sign out'})).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Sign out' })).toBeInTheDocument();
     expect(screen.getByTestId('user-avatar')).toBeInTheDocument();
 
     expect(screen.getByTestId('bg-image')).toHaveAttribute('src', mockPromo.backgroundImage);
@@ -81,7 +81,7 @@ describe('Component: Promofilm', () => {
     const store = mockStore(initialState);
 
     render(
-      <Provider store = {store}>
+      <Provider store={store}>
         <MemoryRouter>
           <PromoFilm />
         </MemoryRouter>
@@ -89,7 +89,7 @@ describe('Component: Promofilm', () => {
     );
 
     expect(screen.getByTestId('sign-in-btn')).toBeInTheDocument();
-    expect(screen.queryByRole('link', {name: 'Sign out'})).not.toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: 'Sign out' })).not.toBeInTheDocument();
     expect(screen.queryByTestId('user-avatar')).not.toBeInTheDocument();
   });
 });

@@ -1,6 +1,6 @@
 import './block-UI.css';
 
-export default function BlockUI() : JSX.Element {
+export default function BlockUI(): JSX.Element {
 
   return (
     <div className="block-ui-container" data-testid='block-ui-container'>

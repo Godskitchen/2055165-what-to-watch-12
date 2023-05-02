@@ -7,7 +7,7 @@ type LogoProps = {
   classPath: string;
 }
 
-export default function Logo({classPath} : LogoProps) : JSX.Element {
+export default function Logo({ classPath }: LogoProps): JSX.Element {
 
   const dispatch = useAppDispatch();
 

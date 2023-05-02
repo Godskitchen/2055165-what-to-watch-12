@@ -1,18 +1,17 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import {render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { Provider } from 'react-redux';
 import { createAPI } from '../../services/serverApi';
 import { State } from '../../types/state';
-import thunk, {ThunkDispatch} from 'redux-thunk';
+import thunk, { ThunkDispatch } from 'redux-thunk';
 import { Action } from 'redux';
 import AddReviewPage from './add-review-page';
-import { APIRoute, SliceNameSpace } from '../../const';
+import { SliceNameSpace } from '../../const';
 import { HelmetProvider } from 'react-helmet-async';
 import { createBrowserHistory } from 'history';
 import HistoryRouter from '../../components/history-router/history-router';
 import MockAdapter from 'axios-mock-adapter';
-import { addReviewAction, fetchFilmAction, loginAction } from '../../store/api-actions';
+import { addReviewAction, fetchFilmAction } from '../../store/api-actions';
 import { redirectToRoute } from '../../store/action';
 import Router from 'react-router';
 import { fakeMovies, fakeUser } from '../../utils/mocks';
@@ -51,7 +50,7 @@ describe('Page AddReviewPage', () => {
         currentFilm: film,
       },
       [SliceNameSpace.User]: {
-        userInfo: {...fakeUser},
+        userInfo: { ...fakeUser },
       }
     };
 
@@ -73,7 +72,7 @@ describe('Page AddReviewPage', () => {
     expect(screen.getByTestId('rating')).toBeInTheDocument();
     expect(screen.getByPlaceholderText(/Review text/i)).toBeInTheDocument();
 
-    expect(screen.getByRole('button', {name: 'Post'})).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Post' })).toBeInTheDocument();
   });
 
   it('should enable submit button if user input is valid', () => {
@@ -88,16 +87,16 @@ describe('Page AddReviewPage', () => {
       </Provider>
     );
 
-    expect(screen.getByRole('button', {name: 'Post'})).toBeDisabled();
+    expect(screen.getByRole('button', { name: 'Post' })).toBeDisabled();
 
     const textReviewField = screen.getByPlaceholderText(/Review text/i);
 
     fireEvent.blur(textReviewField);
-    fireEvent.change(textReviewField, {target: { value: 'mock review text more than fifty symbols and less then 400 symbols' }});
+    fireEvent.change(textReviewField, { target: { value: 'mock review text more than fifty symbols and less then 400 symbols' } });
 
     expect(screen.getByDisplayValue(/mock review text more than fifty symbols and less then 400 symbols/i)).toBeInTheDocument();
 
-    expect(screen.getByRole('button', {name: 'Post'})).toBeEnabled();
+    expect(screen.getByRole('button', { name: 'Post' })).toBeEnabled();
     expect(screen.queryByTestId('valid-error')).not.toBeInTheDocument();
 
   });
@@ -114,16 +113,16 @@ describe('Page AddReviewPage', () => {
       </Provider>
     );
 
-    expect(screen.getByRole('button', {name: 'Post'})).toBeDisabled();
+    expect(screen.getByRole('button', { name: 'Post' })).toBeDisabled();
 
     const textReviewField = screen.getByPlaceholderText(/Review text/i);
 
     fireEvent.blur(textReviewField);
-    fireEvent.change(textReviewField, {target: { value: 'too short review' }});
+    fireEvent.change(textReviewField, { target: { value: 'too short review' } });
 
     expect(screen.getByDisplayValue(/too short review/i)).toBeInTheDocument();
 
-    expect(screen.getByRole('button', {name: 'Post'})).toBeDisabled();
+    expect(screen.getByRole('button', { name: 'Post' })).toBeDisabled();
     expect(screen.getByTestId('valid-error')).toBeInTheDocument();
   });
 
@@ -150,13 +149,13 @@ describe('Page AddReviewPage', () => {
     const textReviewField = screen.getByPlaceholderText(/Review text/i);
 
     fireEvent.blur(textReviewField);
-    fireEvent.change(textReviewField, {target: { value: 'mock review text more than fifty symbols and less then 400 symbols' }});
+    fireEvent.change(textReviewField, { target: { value: 'mock review text more than fifty symbols and less then 400 symbols' } });
 
-    const postBtn = screen.getByRole('button', {name: 'Post'});
+    const postBtn = screen.getByRole('button', { name: 'Post' });
     fireEvent.click(postBtn);
 
     await waitFor(() => {
-      const actions = store.getActions().map(({type}) => type);
+      const actions = store.getActions().map(({ type }) => type);
 
       expect(actions).toEqual([
         fetchFilmAction.pending.type,

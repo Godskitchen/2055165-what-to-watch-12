@@ -2,7 +2,7 @@ import { useAppDispatch } from '../../../hooks';
 import '../error-components.css';
 import { fetchFavoriteFilmsAction } from '../../../store/api-actions';
 
-export default function FavoritesErrorBlock() : JSX.Element {
+export default function FavoritesErrorBlock(): JSX.Element {
 
   const dispatch = useAppDispatch();
 

@@ -1,9 +1,9 @@
-import {fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { Provider } from 'react-redux';
 import { createAPI } from '../../services/serverApi';
 import { State } from '../../types/state';
-import thunk, {ThunkDispatch} from 'redux-thunk';
+import thunk, { ThunkDispatch } from 'redux-thunk';
 import { Action } from 'redux';
 import PlayerPage from './player-page';
 import Router from 'react-router';
@@ -67,7 +67,7 @@ describe('Page PlayerPage', () => {
     expect(videoElement).toHaveAttribute('poster', mockFilm.backgroundImage);
 
     //Exit button
-    expect(screen.getByRole('button', {name: 'Exit'})).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Exit' })).toBeInTheDocument();
 
     //ProgressBar
     expect(screen.getByTestId('progress-bar')).toBeInTheDocument();
@@ -190,7 +190,7 @@ describe('Page PlayerPage', () => {
     );
 
     expect(screen.queryByText(/Film Page/i)).not.toBeInTheDocument();
-    const exitButton = screen.getByRole('button', {name: 'Exit'});
+    const exitButton = screen.getByRole('button', { name: 'Exit' });
     fireEvent.click(exitButton);
     expect(screen.getByText(/Film Page/i)).toBeInTheDocument();
   });

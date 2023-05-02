@@ -3,7 +3,7 @@ import '../error-components.css';
 import { fetchFilmsAction } from '../../../store/api-actions';
 
 
-export default function FilmsErrorBlock() : JSX.Element {
+export default function FilmsErrorBlock(): JSX.Element {
 
   const dispatch = useAppDispatch();
 

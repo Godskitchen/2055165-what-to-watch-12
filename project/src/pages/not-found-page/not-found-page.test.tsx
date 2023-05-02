@@ -1,6 +1,6 @@
-import {fireEvent, render, screen} from '@testing-library/react';
-import {HelmetProvider} from 'react-helmet-async';
-import {createMemoryHistory} from 'history';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { HelmetProvider } from 'react-helmet-async';
+import { createMemoryHistory } from 'history';
 import HistoryRouter from '../../components/history-router/history-router';
 import NotFoundPage from './not-found-page';
 import { configureMockStore } from '@jedmao/redux-mock-store';

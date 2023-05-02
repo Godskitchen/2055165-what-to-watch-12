@@ -1,13 +1,13 @@
-import {render, screen, waitFor, fireEvent } from '@testing-library/react';
+import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import HistoryRouter from '../history-router/history-router';
 import MyListButton from './my-list-button';
 import { APIRoute, AppRoute, SliceNameSpace } from '../../const';
-import {fakeMovies } from '../../utils/mocks';
+import { fakeMovies } from '../../utils/mocks';
 import { MockStoreEnhanced, configureMockStore } from '@jedmao/redux-mock-store';
 import { Provider } from 'react-redux';
 import { createAPI } from '../../services/serverApi';
 import { State } from '../../types/state';
-import thunk, {ThunkDispatch} from 'redux-thunk';
+import thunk, { ThunkDispatch } from 'redux-thunk';
 import { Action } from 'redux';
 import { createMemoryHistory } from 'history';
 import { checkAuthAction, fetchFavoriteFilmsAction, setFilmStatusAction } from '../../store/api-actions';
@@ -30,18 +30,18 @@ describe('Component MyListButton', () => {
   const mockFilmId = '5';
 
   const initialState = {
-    [SliceNameSpace.User] : {
+    [SliceNameSpace.User]: {
       userFavoriteFilms: [...fakeMovies]
     },
 
-    [SliceNameSpace.Data] : {
+    [SliceNameSpace.Data]: {
       promoFilm: mockPromoFilm
     }
   };
 
   let store: MockStoreEnhanced<State, Action<string>, ThunkDispatch<State, typeof api, Action>>;
 
-  beforeEach(() => {store = mockStore(initialState);});
+  beforeEach(() => { store = mockStore(initialState); });
 
   describe('render tests', () => {
     it('should render favorite films count on button if user has authorized', () => {
@@ -71,7 +71,7 @@ describe('Component MyListButton', () => {
         filmId: mockFilmId
       };
 
-      const {rerender} = render(
+      const { rerender } = render(
         <Provider store={store}>
           <HistoryRouter history={history}>
             <MyListButton {...mockProps} />
@@ -130,7 +130,7 @@ describe('Component MyListButton', () => {
       );
 
       await waitFor(() => {
-        const actions = store.getActions().map(({type}) => type);
+        const actions = store.getActions().map(({ type }) => type);
 
         expect(actions).toEqual([
           fetchFavoriteFilmsAction.pending.type,
@@ -143,7 +143,7 @@ describe('Component MyListButton', () => {
       fireEvent.click(addToFavBtn);
 
       await waitFor(() => {
-        const actions = store.getActions().map(({type}) => type);
+        const actions = store.getActions().map(({ type }) => type);
 
         expect(actions).toEqual([
           fetchFavoriteFilmsAction.pending.type,
@@ -188,7 +188,7 @@ describe('Component MyListButton', () => {
       );
 
 
-      let actions = store.getActions().map(({type}) => type);
+      let actions = store.getActions().map(({ type }) => type);
       expect(actions).toEqual([]);
 
       const addToFavBtn = screen.getByRole('button');
@@ -196,7 +196,7 @@ describe('Component MyListButton', () => {
       fireEvent.click(addToFavBtn);
 
       await waitFor(() => {
-        actions = store.getActions().map(({type}) => type);
+        actions = store.getActions().map(({ type }) => type);
 
         expect(actions).toEqual([
           checkAuthAction.pending.type,

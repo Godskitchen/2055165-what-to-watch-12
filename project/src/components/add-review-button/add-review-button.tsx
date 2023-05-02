@@ -4,7 +4,7 @@ type AddReviewBtnProps = {
   filmId: string;
 }
 
-export default function AddReviewButton({filmId} : AddReviewBtnProps ) : JSX.Element {
+export default function AddReviewButton({ filmId }: AddReviewBtnProps): JSX.Element {
   return (
     <Link
       to={`/films/${filmId}/review`}

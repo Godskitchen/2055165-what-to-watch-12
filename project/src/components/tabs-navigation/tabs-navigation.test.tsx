@@ -11,7 +11,7 @@ describe('Component:TabsNavigation', () => {
   it('should render correctly', () => {
     render(
       <MemoryRouter>
-        <TabsNavigation activeTab={activeTab} id={id}/>
+        <TabsNavigation activeTab={activeTab} id={id} />
       </MemoryRouter>
     );
 
@@ -22,7 +22,7 @@ describe('Component:TabsNavigation', () => {
   it('should change active tab by click on inactive tab', () => {
     render(
       <MemoryRouter>
-        <TabsNavigation activeTab={activeTab} id={id}/>
+        <TabsNavigation activeTab={activeTab} id={id} />
       </MemoryRouter>
     );
 

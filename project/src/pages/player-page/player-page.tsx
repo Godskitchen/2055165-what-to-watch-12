@@ -8,9 +8,9 @@ import { getCurrentFilm, getFilmsLoadingStatus, getNetworkError } from '../../st
 import LoadingScreen from '../../components/loading-components/loading-screen/loading-screen';
 import ErrorScreen from '../../components/error-components/error-screen/error-screen';
 
-export default function PlayerPage() : JSX.Element {
+export default function PlayerPage(): JSX.Element {
 
-  const {id} = useParams();
+  const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -27,8 +27,8 @@ export default function PlayerPage() : JSX.Element {
       dispatch(fetchFilmAction(id));
     }
 
-    return () => {isMounted = false;};
-  },[id, dispatch]);
+    return () => { isMounted = false; };
+  }, [id, dispatch]);
 
   const isFilmsLoading = useAppSelector(getFilmsLoadingStatus);
   const isNetworkError = useAppSelector(getNetworkError);

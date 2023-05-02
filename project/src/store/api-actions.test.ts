@@ -1,11 +1,11 @@
 import { Action } from 'redux';
-import thunk, {ThunkDispatch} from 'redux-thunk';
+import thunk, { ThunkDispatch } from 'redux-thunk';
 import MockAdapter from 'axios-mock-adapter';
-import {configureMockStore} from '@jedmao/redux-mock-store';
-import {createAPI} from '../services/serverApi';
-import {addReviewAction, checkAuthAction, checkFirstAuthAction, fetchFavoriteFilmsAction, fetchFilmAction, fetchFilmsAction, fetchPromoFilmAction, fetchReviewsAction, fetchSimilarFilmsAction, loginAction, logoutAction, setFilmStatusAction,} from './api-actions';
-import {APIRoute} from '../const';
-import {State} from '../types/state';
+import { configureMockStore } from '@jedmao/redux-mock-store';
+import { createAPI } from '../services/serverApi';
+import { addReviewAction, checkAuthAction, checkFirstAuthAction, fetchFavoriteFilmsAction, fetchFilmAction, fetchFilmsAction, fetchPromoFilmAction, fetchReviewsAction, fetchSimilarFilmsAction, loginAction, logoutAction, setFilmStatusAction, } from './api-actions';
+import { APIRoute } from '../const';
+import { State } from '../types/state';
 import { fakeMovies, fakeReviews, fakeUser } from '../utils/mocks';
 import { redirectToRoute } from './action';
 import { AuthData } from '../types/user-data';
@@ -25,7 +25,7 @@ describe('Async actions', () => {
   describe('checkAuthAction tests', () => {
     it('should authorization status is «auth» when server returns 200', async () => {
       const store = mockStore();
-      const userData = {...fakeUser, token: 'secret'};
+      const userData = { ...fakeUser, token: 'secret' };
 
       mockAPI
         .onGet(APIRoute.Login)
@@ -34,7 +34,7 @@ describe('Async actions', () => {
       expect(store.getActions()).toEqual([]);
 
       await store.dispatch(checkAuthAction());
-      const actions = store.getActions().map(({type}) => type);
+      const actions = store.getActions().map(({ type }) => type);
 
       expect(actions).toEqual([
         checkAuthAction.pending.type,
@@ -47,12 +47,12 @@ describe('Async actions', () => {
 
       mockAPI
         .onGet(APIRoute.Login)
-        .reply(401, {error: 'You are not logged in or you do not have permission to this page.'});
+        .reply(401, { error: 'You are not logged in or you do not have permission to this page.' });
 
       expect(store.getActions()).toEqual([]);
 
       await store.dispatch(checkAuthAction());
-      const actions = store.getActions().map(({type}) => type);
+      const actions = store.getActions().map(({ type }) => type);
 
       expect(actions).toEqual([
         checkAuthAction.pending.type,
@@ -64,7 +64,7 @@ describe('Async actions', () => {
   describe('checkFirstAuthAction tests', () => {
     it('should authorization status is «auth» when server returns 200', async () => {
       const store = mockStore();
-      const userData = {...fakeUser, token: 'secret'};
+      const userData = { ...fakeUser, token: 'secret' };
 
       mockAPI
         .onGet(APIRoute.Login)
@@ -73,7 +73,7 @@ describe('Async actions', () => {
       expect(store.getActions()).toEqual([]);
 
       await store.dispatch(checkFirstAuthAction());
-      const actions = store.getActions().map(({type}) => type);
+      const actions = store.getActions().map(({ type }) => type);
 
       expect(actions).toEqual([
         checkFirstAuthAction.pending.type,
@@ -86,12 +86,12 @@ describe('Async actions', () => {
 
       mockAPI
         .onGet(APIRoute.Login)
-        .reply(401, {error: 'You are not logged in or you do not have permission to this page.'});
+        .reply(401, { error: 'You are not logged in or you do not have permission to this page.' });
 
       expect(store.getActions()).toEqual([]);
 
       await store.dispatch(checkFirstAuthAction());
-      const actions = store.getActions().map(({type}) => type);
+      const actions = store.getActions().map(({ type }) => type);
 
       expect(actions).toEqual([
         checkFirstAuthAction.pending.type,
@@ -102,11 +102,11 @@ describe('Async actions', () => {
 
   describe('loginAction tests', () => {
     it('should dispatch RequriedAuthorization and RedirectToRoute when POST /login', async () => {
-      const fakeLoginData: AuthData = {login: 'test@test.ru', password: '123456a'};
+      const fakeLoginData: AuthData = { login: 'test@test.ru', password: '123456a' };
 
       mockAPI
         .onPost(APIRoute.Login)
-        .reply(200, {...fakeUser, token: 'secret'});
+        .reply(200, { ...fakeUser, token: 'secret' });
 
 
       const store = mockStore();
@@ -114,7 +114,7 @@ describe('Async actions', () => {
 
       await store.dispatch(loginAction(fakeLoginData));
 
-      const actions = store.getActions().map(({type}) => type);
+      const actions = store.getActions().map(({ type }) => type);
 
       expect(actions).toEqual([
         loginAction.pending.type,
@@ -127,7 +127,7 @@ describe('Async actions', () => {
     });
 
     it('should rejected authorization when POST /login with bad request', async () => {
-      const fakeLoginData: AuthData = {login: 'wrongname', password: '12'};
+      const fakeLoginData: AuthData = { login: 'wrongname', password: '12' };
 
       mockAPI
         .onPost(APIRoute.Login)
@@ -138,7 +138,7 @@ describe('Async actions', () => {
 
       await store.dispatch(loginAction(fakeLoginData));
 
-      const actions = store.getActions().map(({type}) => type);
+      const actions = store.getActions().map(({ type }) => type);
 
       expect(actions).toEqual([
         loginAction.pending.type,
@@ -158,7 +158,7 @@ describe('Async actions', () => {
 
       await store.dispatch(logoutAction());
 
-      const actions = store.getActions().map(({type}) => type);
+      const actions = store.getActions().map(({ type }) => type);
 
       expect(actions).toEqual([
         logoutAction.pending.type,
@@ -185,7 +185,7 @@ describe('Async actions', () => {
       expect(store.getActions()).toEqual([]);
 
       await store.dispatch(fetchFilmsAction());
-      const actions = store.getActions().map(({type}) => type);
+      const actions = store.getActions().map(({ type }) => type);
 
       expect(actions).toEqual([
         fetchFilmsAction.pending.type,
@@ -206,7 +206,7 @@ describe('Async actions', () => {
       expect(store.getActions()).toEqual([]);
 
       await store.dispatch(fetchFilmAction(`${nonExistfilmId}`));
-      const actions = store.getActions().map(({type}) => type);
+      const actions = store.getActions().map(({ type }) => type);
 
       expect(actions).toEqual([
         fetchFilmAction.pending.type,
@@ -221,12 +221,12 @@ describe('Async actions', () => {
 
       mockAPI
         .onGet(`/films/${filmId}`)
-        .reply(200, {film});
+        .reply(200, { film });
 
       expect(store.getActions()).toEqual([]);
 
       await store.dispatch(fetchFilmAction(`${filmId}`));
-      const actions = store.getActions().map(({type}) => type);
+      const actions = store.getActions().map(({ type }) => type);
 
       expect(actions).toEqual([
         fetchFilmAction.pending.type,
@@ -242,12 +242,12 @@ describe('Async actions', () => {
 
       mockAPI
         .onGet(APIRoute.PromoFilm)
-        .reply(200, {promoFilm});
+        .reply(200, { promoFilm });
 
       expect(store.getActions()).toEqual([]);
 
       await store.dispatch(fetchPromoFilmAction());
-      const actions = store.getActions().map(({type}) => type);
+      const actions = store.getActions().map(({ type }) => type);
 
       expect(actions).toEqual([
         fetchPromoFilmAction.pending.type,
@@ -270,7 +270,7 @@ describe('Async actions', () => {
       expect(store.getActions()).toEqual([]);
 
       await store.dispatch(fetchReviewsAction(`${filmId}`));
-      const actions = store.getActions().map(({type}) => type);
+      const actions = store.getActions().map(({ type }) => type);
 
       expect(actions).toEqual([
         fetchReviewsAction.pending.type,
@@ -284,12 +284,12 @@ describe('Async actions', () => {
 
       mockAPI
         .onGet(`/comments/${nonExistfilmId}`)
-        .reply(400, {error: `Film id ${nonExistfilmId} does not exist`});
+        .reply(400, { error: `Film id ${nonExistfilmId} does not exist` });
 
       expect(store.getActions()).toEqual([]);
 
       await store.dispatch(fetchReviewsAction(`${nonExistfilmId}`));
-      const actions = store.getActions().map(({type}) => type);
+      const actions = store.getActions().map(({ type }) => type);
 
       expect(actions).toEqual([
         fetchReviewsAction.pending.type,
@@ -312,7 +312,7 @@ describe('Async actions', () => {
       expect(store.getActions()).toEqual([]);
 
       await store.dispatch(fetchSimilarFilmsAction(`${filmId}`));
-      const actions = store.getActions().map(({type}) => type);
+      const actions = store.getActions().map(({ type }) => type);
 
       expect(actions).toEqual([
         fetchSimilarFilmsAction.pending.type,
@@ -331,7 +331,7 @@ describe('Async actions', () => {
       expect(store.getActions()).toEqual([]);
 
       await store.dispatch(fetchSimilarFilmsAction(`${nonExistfilmId}`));
-      const actions = store.getActions().map(({type}) => type);
+      const actions = store.getActions().map(({ type }) => type);
 
       expect(actions).toEqual([
         fetchSimilarFilmsAction.pending.type,
@@ -352,7 +352,7 @@ describe('Async actions', () => {
       expect(store.getActions()).toEqual([]);
 
       await store.dispatch(fetchFavoriteFilmsAction());
-      const actions = store.getActions().map(({type}) => type);
+      const actions = store.getActions().map(({ type }) => type);
 
       expect(actions).toEqual([
         fetchFavoriteFilmsAction.pending.type,
@@ -370,7 +370,7 @@ describe('Async actions', () => {
       expect(store.getActions()).toEqual([]);
 
       await store.dispatch(fetchFavoriteFilmsAction());
-      const actions = store.getActions().map(({type}) => type);
+      const actions = store.getActions().map(({ type }) => type);
 
       expect(actions).toEqual([
         fetchFavoriteFilmsAction.pending.type,
@@ -392,7 +392,7 @@ describe('Async actions', () => {
 
       const store = mockStore();
 
-      const returnedFilm = {...film, isFavorite: !film.isFavorite};
+      const returnedFilm = { ...film, isFavorite: !film.isFavorite };
 
       mockAPI
         .onPost(`/favorite/${filmId}/${newFavoriteStatus}`)
@@ -404,9 +404,9 @@ describe('Async actions', () => {
 
       expect(store.getActions()).toEqual([]);
 
-      await store.dispatch(setFilmStatusAction({filmId: `${filmId}`, status: newFavoriteStatus, isPromo: filmId === promoFilm.id}));
+      await store.dispatch(setFilmStatusAction({ filmId: `${filmId}`, status: newFavoriteStatus, isPromo: filmId === promoFilm.id }));
 
-      const actions = store.getActions().map(({type}) => type);
+      const actions = store.getActions().map(({ type }) => type);
 
       expect(actions).toEqual([
         setFilmStatusAction.pending.type,
@@ -429,13 +429,13 @@ describe('Async actions', () => {
 
       mockAPI
         .onPost(`/favorite/${filmId}/${newFavoriteStatus}`)
-        .reply(401, {error: 'You are not logged in or you do not have permission to this page.'});
+        .reply(401, { error: 'You are not logged in or you do not have permission to this page.' });
 
       expect(store.getActions()).toEqual([]);
 
-      await store.dispatch(setFilmStatusAction({filmId: `${filmId}`, status: newFavoriteStatus, isPromo: filmId === promoFilm.id}));
+      await store.dispatch(setFilmStatusAction({ filmId: `${filmId}`, status: newFavoriteStatus, isPromo: filmId === promoFilm.id }));
 
-      const actions = store.getActions().map(({type}) => type);
+      const actions = store.getActions().map(({ type }) => type);
 
       expect(actions).toEqual([
         setFilmStatusAction.pending.type,
@@ -465,9 +465,9 @@ describe('Async actions', () => {
 
       expect(store.getActions()).toEqual([]);
 
-      await store.dispatch(addReviewAction({filmId: `${filmId}`, comment: fakeReview.comment, rating: fakeReview.rating}));
+      await store.dispatch(addReviewAction({ filmId: `${filmId}`, comment: fakeReview.comment, rating: fakeReview.rating }));
 
-      const actions = store.getActions().map(({type}) => type);
+      const actions = store.getActions().map(({ type }) => type);
 
       expect(actions).toEqual([
         addReviewAction.pending.type,
@@ -488,13 +488,13 @@ describe('Async actions', () => {
 
       mockAPI
         .onPost(`/comments/${nonExistingId}`)
-        .reply(400, {error: `Film id ${nonExistingId} does not exist`});
+        .reply(400, { error: `Film id ${nonExistingId} does not exist` });
 
       expect(store.getActions()).toEqual([]);
 
-      await store.dispatch(addReviewAction({filmId: `${nonExistingId}`, comment: fakeReview.comment, rating: fakeReview.rating}));
+      await store.dispatch(addReviewAction({ filmId: `${nonExistingId}`, comment: fakeReview.comment, rating: fakeReview.rating }));
 
-      const actions = store.getActions().map(({type}) => type);
+      const actions = store.getActions().map(({ type }) => type);
 
       expect(actions).toEqual([
         addReviewAction.pending.type,
@@ -515,13 +515,13 @@ describe('Async actions', () => {
 
       mockAPI
         .onPost(`/comments/${filmId}`)
-        .reply(401, {error: 'You are not logged in or you do not have permission to this page.'});
+        .reply(401, { error: 'You are not logged in or you do not have permission to this page.' });
 
       expect(store.getActions()).toEqual([]);
 
-      await store.dispatch(addReviewAction({filmId: `${filmId}`, comment: fakeReview.comment, rating: fakeReview.rating}));
+      await store.dispatch(addReviewAction({ filmId: `${filmId}`, comment: fakeReview.comment, rating: fakeReview.rating }));
 
-      const actions = store.getActions().map(({type}) => type);
+      const actions = store.getActions().map(({ type }) => type);
 
       expect(actions).toEqual([
         addReviewAction.pending.type,

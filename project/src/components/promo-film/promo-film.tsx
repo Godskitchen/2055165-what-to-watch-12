@@ -11,7 +11,7 @@ import PlayerButton from '../player-button/player-button';
 import MyListButton from '../my-list-button/my-list-button';
 import LoadingBlock from '../loading-components/loading-block/loading-block';
 
-export default function PromoFilm() : JSX.Element {
+export default function PromoFilm(): JSX.Element {
 
   const dispatch = useAppDispatch();
 
@@ -22,7 +22,7 @@ export default function PromoFilm() : JSX.Element {
       dispatch(fetchPromoFilmAction());
     }
 
-    return () => {isMounted = false;};
+    return () => { isMounted = false; };
   }, [dispatch]);
 
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
@@ -42,7 +42,7 @@ export default function PromoFilm() : JSX.Element {
 
   if (promoFilm === null) {
     return (
-      <section className="film-card" style={{backgroundImage:'linear-gradient(-180deg,#000 0%,#180202 100%)'}}>
+      <section className="film-card" style={{ backgroundImage: 'linear-gradient(-180deg,#000 0%,#180202 100%)' }}>
         <header className="page-header film-card__head">
           <Logo classPath={CLASSPATH_LOGO_HEADER} />
           {
@@ -55,12 +55,12 @@ export default function PromoFilm() : JSX.Element {
     );
   }
 
-  const {id, name, posterImage, backgroundImage, genre: promoGenre, released, isFavorite} = promoFilm;
+  const { id, name, posterImage, backgroundImage, genre: promoGenre, released, isFavorite } = promoFilm;
 
   return (
     <section className="film-card">
       <div className="film-card__bg">
-        <img src={backgroundImage} alt={name} data-testid='bg-image'/>
+        <img src={backgroundImage} alt={name} data-testid='bg-image' />
       </div>
 
       <h1 className="visually-hidden">WTW</h1>

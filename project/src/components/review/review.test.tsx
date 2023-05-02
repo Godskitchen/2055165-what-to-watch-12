@@ -1,4 +1,4 @@
-import {render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import Review from './review';
 import { fakeReviews } from '../../utils/mocks';
@@ -9,7 +9,7 @@ describe('Component PlayerButton', () => {
 
     render(
       <MemoryRouter>
-        <Review review={mockReview}/>
+        <Review review={mockReview} />
       </MemoryRouter>
     );
 

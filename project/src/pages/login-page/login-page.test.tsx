@@ -1,9 +1,9 @@
-import {render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { Provider } from 'react-redux';
 import { createAPI } from '../../services/serverApi';
 import { State } from '../../types/state';
-import thunk, {ThunkDispatch} from 'redux-thunk';
+import thunk, { ThunkDispatch } from 'redux-thunk';
 import { Action } from 'redux';
 import LoginPage from './login-page';
 import { APIRoute, SliceNameSpace } from '../../const';
@@ -55,7 +55,7 @@ describe('Page LoginPage', () => {
     expect(screen.getByLabelText(/Email address/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Password/i)).toBeInTheDocument();
 
-    expect(screen.getByRole('button', {name: 'Sign in'})).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Sign in' })).toBeInTheDocument();
   });
 
   it('should enable submit button if user input is valid', () => {
@@ -70,20 +70,20 @@ describe('Page LoginPage', () => {
       </Provider>
     );
 
-    expect(screen.getByRole('button', {name: 'Sign in'})).toBeDisabled();
+    expect(screen.getByRole('button', { name: 'Sign in' })).toBeDisabled();
 
     const loginField = screen.getByLabelText(/Email address/i);
     const passField = screen.getByLabelText(/Password/i);
 
     fireEvent.blur(loginField);
     fireEvent.blur(passField);
-    fireEvent.change(loginField, {target: { value: 'email@test.ru' }});
-    fireEvent.change(passField, {target: {value: 'pass123'}});
+    fireEvent.change(loginField, { target: { value: 'email@test.ru' } });
+    fireEvent.change(passField, { target: { value: 'pass123' } });
 
     expect(screen.getByDisplayValue(/email@test.ru/i)).toBeInTheDocument();
     expect(screen.getByDisplayValue(/pass123/i)).toBeInTheDocument();
 
-    expect(screen.getByRole('button', {name: 'Sign in'})).toBeEnabled();
+    expect(screen.getByRole('button', { name: 'Sign in' })).toBeEnabled();
     expect(screen.queryByTestId('error-validation-block')).not.toBeInTheDocument();
 
   });
@@ -100,20 +100,20 @@ describe('Page LoginPage', () => {
       </Provider>
     );
 
-    expect(screen.getByRole('button', {name: 'Sign in'})).toBeDisabled();
+    expect(screen.getByRole('button', { name: 'Sign in' })).toBeDisabled();
 
     const loginField = screen.getByLabelText(/Email address/i);
     const passField = screen.getByLabelText(/Password/i);
 
     fireEvent.blur(loginField);
     fireEvent.blur(passField);
-    fireEvent.change(loginField, {target: { value: 'email' }});
-    fireEvent.change(passField, {target: {value: 'pass'}});
+    fireEvent.change(loginField, { target: { value: 'email' } });
+    fireEvent.change(passField, { target: { value: 'pass' } });
 
     expect(screen.getByDisplayValue(/email/i)).toBeInTheDocument();
     expect(screen.getByDisplayValue(/pass/i)).toBeInTheDocument();
 
-    expect(screen.getByRole('button', {name: 'Sign in'})).toBeDisabled();
+    expect(screen.getByRole('button', { name: 'Sign in' })).toBeDisabled();
     expect(screen.getByTestId('error-validation-block')).toBeInTheDocument();
   });
 
@@ -133,20 +133,20 @@ describe('Page LoginPage', () => {
       </Provider>
     );
 
-    const signInBtn = screen.getByRole('button', {name: 'Sign in'});
+    const signInBtn = screen.getByRole('button', { name: 'Sign in' });
 
     const loginField = screen.getByLabelText(/Email address/i);
     const passField = screen.getByLabelText(/Password/i);
 
     fireEvent.blur(loginField);
     fireEvent.blur(passField);
-    fireEvent.change(loginField, {target: {value: 'email@test.ru'}});
-    fireEvent.change(passField, {target: {value: 'pass123'}});
+    fireEvent.change(loginField, { target: { value: 'email@test.ru' } });
+    fireEvent.change(passField, { target: { value: 'pass123' } });
 
     fireEvent.click(signInBtn);
 
     await waitFor(() => {
-      const actions = store.getActions().map(({type}) => type);
+      const actions = store.getActions().map(({ type }) => type);
 
       expect(actions).toEqual([
         loginAction.pending.type,

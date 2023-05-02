@@ -85,7 +85,7 @@ export const appData = createSlice({
         state.similarFilms = [];
       })
       .addCase(setFilmStatusAction.fulfilled, (state, action) => {
-        const {updatedFilm, isPromo} = action.payload;
+        const { updatedFilm, isPromo } = action.payload;
         state.currentFilm = updatedFilm;
         if (isPromo) {
           state.promoFilm = updatedFilm;

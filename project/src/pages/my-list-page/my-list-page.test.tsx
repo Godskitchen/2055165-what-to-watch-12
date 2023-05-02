@@ -1,9 +1,9 @@
-import {render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { Provider } from 'react-redux';
 import { createAPI } from '../../services/serverApi';
 import { State } from '../../types/state';
-import thunk, {ThunkDispatch} from 'redux-thunk';
+import thunk, { ThunkDispatch } from 'redux-thunk';
 import { Action } from 'redux';
 import MyListPage from './my-list-page';
 import { fakeMovies, fakeUser } from '../../utils/mocks';
@@ -22,7 +22,7 @@ const mockStore = configureMockStore<
 >(middlewares);
 
 const favFilms = [...fakeMovies];
-const user = {...fakeUser};
+const user = { ...fakeUser };
 const history = createBrowserHistory();
 
 
@@ -62,7 +62,7 @@ describe('Page MyListPage', () => {
 
     //User block
     expect(screen.getByTestId('user-avatar')).toBeInTheDocument();
-    expect(screen.getByRole('link', {name: 'Sign out'})).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Sign out' })).toBeInTheDocument();
 
     //FilmsList
     expect(screen.getByTestId('filmslist')).toBeInTheDocument();

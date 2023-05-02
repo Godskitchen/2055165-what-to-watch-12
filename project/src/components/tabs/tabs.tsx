@@ -8,7 +8,7 @@ type TabProps = {
   film: Film;
   reviewsList: Reviews;
 }
-export default function Tabs({activeTab, film, reviewsList} : TabProps) : JSX.Element {
+export default function Tabs({ activeTab, film, reviewsList }: TabProps): JSX.Element {
 
   const {
     rating,
@@ -21,7 +21,7 @@ export default function Tabs({activeTab, film, reviewsList} : TabProps) : JSX.El
     released
   } = film;
 
-  switch(activeTab) {
+  switch (activeTab) {
     case 'Overview': {
       return (
         <>
@@ -44,7 +44,7 @@ export default function Tabs({activeTab, film, reviewsList} : TabProps) : JSX.El
       );
     }
 
-    case 'Details' : {
+    case 'Details': {
       const hours = Math.floor(runTime / 60);
       const totalTime = `${hours ? `${hours}h` : ''} ${runTime % 60}m`;
 
@@ -81,8 +81,8 @@ export default function Tabs({activeTab, film, reviewsList} : TabProps) : JSX.El
       );
     }
 
-    case 'Reviews' : {
-      return <ReviewList reviewsList={reviewsList}/>;
+    case 'Reviews': {
+      return <ReviewList reviewsList={reviewsList} />;
     }
   }
 }

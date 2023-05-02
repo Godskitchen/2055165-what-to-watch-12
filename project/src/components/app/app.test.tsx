@@ -1,9 +1,9 @@
-import {render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { Provider } from 'react-redux';
 import { createAPI } from '../../services/serverApi';
 import { State } from '../../types/state';
-import thunk, {ThunkDispatch} from 'redux-thunk';
+import thunk, { ThunkDispatch } from 'redux-thunk';
 import { Action } from 'redux';
 import { fakeMovies, fakeReviews, fakeUser } from '../../utils/mocks';
 import { AppRoute, AuthorizationStatus, SliceNameSpace } from '../../const';
@@ -37,7 +37,7 @@ const initialState = {
   [SliceNameSpace.User]: {
     authorizationStatus: AuthorizationStatus.Auth,
     userFavoriteFilms: [],
-    userInfo: {...fakeUser}
+    userInfo: { ...fakeUser }
   },
   [SliceNameSpace.Data]: {
     isFilmsLoadingStatus: false,
@@ -92,7 +92,7 @@ describe('Application routing', () => {
     expect(screen.getByLabelText(/Email address/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Password/i)).toBeInTheDocument();
 
-    expect(screen.getByRole('button', {name: 'Sign in'})).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Sign in' })).toBeInTheDocument();
   });
 
   it('should render "MyListPage" when user navigate to "/mylist"', () => {
@@ -156,7 +156,7 @@ describe('Application routing', () => {
     expect(screen.getByTestId('rating')).toBeInTheDocument();
     expect(screen.getByPlaceholderText(/Review text/i)).toBeInTheDocument();
 
-    expect(screen.getByRole('button', {name: 'Post'})).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Post' })).toBeInTheDocument();
   });
 
   it('should render player page when user navigate to "/player/:id/"', () => {

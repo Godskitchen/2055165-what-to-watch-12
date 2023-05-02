@@ -1,4 +1,4 @@
-import {useEffect, useRef} from 'react';
+import { useEffect, useRef } from 'react';
 
 type CardVideoPlayerProps = {
   poster: string;
@@ -8,7 +8,7 @@ type CardVideoPlayerProps = {
 
 const DELAY_BEFORE_PLAY = 1000;
 
-export default function CardVideoPlayer({poster, videoLink, isActive} : CardVideoPlayerProps) : JSX.Element {
+export default function CardVideoPlayer({ poster, videoLink, isActive }: CardVideoPlayerProps): JSX.Element {
 
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
@@ -24,7 +24,7 @@ export default function CardVideoPlayer({poster, videoLink, isActive} : CardVide
       }
 
       if (isActive) {
-        timeoutID = setTimeout(() => {videoElement.play();}, DELAY_BEFORE_PLAY);
+        timeoutID = setTimeout(() => { videoElement.play(); }, DELAY_BEFORE_PLAY);
       } else {
         videoElement.load();
       }
@@ -42,7 +42,7 @@ export default function CardVideoPlayer({poster, videoLink, isActive} : CardVide
     <video
       src={videoLink} muted
       poster={poster}
-      style={{width:'280px', height: 'inherit', objectFit: 'cover'}}
+      style={{ width: '280px', height: 'inherit', objectFit: 'cover' }}
       ref={videoRef}
       data-testid='video'
     />

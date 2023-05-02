@@ -1,9 +1,9 @@
-import {fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { Provider } from 'react-redux';
 import { createAPI } from '../../../services/serverApi';
 import { State } from '../../../types/state';
-import thunk, {ThunkDispatch} from 'redux-thunk';
+import thunk, { ThunkDispatch } from 'redux-thunk';
 import { Action } from 'redux';
 import { fetchFilmAction } from '../../../store/api-actions';
 import MockAdapter from 'axios-mock-adapter';
@@ -60,7 +60,7 @@ describe('Component ErrorScreen', () => {
     fireEvent.click(tryAgainBtn);
 
     await waitFor(() => {
-      const actions = store.getActions().map(({type}) => type);
+      const actions = store.getActions().map(({ type }) => type);
 
       expect(actions).toEqual([
         fetchFilmAction.pending.type,

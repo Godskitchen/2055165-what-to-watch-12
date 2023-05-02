@@ -7,7 +7,7 @@ import duration from 'dayjs/plugin/duration';
 dayjs.extend(duration);
 
 
-export const getRandomIntNumber = (min: number, max: number) : number | typeof NaN => {
+export const getRandomIntNumber = (min: number, max: number): number | typeof NaN => {
   if ((!Number.isFinite(min) || !Number.isFinite(max)) || (min < 0 || max < 0)) {
     return NaN;
   }
@@ -18,19 +18,19 @@ export const getRandomIntNumber = (min: number, max: number) : number | typeof N
   return Math.floor(Math.random() * (upperBound - lowerBound + 1) + lowerBound);
 };
 
-export function addNewlinesInList<T extends string>(list: T[]) : JSX.Element[] {
+export function addNewlinesInList<T extends string>(list: T[]): JSX.Element[] {
 
   const resultList = list.map(
     (value, index) =>
       (index !== list.length - 1)
-        ? (<Fragment key={value}>{` ${value}, `}<br/></Fragment>)
+        ? (<Fragment key={value}>{` ${value}, `}<br /></Fragment>)
         : (<Fragment key={value}>{` ${value} `}</Fragment>)
   );
 
   return resultList;
 }
 
-export function filterFilmsByGenre(genre: string, filmsList: Films) : Films {
+export function filterFilmsByGenre(genre: string, filmsList: Films): Films {
   if (genre === 'All genres') {
     return filmsList;
   }
@@ -50,7 +50,7 @@ export function getRandomFilms(filmsList: Films, filmsCount: number) {
 
   for (let i = 0; i < filmsCount; i++) {
     let element = filmsList[getRandomIntNumber(0, filmsList.length - 1)];
-    while (resultElements.includes(element)){
+    while (resultElements.includes(element)) {
       element = filmsList[getRandomIntNumber(0, filmsList.length - 1)];
     }
     resultElements.push(element);
@@ -59,7 +59,7 @@ export function getRandomFilms(filmsList: Films, filmsCount: number) {
   return resultElements;
 }
 
-export function getFilmRatingLevel(rating: number) : string {
+export function getFilmRatingLevel(rating: number): string {
   if (rating >= 0 && rating < 3) {
     return FilmRatingLevel.Bad;
   } else if (rating >= 3 && rating < 5) {
@@ -73,7 +73,7 @@ export function getFilmRatingLevel(rating: number) : string {
   }
 }
 
-export function formatTime(timeleft: number) : string {
+export function formatTime(timeleft: number): string {
   const dur = dayjs.duration(timeleft, 'seconds');
   return dur.format(`[-]${dur.hours() === 0 ? '' : 'HH[:]'}mm[:]ss`);
 }
