@@ -7,7 +7,7 @@ import duration from 'dayjs/plugin/duration';
 dayjs.extend(duration);
 
 
-const getRandomIntNumber = (min: number, max: number) : number | typeof NaN => {
+export const getRandomIntNumber = (min: number, max: number) : number | typeof NaN => {
   if ((!Number.isFinite(min) || !Number.isFinite(max)) || (min < 0 || max < 0)) {
     return NaN;
   }
@@ -53,7 +53,6 @@ export function getRandomFilms(filmsList: Films, filmsCount: number) {
     while (resultElements.includes(element)){
       element = filmsList[getRandomIntNumber(0, filmsList.length - 1)];
     }
-
     resultElements.push(element);
   }
 
@@ -61,7 +60,7 @@ export function getRandomFilms(filmsList: Films, filmsCount: number) {
 }
 
 export function getFilmRatingLevel(rating: number) : string {
-  if (rating > 0 && rating < 3) {
+  if (rating >= 0 && rating < 3) {
     return FilmRatingLevel.Bad;
   } else if (rating >= 3 && rating < 5) {
     return FilmRatingLevel.Normal;

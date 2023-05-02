@@ -55,7 +55,6 @@ export default function App(): JSX.Element {
             </PrivateRoute>
           }
         />
-
         <Route path='/films' element={<Navigate to={AppRoute.Main} replace />} />
         <Route path={AppRoute.Film} element={<Navigate to='overview' replace />} />;
         <Route
